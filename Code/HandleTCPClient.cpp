@@ -58,9 +58,10 @@ void HandleTCPClient(int clntSocket)
     int numOfRotations = firstDigit+scndDigit;
 
 
-    Cube x(int(echoBuffer[0])-'0'); //number of questions must be bigger than 0
-    string newString = CubeToString(x);
-    x.printCubeColor();
+    Cube y(0); //Create an empty cube
+    //convert to String
+    string emptyCubeString = CubeToString(y);
+ 
 	
 
     close(clntSocket);    /* Close client socket */
