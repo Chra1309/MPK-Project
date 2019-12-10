@@ -8,8 +8,15 @@ int main()
 {
 	srand(time(NULL));
 	Cube x(1);
-	string y=CubeToString(x);
-	cout<<y;
+	Cube y(0);
+	string temp=CubeToString(x);
+	
+	y=StringToCube(temp);
+	cout<<"print Cube X"<<endl;
+	x.printCubeStd();
+	cout<<"print Cube Y"<<endl;
+	y.printCubeStd();
+	//cout<<y;
 	
 	
 	

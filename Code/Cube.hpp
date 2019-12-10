@@ -192,7 +192,7 @@ void Cube::rotate(int side,int howOften)
 		default:
 			break;					
 	}
-	printCubeStd();
+	//printCubeStd();
 }
 void Cube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)
 {				
@@ -280,9 +280,21 @@ void Cube::ToArray(int* a)
 Cube StringToCube(string s)
 {
 	Cube c(0);
-	
-	
-	
+	int a[54];
+	int x=0;
+	for(int i=0;i<54;i++)
+    	a[i]=s[i]-'0';
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{				
+				c.colors[i][j][k]=a[x];
+				x++;
+			}
+		}	
+	}
 	return c;
 }
 
