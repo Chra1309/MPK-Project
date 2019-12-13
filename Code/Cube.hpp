@@ -63,13 +63,14 @@ Cube::Cube(int n=0)
 string Cube::printColor(int field)
 {
 	
-	//			1 white			2 red			3 green			4 blue			5 orange			6 yellow			
-	string RESET = "\033[0m";
+	//			1 white			2 red			3 green			4 blue			5 orange			6 yellow	
+    // neuer farbenversuch		
+    string RESET = "\033[0m";
 	string WHITE = "\033[107m";      /* White */
 	string RED = "\033[101m";      /* Red */
 	string GREEN = "\033[102m";      /* Green */
-	string BLUE = "\033[104m";      /* Blue */
-	string ORANGE = "\033[43m";      /* Magenta */			
+	string BLUE = "\e[48;5;21m";      /* Blue */
+	string ORANGE = "\e[48;5;208m";      /* Magenta */	 
 	string YELLOW = "\033[103m";      /* Yellow */
 				
 	string printcolor;
