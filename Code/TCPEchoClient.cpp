@@ -33,13 +33,15 @@ int main(int argc, char *argv[])
                argv[0]);
        exit(1);
     }
-
+	
+	//reset srand time for arbriatary values
+	srand(time(NULL));
     //create an abritary cube on startup
     cout << "Creating a arbritary Cube" << endl;
     Cube x(1);
     
     //convert the created cube to string
-    string cubeString = CubeToString(x);
+    string cubeString = cubeToString(x);
     cout <<cubeString <<endl;
 
     //print the cube in colors

@@ -60,7 +60,7 @@ void HandleTCPClient(int clntSocket)
 
     Cube y(0); //Create an empty cube
     //convert to String
-    string emptyCubeString = CubeToString(y);
+    string emptyCubeString = cubeToString(y);
  
 	
 
