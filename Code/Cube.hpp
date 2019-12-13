@@ -25,10 +25,11 @@ class Cube{
 		void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen
 		void randomize(); 		//Methode zum zufälligen verdrehen des Cubes
 		void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
-		void ToArray(int*);		//gibt dem 1. Parameter den Cube in Form eines 1D Feldes zurück
-		friend int* sendCubeQuestion(Cube&);	//sendet eine Cube Question TODO!!!!!!!!!!
-		friend string CubeToString(Cube&);		//wandelt einen Cube in einen String um
-		friend Cube StringToCube(string);		//TODO!!!!!!!!!!
+		void toArray(int*);		//gibt dem 1. Parameter den Cube in Form eines 1D Feldes zurück
+		friend string makeCubeQuestion(Cube&);	//erstellt eine Cube Question
+		friend string cubeToString(Cube&);		//wandelt einen Cube in einen String um
+		friend Cube stringToCube(string&);		//wandelt string in Cube um
+		friend void compareCube(Cube&,Cube&,int*);	//
 };
 
 Cube::Cube(int n=0)
@@ -154,37 +155,37 @@ void Cube::rotate(int side,int howOften)
 	switch (side)
 	{
 		case FRONT:
-			cout<<"FRONT:"<<howOften<<endl;
+			//cout<<"FRONT:"<<howOften<<endl;
 			shift8by2n(colors[0][0][0],colors[0][0][1],colors[0][0][2],colors[0][1][2],colors[0][2][2],colors[0][2][1],colors[0][2][0],colors[0][1][0],howOften);
 			shift12by3n(colors[1][2][0],colors[1][2][1],colors[1][2][2],colors[2][0][0],colors[2][1][0],colors[2][2][0],
 						colors[4][0][2],colors[4][0][1],colors[4][0][0],colors[3][2][2],colors[3][1][2],colors[3][0][2],howOften);
 			break;
 		case BACK:
-			cout<<"BACK:"<<howOften<<endl;
+			//cout<<"BACK:"<<howOften<<endl;
 			shift8by2n(colors[5][0][0],colors[5][0][1],colors[5][0][2],colors[5][1][2],colors[5][2][2],colors[5][2][1],colors[5][2][0],colors[5][1][0],howOften);
 			shift12by3n(colors[1][0][2],colors[1][0][1],colors[1][0][0],colors[3][0][0],colors[3][1][0],colors[3][2][0],
 						colors[4][2][0],colors[4][2][1],colors[4][2][2],colors[2][2][2],colors[2][1][2],colors[2][0][2],howOften);
 			break;
 		case LEFT:
-			cout<<"LEFT:"<<howOften<<endl;
+			//cout<<"LEFT:"<<howOften<<endl;
 			shift8by2n(colors[3][0][0],colors[3][0][1],colors[3][0][2],colors[3][1][2],colors[3][2][2],colors[3][2][1],colors[3][2][0],colors[3][1][0],howOften);
 			shift12by3n(colors[1][0][0],colors[1][1][0],colors[1][2][0],colors[0][0][0],colors[0][1][0],colors[0][2][0],
 						colors[4][0][0],colors[4][1][0],colors[4][2][0],colors[5][2][2],colors[5][1][2],colors[5][0][2],howOften);
 			break;
 		case RIGHT:
-			cout<<"RIGHT:"<<howOften<<endl;
+			//cout<<"RIGHT:"<<howOften<<endl;
 			shift8by2n(colors[2][0][0],colors[2][0][1],colors[2][0][2],colors[2][1][2],colors[2][2][2],colors[2][2][1],colors[2][2][0],colors[2][1][0],howOften);
 			shift12by3n(colors[1][2][2],colors[1][1][2],colors[1][0][2],colors[5][0][0],colors[5][1][0],colors[5][2][0],
 						colors[4][2][2],colors[4][1][2],colors[4][0][2],colors[0][2][2],colors[0][1][2],colors[0][0][2],howOften);
 			break;
 		case UP:
-			cout<<"UP:"<<howOften<<endl;
+			//cout<<"UP:"<<howOften<<endl;
 			shift8by2n(colors[1][0][0],colors[1][0][1],colors[1][0][2],colors[1][1][2],colors[1][2][2],colors[1][2][1],colors[1][2][0],colors[1][1][0],howOften);
 			shift12by3n(colors[5][0][2],colors[5][0][1],colors[5][0][0],colors[2][0][2],colors[2][0][1],colors[2][0][0],
 						colors[0][0][2],colors[0][0][1],colors[0][0][0],colors[3][0][2],colors[3][0][1],colors[3][0][0],howOften);
 			break;
 		case DOWN:
-			cout<<"DOWN:"<<howOften<<endl;
+			//cout<<"DOWN:"<<howOften<<endl;
 			shift8by2n(colors[4][0][0],colors[4][0][1],colors[4][0][2],colors[4][1][2],colors[4][2][2],colors[4][2][1],colors[4][2][0],colors[4][1][0],howOften);
 			shift12by3n(colors[5][2][0],colors[5][2][1],colors[5][2][2],colors[3][2][0],colors[3][2][1],colors[3][2][2],
 						colors[0][2][0],colors[0][2][1],colors[0][2][2],colors[2][2][0],colors[2][2][1],colors[2][2][2],howOften);
@@ -244,17 +245,17 @@ void Cube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,
 			break;
 	}		
 }
-int* sendCubeQuestion(Cube& sendCube)
+string makeCubeQuestion(Cube& sendCube)
 {
-	string sendData=CubeToString(sendCube);
-	//Manuel bitte Send-Routine einbauen
-	return 0;
+	string CubeQuestion="1,";
+	CubeQuestion+=cubeToString(sendCube);
+	return CubeQuestion;
 }
-string CubeToString(Cube& cube)
+string cubeToString(Cube& cube)
 { 
 	string returnString="";
 	int* a=new int[54];
-	cube.ToArray(a);	
+	cube.toArray(a);	
 	for(int i=0;i<54;i++)
     	returnString+=a[i]+'0';
   	
@@ -262,7 +263,7 @@ string CubeToString(Cube& cube)
 	return returnString;
 	
 }
-void Cube::ToArray(int* a)
+void Cube::toArray(int* a)
 {
 	int x=0;
 	for(int i=0;i<6;i++)
@@ -277,7 +278,7 @@ void Cube::ToArray(int* a)
 		}	
 	}
 }
-Cube StringToCube(string s)
+Cube stringToCube(string& s)
 {
 	Cube c(0);
 	int a[54];
@@ -297,7 +298,44 @@ Cube StringToCube(string s)
 	}
 	return c;
 }
-
+void compareCube(Cube& qc,Cube& c,int* a)
+{
+	for(int i=0;i<3;i++)
+		a[i]=0;
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{
+				if(qc.colors[i][j][k]==0)
+				{	
+					int temp1=a[0];
+					int temp2=a[1];
+					if(c.colors[i][j][k]==qc.colors[i][j][k])
+					{
+						a[0]++;
+					}else
+					{
+						
+						for(int l=0;l<3;l++)
+							for(int m=0;m<3;m++)
+							{
+								if(c.colors[i][l][m]==qc.colors[i][j][k])
+									a[1]++;
+								if(temp2!=a[1])
+									break;
+							}
+							if(temp2!=a[1])
+									break;
+					}
+					if(temp1!=a[0]||temp2!=a[1])
+						a[2]++;
+				}
+			}
+		}	
+	}
+}
 
 
 
