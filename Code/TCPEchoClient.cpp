@@ -49,21 +49,9 @@ int main(int argc, char *argv[])
     else
         echoServPort = 7;   //7 is the well-known port for the echo service */
 	echoServPort = 10000;
-	
-	//reset srand time for arbriatary values
-	srand(time(NULL));
-    //create an abritary cube on startup
-    /*cout << "Creating a arbritary Cube" << endl;
-    Cube x(1);
-    
-    //convert the created cube to string
-    string cubeString = cubeToString(x);
-    cout <<cubeString <<endl;
-	
-    //print the cube in colors
-    x.printCubeColor();	
-	*/
-    echoString = "Hi schick mir einen Random Cube";         /* Second arg: string to echo this is the paramter */
+
+	///////////////////////////////////input rotate actions here/////////////////////////////////////////
+    echoString = "u2";        
 
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
@@ -108,11 +96,6 @@ int main(int argc, char *argv[])
     //// wird funktion: 
     
 
-
-
-
-
-	
 	//loop here to make more than one question
 
 	

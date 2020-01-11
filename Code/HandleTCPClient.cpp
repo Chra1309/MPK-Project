@@ -14,11 +14,10 @@ int recvMsgSize;                    /* Size of received message */
 
 void DieWithError(string errorMessage);  /* Error handling function */
 
-int nmberOfRotations(){
+int numberOfRotations(){
 	//convert the received string to integers
 	int scndDigit = 0;
 	int firstDigit =0;
-
 
 	if(int(echoBuffer[2]-'0'>0))
 	scndDigit = int(echoBuffer[2])-'0';
@@ -32,6 +31,66 @@ int nmberOfRotations(){
 	int numOfRotations = firstDigit+scndDigit;
 	
 	return numOfRotations;
+}
+
+void getActions(){
+
+	//inverse rotations
+	if (echoBuffer[0] == 'd' && echoBuffer[1] == 'i')
+		cout << "Rotation Down inverse" << endl;
+	
+	if (echoBuffer[0] == 'f' && echoBuffer[1] == 'i')
+		cout << "Rotation Front inverse" << endl;
+	
+	if (echoBuffer[0] == 'u' && echoBuffer[1] == 'i')
+		cout << "Rotation Up inverse" << endl;
+	
+	if (echoBuffer[0] == 'r' && echoBuffer[1] == 'i')
+		cout << "Rotation Right inverse" << endl;
+	
+	if (echoBuffer[0] == 'b' && echoBuffer[1] == 'i')
+		cout << "Rotation Back inverse" << endl;
+	
+	if (echoBuffer[0] == 'l' && echoBuffer[1] == 'i')
+		cout << "Rotation Left inverse" << endl;
+	
+	//clockwise rotations
+	if (echoBuffer[0] == 'd' && echoBuffer[1] == '\0')
+		cout << "Rotation Down" << endl;
+	
+	if (echoBuffer[0] == 'f' && echoBuffer[1] == '\0')
+		cout << "Rotation Front" << endl;
+	
+	if (echoBuffer[0] == 'u' && echoBuffer[1] == '\0')
+		cout << "Rotation Up" << endl;
+	
+	if (echoBuffer[0] == 'r' && echoBuffer[1] == '\0')
+		cout << "Rotation Right" << endl;
+	
+	if (echoBuffer[0] == 'b' && echoBuffer[1] == '\0')
+		cout << "Rotation Back" << endl;
+	
+	if (echoBuffer[0] == 'l' && echoBuffer[1] == '\0')
+		cout << "Rotation Left" << endl;
+	
+	//double rotations
+	if (echoBuffer[0] == 'd' && echoBuffer[1] == '2')
+		cout << "Rotation Down 180 degrees" << endl;
+	
+	if (echoBuffer[0] == 'f' && echoBuffer[1] == '2')
+		cout << "Rotation Front 180 degrees" << endl;
+	
+	if (echoBuffer[0] == 'u' && echoBuffer[1] == '2')
+		cout << "Rotation Up 180 degrees" << endl;
+	
+	if (echoBuffer[0] == 'r' && echoBuffer[1] == '2')
+		cout << "Rotation Right 180 degrees" << endl;
+	
+	if (echoBuffer[0] == 'b' && echoBuffer[1] == '2')
+		cout << "Rotation Back 180 degrees" << endl;
+	
+	if (echoBuffer[0] == 'l' && echoBuffer[1] == '2')
+		cout << "Rotation Left 180 degrees" << endl;
 }
 
 void printReceivedBuffer(){
@@ -76,6 +135,7 @@ void HandleTCPClient(int clntSocket)
 	
 	cout << "Received from Client: ";
 	printReceivedBuffer();
+	getActions();
 	
     close(clntSocket);    /* Close client socket */
 }
