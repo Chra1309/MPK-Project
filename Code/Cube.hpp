@@ -30,6 +30,8 @@ class Cube{
 		friend string cubeToString(Cube&);		//wandelt einen Cube in einen String um
 		friend Cube stringToCube(string&);		//wandelt string in Cube um
 		friend void compareCube(Cube&,Cube&,int*);	//
+		void getCorner(int&,int&,int&,int&,int&);
+		void getEdge(int&,int&,int&,int&);
 };
 
 Cube::Cube(int n=0)
@@ -311,31 +313,84 @@ void compareCube(Cube& qc,Cube& c,int* a)
 			{
 				if(qc.colors[i][j][k]==0)
 				{	
-					int temp1=a[0];
-					int temp2=a[1];
-					if(c.colors[i][j][k]==qc.colors[i][j][k])
+					if(qc.colors[i][j][k]==c.colors[i][1][1])
 					{
-						a[0]++;
+						if(1);
 					}else
 					{
-						
-						for(int l=0;l<3;l++)
-							for(int m=0;m<3;m++)
-							{
-								if(c.colors[i][l][m]==qc.colors[i][j][k])
-									a[1]++;
-								if(temp2!=a[1])
-									break;
-							}
-							if(temp2!=a[1])
-									break;
+						a[0]++;
 					}
-					if(temp1!=a[0]||temp2!=a[1])
-						a[2]++;
 				}
 			}
 		}	
 	}
+}
+void getEdge(int& a,int& b,int& c,int& x)
+{
+	if(a==0&&b==0&&c==1) x=colors[1][2][1];
+	if(a==0&&b==1&&c==0) x=colors[3][1][2];
+	if(a==0&&b==1&&c==2) x=colors[2][1][0];
+	if(a==0&&b==2&&c==1) x=colors[4][0][1];
+	
+	if(a==1&&b==0&&c==1) x=colors[5][0][1];
+	if(a==1&&b==1&&c==0) x=colors[3][0][1];
+	if(a==1&&b==1&&c==2) x=colors[2][0][1];
+	if(a==1&&b==2&&c==1) x=colors[0][0][1];
+	
+	if(a==2&&b==0&&c==1) x=colors[1][1][2];
+	if(a==2&&b==1&&c==0) x=colors[0][1][2];
+	if(a==2&&b==1&&c==2) x=colors[5][1][0];
+	if(a==2&&b==2&&c==1) x=colors[4][1][2];
+		
+	if(a==3&&b==0&&c==1) x=colors[1][1][0];
+	if(a==3&&b==1&&c==0) x=colors[5][1][2];
+	if(a==3&&b==1&&c==2) x=colors[0][1][0];
+	if(a==3&&b==2&&c==1) x=colors[4][1][0];
+	
+	if(a==4&&b==0&&c==1) x=colors[0][2][1];
+	if(a==4&&b==1&&c==0) x=colors[3][2][1];
+	if(a==4&&b==1&&c==2) x=colors[2][2][1];
+	if(a==4&&b==2&&c==1) x=colors[5][2][1];
+	
+	if(a==5&&b==0&&c==1) x=colors[1][0][1];
+	if(a==5&&b==1&&c==0) x=colors[2][1][2];
+	if(a==5&&b==1&&c==2) x=colors[3][1][0];
+	if(a==5&&b==2&&c==1) x=colors[4][2][1];
+}
+
+void getCorner(int& a,int& b,int& c,int& x,int& y)
+{
+	if(a==0&&b==0&&c==0) {x=colors[1][2][0]; y=colors[3][0][2];}
+	if(a==0&&b==0&&c==2) {x=colors[1][2][2]; y=colors[2][0][0];}
+	if(a==0&&b==2&&c==0) {x=colors[4][0][0]; y=colors[3][2][2];}
+	if(a==0&&b==2&&c==2) {x=colors[4][0][2]; y=colors[2][2][0];}
+	
+	if(a==1&&b==0&&c==0) {x=colors[5][0][2]; y=colors[3][0][0];}
+	if(a==1&&b==0&&c==2) {x=colors[5][0][0]; y=colors[2][0][2];}
+	if(a==1&&b==2&&c==0) {x=colors[0][0][0]; y=colors[3][0][2];}
+	if(a==1&&b==2&&c==2) {x=colors[0][0][2]; y=colors[2][0][0];}
+	
+	if(a==2&&b==0&&c==0) {x=colors[1][2][2]; y=colors[0][0][2];}
+	if(a==2&&b==0&&c==2) {x=colors[5][0][0]; y=colors[1][0][2];}
+	if(a==2&&b==2&&c==0) {x=colors[4][0][2]; y=colors[0][2][2];}
+	if(a==2&&b==2&&c==2) {x=colors[5][2][0]; y=colors[4][2][2];}
+	
+	if(a==3&&b==0&&c==0) {x=colors[1][0][0]; y=colors[5][0][2];}
+	if(a==3&&b==0&&c==2) {x=colors[0][0][0]; y=colors[1][2][0];}
+	if(a==3&&b==2&&c==0) {x=colors[4][2][0]; y=colors[5][2][2];}
+	if(a==3&&b==2&&c==2) {x=colors[0][2][0]; y=colors[4][0][0];}
+	
+	if(a==4&&b==0&&c==0) {x=colors[0][2][0]; y=colors[3][2][2];}
+	if(a==4&&b==0&&c==2) {x=colors[0][2][2]; y=colors[2][2][0];}
+	if(a==4&&b==2&&c==0) {x=colors[5][2][2]; y=colors[3][2][0];}
+	if(a==4&&b==2&&c==2) {x=colors[5][2][0]; y=colors[2][2][2];}
+	
+	if(a==5&&b==0&&c==0) {x=colors[1][0][2]; y=colors[2][0][2];}
+	if(a==5&&b==0&&c==2) {x=colors[1][0][0]; y=colors[3][0][0];}
+	if(a==5&&b==2&&c==0) {x=colors[4][2][2]; y=colors[2][2][2];}
+	if(a==5&&b==2&&c==2) {x=colors[4][2][0]; y=colors[3][2][0];}
+	
+
 }
 
 
