@@ -50,9 +50,12 @@ int main(int argc, char *argv[])
         echoServPort = 7;   //7 is the well-known port for the echo service */
 	echoServPort = 10000;
 
-	///////////////////////////////////input rotate actions here/////////////////////////////////////////
-    echoString = "u2";        
-
+	///////////////////////////////////Start with Hello/////////////////////////////////////////
+    echoString = "Hello";   
+	//cout << "Sent rotate action: " << echoString <<endl;
+	
+	/////////////////////////////////////starting send loop here////////////////////////////////
+	while(1){
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
         DieWithError("socket() failed");
@@ -63,12 +66,14 @@ int main(int argc, char *argv[])
     echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
     echoServAddr.sin_port        = htons(echoServPort); /* Server port */
 
-    /* Establish the connection to the echo server */
+    
+	/* Establish the connection to the echo server */
     if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
         DieWithError("connect() failed");
 
     echoStringLen = RCVBUFSIZE;         /* Determine input length */
     //echoStringLen = echoString.length();
+	
 	
     /* Send the string to the server */
     if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
@@ -89,17 +94,15 @@ int main(int argc, char *argv[])
     }
 
     printf("\n");    /* Print a final linefeed */
-
+	usleep(10000);
+	
     
     cout << "von array: " << echoBuffer[2] << endl; 
 
     //// wird funktion: 
-    
-
-	//loop here to make more than one question
-
-	
-	
+	echoString = "u2";
+		
     close(sock);
+	}
     exit(0);
 }
