@@ -6,16 +6,20 @@ https://www.youtube.com/watch?v=0fKg7e37bQE
 
 ToDo: 
 -[x] starten
+
 -[ ] Rubiks Würfel
+
 -[ ] Mastermind
+
 -[ ] zusammensetzten
+
 -[ ] Projekt fertig 
 
 
 
 
 #WICHTIGSTE git-commands
-'''
+
     git clone
 
     git status
@@ -28,7 +32,7 @@ ToDo:
 
     git pull
 
-'''
+
 
 #rubikssolver
 A text-based rubik's cube solver. 
