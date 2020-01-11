@@ -4,17 +4,33 @@ Für alle die ein kleines Tutorial brauchen!
 https://www.youtube.com/watch?v=0fKg7e37bQE
 
 
-##WICHTIGSTE git-commands
+ToDo: 
+-[x] starten
+-[ ] Rubiks Würfel
+-[ ] Mastermind
+-[ ] zusammensetzten
+-[ ] Projekt fertig 
+
+
+
+
+#WICHTIGSTE git-commands
 '''
     git clone
+
     git status
+
     git add
+
     git commit -m "deintextstehthier"
+
     git push
+
     git pull
+
 '''
 
-##rubikssolver
+#rubikssolver
 A text-based rubik's cube solver. 
 
 Authors: Eric Kuecks <ekuecks@ucla.edu>
