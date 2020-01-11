@@ -27,20 +27,21 @@ next steps:
 Würfel lösen, der vom Server kommt und dann auch dem Server die Anweisugen zum lösen geben 
 
 The faces are displayed as if you are facing them in this order
-Top
-Left
-Front
-Right
-Back
-Bottom
+	
+	Top
+	Left
+	Front
+	Right
+	Back
+	Bottom
 
-0       black
-1   y   yellow
-2   o   orange
-3   b   blue    
-4   r   red
-5   g   green
-6   w   white
+	0       black
+	1   y   yellow
+	2   o   orange
+	3   b   blue    
+	4   r   red
+	5   g   green
+	6   w   white
 
 _____________________________________________________________________________
 
