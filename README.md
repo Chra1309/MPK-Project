@@ -3,18 +3,14 @@
 Für alle die ein kleines Tutorial brauchen!
 https://www.youtube.com/watch?v=0fKg7e37bQE
 
-git clone
 
-git status 
-
-git add 
-
-git commit -m "deintextstehthier"
-
-git push 
-
-git pull 
-
+WICHTIGSTE git-commands
+    git clone
+    git status
+    git add
+    git commit -m "deintextstehthier"
+    git push
+    git pull
 
 
 #rubikssolver
