@@ -26,6 +26,21 @@ Solver kann Würfel aus jeder Orientierung lösen
 next steps: 
 Würfel lösen, der vom Server kommt und dann auch dem Server die Anweisugen zum lösen geben 
 
+The faces are displayed as if you are facing them in this order
+Top
+Left
+Front
+Right
+Back
+Bottom
+
+0       black
+1   y   yellow
+2   o   orange
+3   b   blue    
+4   r   red
+5   g   green
+6   w   white
 
 _____________________________________________________________________________
 
@@ -66,20 +81,8 @@ Color Representation:
 We will use a standard cube held with white on the bottom, blue
 in front, and red on the right for the examples
 
-0: top color (ex: yellow)
-1: left color (ex: orange)
-2: front color (ex: blue)
-3: right color (ex: red)
-4: back color (ex: green)
-5: bottom color (ex: white)
 
-The faces are displayed as if you are facing them in this order
 
-Top
-Left
-Front
-Right
-Back
-Bottom
+
 
 
