@@ -2290,10 +2290,10 @@ string printColor(int field)
 		case 5: 
 			printcolor = WHITE + "  " + RESET;		
 			break;		
-		case 3:
+		case 4:
 			printcolor = RED + "  " + RESET;					
 			break;
-		case 4: 
+		case 3: 
 			printcolor = GREEN + "  " + RESET;					
 			break;
 		case 2:
