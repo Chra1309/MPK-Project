@@ -7,7 +7,6 @@
 #include <iostream>
 #include <cstring>
 
-
 using namespace std;
 
 #define MAXPENDING 5    /* Maximum outstanding connection requests */
@@ -64,10 +63,9 @@ int main(int argc, char* argv[])
 
         /* clntSock is connected to a client! */
 
-		srand(time(NULL));
-
 		printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-		printf("Received Cube from client: ");
+		printf("Creating and sending random Cube: \n");
+		
 
 		HandleTCPClient(clntSock);
     }

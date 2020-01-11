@@ -8,7 +8,7 @@
 #include <stdio.h> 
 #include <iostream>
 #include <cstring> 
-#include "Cube.hpp"
+#include "Cube_old.hpp"
 
 
 using namespace std;
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 	//reset srand time for arbriatary values
 	srand(time(NULL));
     //create an abritary cube on startup
-    cout << "Creating a arbritary Cube" << endl;
+    /*cout << "Creating a arbritary Cube" << endl;
     Cube x(1);
     
     //convert the created cube to string
@@ -62,10 +62,8 @@ int main(int argc, char *argv[])
 	
     //print the cube in colors
     x.printCubeColor();	
-
-    echoString = cubeString;         /* Second arg: string to echo this is the paramter */
-
-
+	*/
+    echoString = "Hi schick mir einen Random Cube";         /* Second arg: string to echo this is the paramter */
 
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
@@ -81,16 +79,16 @@ int main(int argc, char *argv[])
     if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
         DieWithError("connect() failed");
 
-    //echoStringLen = strlen(echoString);          /* Determine input length */
-    echoStringLen = cubeString.length();
-
+    echoStringLen = RCVBUFSIZE;         /* Determine input length */
+    //echoStringLen = echoString.length();
+	
     /* Send the string to the server */
     if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
         DieWithError("send() sent a different number of bytes than expected");
 		
     /* Receive the same string back from the server */
     totalBytesRcvd = 0;
-    printf("received message from Server: ");                /* Setup to print the echoed string */
+    printf("Received Random Cube from Server: ");                /* Setup to print the echoed string */
     while (totalBytesRcvd < echoStringLen)
     {
         /* Receive up to the buffer size (minus 1 to leave space for

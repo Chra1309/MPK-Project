@@ -6,7 +6,8 @@
 #include <cstring>
 using namespace std;
 #define RCVBUFSIZE 64   /* Size of receive buffer */
-#include "Cube.hpp"
+#include "Cube_old.hpp"
+//#include "rubikssolver_header.hpp"
 
 char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
 int recvMsgSize;                    /* Size of received message */
@@ -41,42 +42,40 @@ void printReceivedBuffer(){
 
 void HandleTCPClient(int clntSocket)
 {
-  
-	srand(time(NULL));
-    Cube y(1); //Create an abritary cube
-    //convert to String
-    string arbritaryCube = cubeToString(y);
-	send(clntSocket, arbritaryCube, 64, 0);
-	
-    //char serverResponse[36]= "server received message\n";
 
     /* Receive message from client */
     if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
         DieWithError("recv() failed");
 
     //send test message
-    //send(clntSocket, serverResponse, 36, 0);
     //print recevied message
+	srand(time(NULL));
+	Cube y(1); //Create an abritary cube
+	//convert to String
+	string arbritaryCube = cubeToString(y);
+	//send(clntSocket, arbritaryCube, 64, 0);
+	char sendCube[64];
+	// copying the contents of the 
+	// string to char array 
+	strcpy(sendCube, arbritaryCube.c_str()); 
+	cout << sendCube<<endl;
     
     int bufferLength = recvMsgSize;
     /* Send received string and receive again until end of transmission */
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
     {
         /* Echo message back to client */
-        if (send(clntSocket, echoBuffer, recvMsgSize, 0) != recvMsgSize)
+        if (send(clntSocket, sendCube, recvMsgSize, 0) != recvMsgSize)
             DieWithError("send() failed");
-
+		
+		
         /* See if there is more data to receive */
         if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
     }
 	
+	cout << "Received from Client: ";
 	printReceivedBuffer();
-
-	
-	
-	
- 
 	
     close(clntSocket);    /* Close client socket */
 }
