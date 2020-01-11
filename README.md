@@ -21,6 +21,10 @@ _____________________________________________________________________________
 
 ## PROGRESS:
 
+jakob:
+Solver kann Würfel aus jeder Orientierung lösen
+next steps: 
+Würfel lösen, der vom Server kommt und dann auch dem Server die Anweisugen zum lösen geben 
 
 
 _____________________________________________________________________________
