@@ -11,7 +11,7 @@
 #include "Cube.hpp"
 using namespace std;
 
-#define RCVBUFSIZE 32   /* Size of receive buffer */
+#define RCVBUFSIZE 64   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
 
@@ -20,19 +20,33 @@ int main(int argc, char *argv[])
     int sock;                        /* Socket descriptor */
     struct sockaddr_in echoServAddr; /* Echo server address */
     unsigned short echoServPort;     /* Echo server port */
-    char *servIP;                    /* Server IP address (dotted quad) */
+    char const *servIP;                    /* Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
     string echoString;                /* String to send to echo server */
     char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
     unsigned int echoStringLen;      /* Length of string to echo */
     int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
                                         and total bytes read */
-
-    if ((argc < 3) || (argc > 4))    /* Test for correct number of arguments */
+	
+    /*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
     {
        fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Port>]\n",
                argv[0]);
        exit(1);
-    }
+    }*/
+	
+	if (argc != 1){
+		cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
+		exit(1);
+	}
+	
+    /*servIP = argv[1];              First arg: server IP address (dotted quad) */
+	servIP = "127.0.0.1";
+	
+    /*if (argc == 4)
+        echoServPort = atoi(argv[3]);  //Use given port, if any
+    else
+        echoServPort = 7;   //7 is the well-known port for the echo service */
+	echoServPort = 10000;
 	
 	//reset srand time for arbriatary values
 	srand(time(NULL));
@@ -43,18 +57,13 @@ int main(int argc, char *argv[])
     //convert the created cube to string
     string cubeString = cubeToString(x);
     cout <<cubeString <<endl;
-
+	
     //print the cube in colors
     x.printCubeColor();	
 
-    servIP = argv[1];             /* First arg: server IP address (dotted quad) */
     echoString = cubeString;         /* Second arg: string to echo this is the paramter */
 
 
-    if (argc == 4)
-        echoServPort = atoi(argv[3]); /* Use given port, if any */
-    else
-        echoServPort = 7;  /* 7 is the well-known port for the echo service */
 
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
@@ -77,8 +86,6 @@ int main(int argc, char *argv[])
     if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
         DieWithError("send() sent a different number of bytes than expected");
 		
- 
-
     /* Receive the same string back from the server */
     totalBytesRcvd = 0;
     printf("received message from Server: ");                /* Setup to print the echoed string */
@@ -94,7 +101,11 @@ int main(int argc, char *argv[])
     }
 
     printf("\n");    /* Print a final linefeed */
-
+	
+	//loop here to make more than one question
+	
+	
+	
     close(sock);
     exit(0);
 }

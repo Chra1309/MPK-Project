@@ -23,14 +23,16 @@ int main(int argc, char* argv[])
     struct sockaddr_in echoClntAddr; /* Client address */
     unsigned short echoServPort;     /* Server port */
     unsigned int clntLen;            /* Length of client address data structure */
+	echoServPort = 10000; //Fixed Port = 10000
 
-    if (argc != 2)     /* Test for correct number of arguments */
+    if (argc != 1)    /* Test for correct number of arguments */
     {
-        fprintf(stderr, "Usage:  %s <Server Port>\n", argv[0]);
+        fprintf(stderr, "Fixed Server Port: %s <10000>\n", argv[0]);
         exit(1);
     }
 
-    echoServPort = atoi(argv[1]);  /* First arg:  local port */
+    /*echoServPort = atoi(argv[1]);   First arg:  local port */
+	
 
     /* Create socket for incoming connections */
     if ((servSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
@@ -62,12 +64,12 @@ int main(int argc, char* argv[])
 
         /* clntSock is connected to a client! */
 
-	srand(time(NULL));
-	
-        printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-	printf("Received query from client: ");
+		srand(time(NULL));
 
-        HandleTCPClient(clntSock);
+		printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
+		printf("Received Cube from client: ");
+
+		HandleTCPClient(clntSock);
     }
     /* NOT REACHED */
 }
