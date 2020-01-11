@@ -26,16 +26,12 @@ _____________________________________________________________________________
 _____________________________________________________________________________
 
 WICHTIGSTE git-commands
+    
     git clone
-
     git status
-
     git add
-
     git commit -m "deintextstehthier"
-
     git push
-
     git pull
 
 
