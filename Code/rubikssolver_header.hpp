@@ -2304,9 +2304,13 @@ string printColor(int field)
 	string BLUE = "\e[48;5;21m";      /* Blue */
 	string ORANGE = "\e[48;5;208m";      /* Magenta */	 
 	string YELLOW = "\033[103m";      /* Yellow */
+    string BLACK = "\033[40m"; 
 				
 	string printcolor;
 	switch(field){
+        case 8:
+			printcolor = BLACK + "  " + RESET;		
+			break;
 		case 5: 
 			printcolor = WHITE + "  " + RESET;		
 			break;		
@@ -2410,5 +2414,104 @@ void scramble()
             case 12: di(); break;
 		}
 	}
+}
+
+void inputCube(){
+    
+    // generate black cube 
+    {
+    int i = 0;      
+            for(int j = 0; j < 6; j++){    
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l <3; l++){
+                            cube[j][k][l] = 8;
+                            //cout << cube[j][k][l]; 
+                    }
+                }
+            }
+    }
+         printCubeColor();   
+
+    int cubesausage[54];
+    cout << endl << "INPUT CUBE" << endl; 
+    cout    << "y ... yellow" << endl 
+            << "o ... orange" << endl
+            << "b ... blue" << endl 
+            << "r ... red " << endl
+            << "g ... green" << endl 
+            << "w ... white" << endl; 
+    cout << "order: UP, LEFT, FRONT, RIGHT, BACK, DOWN" << endl; 
+
+    {
+        int i = 0;      
+            for(int j = 0; j < 6; j++){    
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l <3; l++){
+                                    {
+
+                                            char reader;
+                                            cin >> reader;
+                                                    switch(reader){
+                                                        case 'y': 
+                                                            cubesausage[i] = 0;
+                                                            break;
+                                                        case 'o': 
+                                                            cubesausage[i] = 1;
+                                                            break;
+                                                        case 'b': 
+                                                            cubesausage[i] = 2;
+                                                            break;
+                                                        case 'r': 
+                                                            cubesausage[i] = 3;
+                                                            break;
+                                                        case 'g': 
+                                                            cubesausage[i] = 4;
+                                                            break;
+                                                        case 'w': 
+                                                            cubesausage[i] = 5;
+                                                            break;
+                                                        default: 
+                                                            cout << "no valid input" << endl;
+
+                                                    }           
+                                            //cout << cubesausage[i] << endl; 
+                                            cin.get();
+                                                        
+                                            cube[j][k][l] = cubesausage[i];
+                                            i++;
+                                            printCubeColor();
+                                 }
+                }
+            }
+         }
+    }
+   
+    //}
+
+}
+
+void mapforsolver(){
+
+            for(int j = 0; j < 6; j++){    
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l <3; l++){
+                            cube[j][k][l] += 10;
+                    }
+                }
+            }
+    
+    for(int i = 0; i <6; i++){
+    int changer = cube[i][1][1];
+             for(int j = 0; j < 6; j++){    
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l <3; l++){
+                            if(cube[j][k][l] == changer)
+                                cube[j][k][l]=i;
+                    }
+                }
+            }       
+      }
+      printCubeColor();            
+
 }
 
