@@ -5,6 +5,8 @@ https://www.youtube.com/watch?v=0fKg7e37bQE
 
 
 ToDo: 
+
+
 -[x] starten
 
 -[ ] Rubiks Würfel
@@ -15,10 +17,14 @@ ToDo:
 
 -[ ] Projekt fertig 
 
+_____________________________________________________________________________
+
+PROGRESS:
 
 
 
-#WICHTIGSTE git-commands
+
+WICHTIGSTE git-commands
 
     git clone
 
@@ -33,8 +39,8 @@ ToDo:
     git pull
 
 
-
-#rubikssolver
+_____________________________________________________________________________
+rubikssolver - Link von Mehnen 
 A text-based rubik's cube solver. 
 
 Authors: Eric Kuecks <ekuecks@ucla.edu>
