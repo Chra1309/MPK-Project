@@ -9,6 +9,8 @@
 #include <iostream>
 #include <cstring> 
 #include "Cube.hpp"
+
+
 using namespace std;
 
 #define RCVBUFSIZE 64   /* Size of receive buffer */
@@ -101,9 +103,20 @@ int main(int argc, char *argv[])
     }
 
     printf("\n");    /* Print a final linefeed */
+
+    
+    cout << "von array: " << echoBuffer[2] << endl; 
+
+    //// wird funktion: 
+    
+
+
+
+
+
 	
 	//loop here to make more than one question
-	
+
 	
 	
     close(sock);
