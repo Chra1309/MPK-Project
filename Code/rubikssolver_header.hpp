@@ -7,6 +7,10 @@
 #include <stdio.h>
 using namespace std;
 
+
+////lookup
+int lookup[6] = {0,0,0,0,0,0};
+
 void r();
 void ri();
 
@@ -47,6 +51,7 @@ void removeLast(); //removes the last move performed
 void clearMoves(); //clears all moves
 
 
+void mapforcustomcolor();
 void printCubeColor();
 void solveBottomLayer();
 void positionBottomCorners();
@@ -63,17 +68,8 @@ void twoCornerRotate(int face, bool goForward);
 void correctBottomEdges();
 void twoEdgeRotate(int face, bool isNextTo);
 
-/*
- int cube[6][3][3] = {
- { {2, 2, 5}, {0, 0, 0}, {4, 4, 2} }, //yellow side
- { {5, 1, 5}, {2, 1, 1}, {2, 2, 4} }, //orange side
- { {1, 5, 0}, {5, 2, 2}, {5, 5, 1} }, //blue side
- { {1, 4, 3}, {5, 3, 4}, {4, 4, 3} }, //red side
- { {2, 3, 1}, {3, 4, 0}, {0, 3, 3} }, //green side
- { {3, 3, 0}, {1, 5, 1}, {0, 0, 4} } }; //white side
- */
-
 extern int cube[6][3][3];
+extern int cube_customcolor[6][3][3];
 
 int old[6][3][3] = {
 	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
@@ -82,28 +78,8 @@ int old[6][3][3] = {
 	{ { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } }, //red side
 	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
 };
-/*
-int cube[6][3][3] = {
-	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
-	{ { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, //orange side
-	{ { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } }, //blue side
-	{ { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } }, //red side
-	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
-	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
-*/
-/*
-int cube[6][3][3] = {
-	{ { 5, 0, 4 }, { 2, 0, 5 }, { 1, 3, 2 } }, //yellow side
-	{ { 1, 0, 2 }, { 0, 1, 3 }, { 5, 5, 4 } }, //orange side
-	{ { 5, 0, 3 }, { 2, 2, 3 }, { 5, 1, 2 } }, //blue side
-	{ { 0, 4, 1 }, { 4, 3, 1 }, { 5, 5, 3 } }, //red side
-	{ { 0, 3, 4 }, { 2, 4, 1 }, { 0, 4, 3 } }, //green side
-	{ { 3, 4, 1 }, { 2, 5, 1 }, { 2, 0, 4 } } }; //white side
 
-*/
 string moves = "";
-
-
 
 void r()
 {
@@ -2333,24 +2309,24 @@ string printColor(int field)
 	return printcolor;
 }
 
-void printCubeColor()
+void printCubeColor(int cube_array[6][3][3])
 { 
 
-    cout<<"PRINTING CUSTOM CUBE"<<endl;
+    //cout<<"PRINTING CUSTOM CUBE"<<endl;
 	for(int i=0;i<3;i++)
 	{
-		cout<<"       "<<printColor(cube[0][i][0])<<printColor(cube[0][i][1])<<printColor(cube[0][i][2])<<endl;
+		cout<<"       "<<printColor(cube_array[0][i][0])<<printColor(cube_array[0][i][1])<<printColor(cube_array[0][i][2])<<endl;
 	}
 	for(int i=0;i<3;i++)
 	{
-		cout<<printColor(cube[1][i][0])<<printColor(cube[1][i][1])<<printColor(cube[1][i][2])<<" ";
-		cout<<printColor(cube[2][i][0])<<printColor(cube[2][i][1])<<printColor(cube[2][i][2])<<" ";
-		cout<<printColor(cube[3][i][0])<<printColor(cube[3][i][1])<<printColor(cube[3][i][2])<<" ";
-		cout<<printColor(cube[4][i][0])<<printColor(cube[4][i][1])<<printColor(cube[4][i][2])<<" "<<endl;
+		cout<<printColor(cube_array[1][i][0])<<printColor(cube_array[1][i][1])<<printColor(cube_array[1][i][2])<<" ";
+		cout<<printColor(cube_array[2][i][0])<<printColor(cube_array[2][i][1])<<printColor(cube_array[2][i][2])<<" ";
+		cout<<printColor(cube_array[3][i][0])<<printColor(cube_array[3][i][1])<<printColor(cube_array[3][i][2])<<" ";
+		cout<<printColor(cube_array[4][i][0])<<printColor(cube_array[4][i][1])<<printColor(cube_array[4][i][2])<<" "<<endl;
 	}
 	for(int i=0;i<3;i++)
 	{
-		cout<<"       "<<printColor(cube[5][i][0])<<printColor(cube[5][i][1])<<printColor(cube[5][i][2])<<endl;
+		cout<<"       "<<printColor(cube_array[5][i][0])<<printColor(cube_array[5][i][1])<<printColor(cube_array[5][i][2])<<endl;
 	}	
 	cout<<endl<<endl;	
 }
@@ -2430,7 +2406,7 @@ void inputCube(){
                 }
             }
     }
-         printCubeColor();   
+         printCubeColor(cube);   
 
     int cubesausage[54];
     cout << endl << "INPUT CUBE" << endl; 
@@ -2479,7 +2455,7 @@ void inputCube(){
                                                         
                                             cube[j][k][l] = cubesausage[i];
                                             i++;
-                                            printCubeColor();
+                                            printCubeColor(cube);
                                  }
                 }
             }
@@ -2507,11 +2483,25 @@ void mapforsolver(){
                     for(int l = 0; l <3; l++){
                             if(cube[j][k][l] == changer)
                                 cube[j][k][l]=i;
+                                lookup[i]=changer-10;
                     }
                 }
             }       
       }
-      printCubeColor();            
+     // printCubeColor(cube);            
+
+}
+
+//// mapt die Farben des cubes für den solver auf die Farben des tatsächlichen Wüfel für die Ausgabe
+void mapforcustomcolor(){
+    
+            for(int j = 0; j < 6; j++){    
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l <3; l++){
+                            cube_customcolor[j][k][l] = lookup[cube[j][k][l]];
+                    }
+                }
+            }
 
 }
 

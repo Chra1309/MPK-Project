@@ -45,7 +45,7 @@ int cube[6][3][3] = {
 	{ { 0, 3, 4 }, { 2, 4, 1 }, { 0, 4, 3 } }, //green side
 	{ { 3, 4, 1 }, { 2, 5, 1 }, { 2, 0, 4 } } }; //white side
 
-
+int cube_customcolor[6][3][3];
 
 ////////////////////////////////      ////////////////////////////////
 //////////////////////////////// MAIN ////////////////////////////////
@@ -54,28 +54,34 @@ int cube[6][3][3] = {
 
 int main()
 {
-    printCubeColor();
+    inputCube();
+    mapforsolver();
+    //printCubeColor();
     //print();
 	//scramble();
 	//cout << "scramble: " << moves << endl;
 	//clearMoves();
     //printCubeColor();
-	/*solveTopCross();
+	solveTopCross();
 	cout << "cross: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
 	solveTopCorners();
 	cout << "corners: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
 	solveMiddleLayer();
 	cout << "middle layer: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
 	solveBottomLayer();
 	cout << "Bottom: " << moves << endl;
 	clearMoves();
-    printCubeColor();*/
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
 	return 0;
 }
 
