@@ -8,14 +8,25 @@
 #include <stdio.h> 
 #include <iostream>
 #include <cstring> 
-#include "Cube_old.hpp"
+//#include "Cube_old.hpp"
 
+#include "rubikssolver_header.hpp"
 
 using namespace std;
 
-#define RCVBUFSIZE 64   /* Size of receive buffer */
+#define RCVBUFSIZE 54   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
+
+int cube[6][3][3] = {
+	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
+	{ { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, //orange side
+	{ { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } }, //blue side
+	{ { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } }, //red side
+	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
+	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
+
+int cube_customcolor[6][3][3];
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +36,7 @@ int main(int argc, char *argv[])
     char const *servIP;                    // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
     string echoString;                /* String to send to echo server */
     char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
+    int cubestring[54];
     unsigned int echoStringLen;      /* Length of string to echo */
     int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
                                         and total bytes read */
@@ -81,28 +93,76 @@ int main(int argc, char *argv[])
 		
     /* Receive the same string back from the server */
     totalBytesRcvd = 0;
-    printf("Received Random Cube from Server: ");                /* Setup to print the echoed string */
+    printf("Received Random Cube from Server: \n");                /* Setup to print the echoed string */
+  /*
     while (totalBytesRcvd < echoStringLen)
     {
-        /* Receive up to the buffer size (minus 1 to leave space for
-           a null terminator) bytes from the sender */
+        // Receive up to the buffer size (minus 1 to leave space for
+        //   a null terminator) bytes from the sender 
         if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
             DieWithError("recv() failed or connection closed prematurely");
-        totalBytesRcvd += bytesRcvd;   /* Keep tally of total bytes */
-        echoBuffer[bytesRcvd] = '\0';  /* Terminate the string! */
-        printf("%s", echoBuffer);      /* Print the echo buffer */
-    }
 
-    printf("\n");    /* Print a final linefeed */
-	usleep(10000);
+        totalBytesRcvd += bytesRcvd;   // Keep tally of total bytes 
+        echoBuffer[bytesRcvd] = '\0';  // Terminate the string! 
+        printf("%s", echoBuffer);      /// Print the echo buffer 
+
+    }
+    printf("\n");    // Print a final linefeed 
+  */
+
+    recv(sock, echoBuffer, 54, 0);
+    
+    cout << "echoBuffer:" << endl;
+    for(int i = 0; i<54; i++){
+        cout << echoBuffer[i];
+    }
+    cout << endl;
+
+    cout << "cubestring: " << endl;
+    for(int i = 0; i<54; i++){
+        
+        cubestring[i] = (int)(echoBuffer[i])-48-1;
+        cout << cubestring[i];
+    }
+    cout << endl;
+
+    printCubeColor(cube);
+    cubestring2cube(cubestring);
+    printCubeColor(cube);
+  
+    mapforsolver();
+  
+	solveTopCross();
+	cout << "cross: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	solveTopCorners();
+	cout << "corners: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	solveMiddleLayer();
+	cout << "middle layer: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	solveBottomLayer();
+	cout << "Bottom: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	
+	//usleep(10000);
 	
     
-    cout << "von array: " << echoBuffer[2] << endl; 
+    //cout << "von array: " << echoBuffer[2] << endl; 
 
     //// wird funktion: 
-	echoString = "u2";
+	//echoString = "u2";
 		
     close(sock);
+    break;
 	}
     exit(0);
 }

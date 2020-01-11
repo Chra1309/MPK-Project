@@ -553,9 +553,9 @@ void bi()
 
 void solveTopCross()
 {
-    cout << "checkpoint1" << endl;
+    //cout << "checkpoint1" << endl;
 	moveTopEdges();
-    cout << "checkpoint2" << endl;
+    //cout << "checkpoint2" << endl;
 	//look for the 4 yellow edges
 	for (int i = 1; i < 5; i++)
 	{
@@ -930,7 +930,7 @@ beginning:
     
 	for (int i = 1; i <= 4; i++)
 	{
-    cout << "checkpoint3" << endl;
+    //cout << "checkpoint3" << endl;
 		side = findBottomMatch(i);
         
 		if (side != -1)
@@ -2502,6 +2502,21 @@ void mapforcustomcolor(){
                     }
                 }
             }
+
+}
+
+void cubestring2cube(int stringarray[54]){
+
+int i = 0; 
+            for(int j = 0; j < 6; j++){    
+                for(int k = 0; k < 3; k++){
+                    for(int l = 0; l <3; l++){
+                            cube[j][k][l] = stringarray[i];
+                            i++;
+                    }
+                }
+            }
+
 
 }
 

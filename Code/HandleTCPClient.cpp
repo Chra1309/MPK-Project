@@ -110,6 +110,8 @@ void HandleTCPClient(int clntSocket)
     //print recevied message
 	srand(time(NULL));
 	Cube y(1); //Create an abritary cube
+
+    y.printCubeColor();
 	//convert to String
 	string arbritaryCube = cubeToString(y);
 	//send(clntSocket, arbritaryCube, 64, 0);
