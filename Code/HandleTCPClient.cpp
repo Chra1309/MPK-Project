@@ -42,6 +42,12 @@ void printReceivedBuffer(){
 void HandleTCPClient(int clntSocket)
 {
   
+	srand(time(NULL));
+    Cube y(1); //Create an abritary cube
+    //convert to String
+    string arbritaryCube = cubeToString(y);
+	send(clntSocket, arbritaryCube, 64, 0);
+	
     //char serverResponse[36]= "server received message\n";
 
     /* Receive message from client */
@@ -67,10 +73,9 @@ void HandleTCPClient(int clntSocket)
 	
 	printReceivedBuffer();
 
-	srand(time(NULL));
-    Cube y(1); //Create an abritary cube
-    //convert to String
-    string emptyCubeString = cubeToString(y);
+	
+	
+	
  
 	
     close(clntSocket);    /* Close client socket */

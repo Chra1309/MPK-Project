@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     int sock;                        /* Socket descriptor */
     struct sockaddr_in echoServAddr; /* Echo server address */
     unsigned short echoServPort;     /* Echo server port */
-    char const *servIP;                    /* Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
+    char const *servIP;                    // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
     string echoString;                /* String to send to echo server */
     char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
     unsigned int echoStringLen;      /* Length of string to echo */
