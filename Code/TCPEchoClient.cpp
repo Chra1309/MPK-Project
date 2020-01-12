@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     cout << "cubestring: " << endl;
     for(int i = 0; i<54; i++){
         
-        cubestring[i] = (int)(echoBuffer[i])-48-1;
+        cubestring[i] = (int)(echoBuffer[i])-48;
         cout << cubestring[i];
     }
     cout << endl;

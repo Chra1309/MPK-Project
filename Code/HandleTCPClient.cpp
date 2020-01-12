@@ -6,7 +6,7 @@
 #include <cstring>
 using namespace std;
 #define RCVBUFSIZE 64   /* Size of receive buffer */
-#include "Cube_old.hpp"
+#include "Cube.hpp"
 //#include "rubikssolver_header.hpp"
 
 char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */

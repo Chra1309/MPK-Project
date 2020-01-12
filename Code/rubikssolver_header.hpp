@@ -2284,7 +2284,7 @@ string printColor(int field)
 				
 	string printcolor;
 	switch(field){
-        case 8:
+        case 6:
 			printcolor = BLACK + "  " + RESET;		
 			break;
 		case 5: 
@@ -2400,7 +2400,7 @@ void inputCube(){
             for(int j = 0; j < 6; j++){    
                 for(int k = 0; k < 3; k++){
                     for(int l = 0; l <3; l++){
-                            cube[j][k][l] = 8;
+                            cube[j][k][l] = 6;
                             //cout << cube[j][k][l]; 
                     }
                 }
