@@ -9,7 +9,15 @@ ToDo:
 
 -[x] starten
 
+-[x] server sendet würfel an client - client löst am client
+
+-[ ] client gibt dem server anweisungen zum lösen des würfels
+
 -[ ] Rubiks Würfel
+
+-[ ] faces random erzeugen 
+
+-[ ] 
 
 -[ ] Mastermind
 
