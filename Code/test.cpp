@@ -7,18 +7,10 @@
 int main()
 {
 	srand(time(NULL));
-	Cube x(1); //macht der Client
-	Cube y(0); //macht der Server
-	string temp=CubeToString(x); //macht der Client
-	//Client Schickt String
-	y=StringToCube(temp);//macht der Server
-	cout<<"print Cube X"<<endl;//macht der Client
-	x.printCubeStd(); //macht der Client
-	cout<<"print Cube Y"<<endl; //macht der Server
-	y.printCubeStd(); //macht der Server
-	//cout<<y;
+	Cube x(1);
 	
-
+	x.testSolve();
 	return 0;
+	
 }
 
