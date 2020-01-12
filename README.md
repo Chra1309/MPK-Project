@@ -35,13 +35,14 @@ The faces are displayed as if you are facing them in this order
 	Back
 	Bottom
 
-	0       black
-	1   y   yellow
-	2   o   orange
-	3   b   blue    
-	4   r   red
-	5   g   green
-	6   w   white
+	0   y   yellow
+	1   o   orange
+	2   b   blue    
+	3   r   red
+	4   g   green
+	5   w   white
+	6       black
+
 
 _____________________________________________________________________________
 
