@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 	echoServPort = 10000;
 
 	///////////////////////////////////Start with Hello/////////////////////////////////////////
-    echoString = "Hello";   
+    echoString = "hi! please send me a cube";   
 	//cout << "Sent rotate action: " << echoString <<endl;
 	
 	/////////////////////////////////////starting send loop here////////////////////////////////
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 	
     /* Send the string to the server */
     if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
-        DieWithError("send() sent a different number of bytes than expected");
+       DieWithError("send() sent a different number of bytes than expected");
 		
     /* Receive the same string back from the server */
     totalBytesRcvd = 0;
