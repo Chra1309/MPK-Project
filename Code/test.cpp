@@ -1,4 +1,4 @@
-#include "Cube.hpp"
+#include "ServerCube.hpp"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -7,9 +7,10 @@
 int main()
 {
 	srand(time(NULL));
-	Cube x(1);
+	ServerCube x(0);
+	x.printCubeStd();
 	
-	x.testSolve();
+	//x.testSolve();
 	return 0;
 	
 }

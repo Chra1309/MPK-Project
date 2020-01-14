@@ -238,6 +238,7 @@ void Cube::rotate(int side,int howOften)
 {
 	howOften+=4;
 	howOften=howOften%4;
+	//Send r side howOften
 	switch (side)
 	{
 		case FRONT:

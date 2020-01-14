@@ -25,7 +25,6 @@ using namespace std;
 
 class ServerCube{
 	int data[6][3][3];
-	int cube_customcolor[6][3][3];
 	int n;	
 	string moves;
 	int lookup[6];
@@ -36,24 +35,25 @@ class ServerCube{
 	void shift12by3n(int&, int&, int&, int&, int&, int&, int& ,int& ,int&, int&, int&, int&, int&); //Methode zum Rotieren einer der Felder um eine Fläche
 
 	void randomize(); 		//Methode zum zufälligen verdrehen des ServerCubes
-	void rotate(int, int);	//Methode zum Rotieren des ServerCubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
+		//Methode zum Rotieren des ServerCubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
 	void toArray(int*);		//gibt dem 1. Parameter den ServerCube in Form eines 1D Feldes zurück
 
-	void getCorner(int&,int&,int&,int&,int&);
-	void getEdge(int&,int&,int&,int&);
+	void getCorner(int&,int&,int&,int&,int&,int&,int&);
+	void getEdge(int&,int&,int&,int&,int&);
 
 	public:
-		Cube(int);	//Konstruktor Cube
+		ServerCube(int);	//Konstruktor Cube
 		void testSolve();
 	    string printColor(int); //Ausgabe von Farbe
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
-	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen		
+	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen	
+		void rotate(int, int);	
 		    
 
-		friend string makeCubeQuestion(Cube&);	//erstellt eine Cube Question
-		friend string cubeToString(Cube&);		//wandelt einen Cube in einen String um
-		friend Cube stringToCube(string&);		//wandelt string in Cube um
-		friend void compareCube(Cube&,Cube&,int*);	//
+		friend string makeCubeQuestion(ServerCube&);	//erstellt eine Cube Question
+		friend string cubeToString(ServerCube&);		//wandelt einen Cube in einen String um
+		friend ServerCube stringToCube(string&);		//wandelt string in Cube um
+		friend void compareCube(ServerCube&,ServerCube&,int*);	//
 			
 };
 ServerCube::ServerCube(int n=0)
@@ -72,7 +72,7 @@ ServerCube::ServerCube(int n=0)
 		for(int i=0;i<6;i++)
 			for(int j=0;j<3;j++)
 				for(int k=0;k<3;k++)
-					data[i][j][k]=0;
+					data[i][j][k]=6;
 	}else
 	{ 
 		for(int i=0;i<6;i++)
@@ -279,13 +279,8 @@ void ServerCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,i
 			break;
 	}		
 }
-string makeCubeQuestion(Cube& sendCube)
-{
-	string CubeQuestion="1,";
-	CubeQuestion+=cubeToString(sendCube);
-	return CubeQuestion;
-}
-string cubeToString(Cube& cube)
+
+string cubeToString(ServerCube& cube)
 { 
 	string returnString="";
 	int* a=new int[54];
@@ -314,7 +309,7 @@ void ServerCube::toArray(int* a)
 }
 ServerCube stringToCube(string& s)
 {
-	Cube c(0);
+	ServerCube c(0);
 	int a[54];
 	int x=0;
 	for(int i=0;i<54;i++)
@@ -332,94 +327,152 @@ ServerCube stringToCube(string& s)
 	}
 	return c;
 }
-void compareCube(Cube& qc,Cube& c,int* a)
+void compareCube(ServerCube& qc,ServerCube& c,int* answer)
 {
 	for(int i=0;i<3;i++)
-		a[i]=0;
+		answer[i]=0;
+		
+		
 	for(int i=0;i<6;i++)
 	{
 		for(int j=0;j<3;j++)
 		{
 			for(int k=0;k<3;k++)
 			{
-				if(qc.data[i][j][k]==0)
+				if(qc.data[i][j][k]!=6)
 				{	
-					if(qc.data[i][j][k]==c.data[i][1][1])
+					if(qc.data[i][j][k]==c.data[i][j][k])
 					{
-						if(1);
+						if(qc.data[i][j][k]==c.data[i][1][1])
+						{
+							if((j+k)%2==0)
+							{
+								int c1,c2,s1,s2;
+								c.getCorner(i,j,k,c1,c2,s1,s2);
+								
+								if(c1==c.data[s1][1][1]&&c2==c.data[s2][1][1])
+								{
+									answer[2]++;
+								}else{
+									answer[1]++;
+								}
+								
+							}else
+							{
+								int c1,s1;
+								
+								c.getEdge(i,j,k,c1,s1);
+								
+								if(c1==c.data[s1][1][1])
+								{
+									answer[2]++;
+								}else{
+									answer[1]++;
+								}
+							}	
+						}else
+						{
+							answer[0]++;
+						}
 					}else
 					{
-						a[0]++;
+						answer[0]++;
 					}
 				}
 			}
 		}	
 	}
 }
-void ServerCube::getEdge(int& a,int& b,int& c,int& x)
+
+
+void ServerCube::getEdge(int& a,int& b,int& c,int& c1,int& s1)
 {
-	if(a==0&&b==0&&c==1) x=data[0][2][1];
-	if(a==0&&b==1&&c==0) x=data[1][1][2];
-	if(a==0&&b==1&&c==2) x=data[3][1][0];
-	if(a==0&&b==2&&c==1) x=data[5][0][1];
+	if(a==0&&b==0&&c==1) {c1=data[0][2][1]; s1=0;}
+	if(a==0&&b==1&&c==0) {c1=data[1][1][2]; s1=1;}
+	if(a==0&&b==1&&c==2) {c1=data[3][1][0]; s1=3;}
+	if(a==0&&b==2&&c==1) {c1=data[5][0][1]; s1=5;}
 	
-	if(a==1&&b==0&&c==1) x=data[4][0][1];
-	if(a==1&&b==1&&c==0) x=data[1][0][1];
-	if(a==1&&b==1&&c==2) x=data[3][0][1];
-	if(a==1&&b==2&&c==1) x=data[2][0][1];
+	if(a==1&&b==0&&c==1) {c1=data[4][0][1]; s1=4;}
+	if(a==1&&b==1&&c==0) {c1=data[1][0][1]; s1=1;}
+	if(a==1&&b==1&&c==2) {c1=data[3][0][1]; s1=3;}
+	if(a==1&&b==2&&c==1) {c1=data[2][0][1]; s1=2;}
 	
-	if(a==2&&b==0&&c==1) x=data[0][1][2];
-	if(a==2&&b==1&&c==0) x=data[2][1][2];
-	if(a==2&&b==1&&c==2) x=data[4][1][0];
-	if(a==2&&b==2&&c==1) x=data[5][1][2];
+	if(a==2&&b==0&&c==1) {c1=data[0][1][2]; s1=0;}
+	if(a==2&&b==1&&c==0) {c1=data[2][1][2]; s1=2;}
+	if(a==2&&b==1&&c==2) {c1=data[4][1][0]; s1=4;}
+	if(a==2&&b==2&&c==1) {c1=data[5][1][2]; s1=5;}
 		
-	if(a==3&&b==0&&c==1) x=data[0][1][0];
-	if(a==3&&b==1&&c==0) x=data[4][1][2];
-	if(a==3&&b==1&&c==2) x=data[2][1][0];
-	if(a==3&&b==2&&c==1) x=data[5][1][0];
+	if(a==3&&b==0&&c==1) {c1=data[0][1][0]; s1=0;}
+	if(a==3&&b==1&&c==0) {c1=data[4][1][2]; s1=4;}
+	if(a==3&&b==1&&c==2) {c1=data[2][1][0]; s1=2;}
+	if(a==3&&b==2&&c==1) {c1=data[5][1][0]; s1=5;}
 	
-	if(a==4&&b==0&&c==1) x=data[2][2][1];
-	if(a==4&&b==1&&c==0) x=data[1][2][1];
-	if(a==4&&b==1&&c==2) x=data[3][2][1];
-	if(a==4&&b==2&&c==1) x=data[4][2][1];
+	if(a==4&&b==0&&c==1) {c1=data[2][2][1]; s1=2;}
+	if(a==4&&b==1&&c==0) {c1=data[1][2][1]; s1=1;}
+	if(a==4&&b==1&&c==2) {c1=data[3][2][1]; s1=3;}
+	if(a==4&&b==2&&c==1) {c1=data[4][2][1]; s1=4;}
 	
-	if(a==5&&b==0&&c==1) x=data[0][0][1];
-	if(a==5&&b==1&&c==0) x=data[3][1][2];
-	if(a==5&&b==1&&c==2) x=data[1][1][0];
-	if(a==5&&b==2&&c==1) x=data[5][2][1];
+	if(a==5&&b==0&&c==1) {c1=data[0][0][1]; s1=0;}
+	if(a==5&&b==1&&c==0) {c1=data[3][1][2]; s1=3;}
+	if(a==5&&b==1&&c==2) {c1=data[1][1][0]; s1=1;}
+	if(a==5&&b==2&&c==1) {c1=data[5][2][1]; s1=5;}
 }
 
-void ServerCube::getCorner(int& a,int& b,int& c,int& x,int& y)
+void ServerCube::getCorner(int& a,int& b,int& c,int& c1,int& c2,int& s1, int& s2)
 {
-	if(a==0&&b==0&&c==0) {x=data[0][2][0]; y=data[1][0][2];}
-	if(a==0&&b==0&&c==2) {x=data[0][2][2]; y=data[3][0][0];}
-	if(a==0&&b==2&&c==0) {x=data[5][0][0]; y=data[1][2][2];}
-	if(a==0&&b==2&&c==2) {x=data[5][0][2]; y=data[3][2][0];}
+	if(a==0&&b==0&&c==0) {c1=data[0][2][0]; c2=data[1][0][2]; s1=0; s2=1;}
+	if(a==0&&b==0&&c==2) {c1=data[0][2][2]; c2=data[3][0][0]; s1=0; s2=3;}
+	if(a==0&&b==2&&c==0) {c1=data[5][0][0]; c2=data[1][2][2]; s1=5; s2=1;}
+	if(a==0&&b==2&&c==2) {c1=data[5][0][2]; c2=data[3][2][0]; s1=5; s2=3;}
 	
-	if(a==1&&b==0&&c==0) {x=data[4][0][2]; y=data[1][0][0];}
-	if(a==1&&b==0&&c==2) {x=data[4][0][0]; y=data[3][0][2];}
-	if(a==1&&b==2&&c==0) {x=data[2][0][0]; y=data[1][0][2];}
-	if(a==1&&b==2&&c==2) {x=data[2][0][2]; y=data[3][0][0];}
+	if(a==1&&b==0&&c==0) {c1=data[4][0][2]; c2=data[1][0][0]; s1=4; s2=1;}
+	if(a==1&&b==0&&c==2) {c1=data[4][0][0]; c2=data[3][0][2]; s1=4; s2=3;}
+	if(a==1&&b==2&&c==0) {c1=data[2][0][0]; c2=data[1][0][2]; s1=2; s2=1;}
+	if(a==1&&b==2&&c==2) {c1=data[2][0][2]; c2=data[3][0][0]; s1=2; s2=3;}
 	
-	if(a==2&&b==0&&c==0) {x=data[0][2][2]; y=data[2][0][2];}
-	if(a==2&&b==0&&c==2) {x=data[4][0][0]; y=data[0][0][2];}
-	if(a==2&&b==2&&c==0) {x=data[5][0][2]; y=data[2][2][2];}
-	if(a==2&&b==2&&c==2) {x=data[4][2][0]; y=data[5][2][2];}
+	if(a==2&&b==0&&c==0) {c1=data[0][2][2]; c2=data[2][0][2]; s1=0; s2=2;}
+	if(a==2&&b==0&&c==2) {c1=data[4][0][0]; c2=data[0][0][2]; s1=4; s2=0;}
+	if(a==2&&b==2&&c==0) {c1=data[5][0][2]; c2=data[2][2][2]; s1=5; s2=0;}
+	if(a==2&&b==2&&c==2) {c1=data[4][2][0]; c2=data[5][2][2]; s1=4; s2=5;}
 	
-	if(a==3&&b==0&&c==0) {x=data[0][0][0]; y=data[4][0][2];}
-	if(a==3&&b==0&&c==2) {x=data[2][0][0]; y=data[0][2][0];}
-	if(a==3&&b==2&&c==0) {x=data[5][2][0]; y=data[4][2][2];}
-	if(a==3&&b==2&&c==2) {x=data[2][2][0]; y=data[5][0][0];}
+	if(a==3&&b==0&&c==0) {c1=data[0][0][0]; c2=data[4][0][2]; s1=0; s2=4;}
+	if(a==3&&b==0&&c==2) {c1=data[2][0][0]; c2=data[0][2][0]; s1=2; s2=0;}
+	if(a==3&&b==2&&c==0) {c1=data[5][2][0]; c2=data[4][2][2]; s1=5; s2=4;}
+	if(a==3&&b==2&&c==2) {c1=data[2][2][0]; c2=data[5][0][0]; s1=2; s2=5;}
 	
-	if(a==4&&b==0&&c==0) {x=data[2][2][0]; y=data[1][2][2];}
-	if(a==4&&b==0&&c==2) {x=data[2][2][2]; y=data[3][2][0];}
-	if(a==4&&b==2&&c==0) {x=data[4][2][2]; y=data[1][2][0];}
-	if(a==4&&b==2&&c==2) {x=data[4][2][0]; y=data[3][2][2];}
+	if(a==4&&b==0&&c==0) {c1=data[2][2][0]; c2=data[1][2][2]; s1=2; s2=1;}
+	if(a==4&&b==0&&c==2) {c1=data[2][2][2]; c2=data[3][2][0]; s1=2; s2=3;}
+	if(a==4&&b==2&&c==0) {c1=data[4][2][2]; c2=data[1][2][0]; s1=4; s2=1;}
+	if(a==4&&b==2&&c==2) {c1=data[4][2][0]; c2=data[3][2][2]; s1=4; s2=3;}
 	
-	if(a==5&&b==0&&c==0) {x=data[0][0][2]; y=data[3][0][2];}
-	if(a==5&&b==0&&c==2) {x=data[0][0][0]; y=data[1][0][0];}
-	if(a==5&&b==2&&c==0) {x=data[5][2][2]; y=data[3][2][2];}
-	if(a==5&&b==2&&c==2) {x=data[5][2][0]; y=data[1][2][0];}
+	if(a==5&&b==0&&c==0) {c1=data[0][0][2]; c2=data[3][0][2]; s1=0; s2=3;}
+	if(a==5&&b==0&&c==2) {c1=data[0][0][0]; c2=data[1][0][0]; s1=0; s2=1;}
+	if(a==5&&b==2&&c==0) {c1=data[5][2][2]; c2=data[3][2][2]; s1=5; s2=3;}
+	if(a==5&&b==2&&c==2) {c1=data[5][2][0]; c2=data[1][2][0]; s1=5; s2=1;}
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif

@@ -6,8 +6,7 @@
 #include <cstring>
 using namespace std;
 #define RCVBUFSIZE 64   /* Size of receive buffer */
-#include "Cube.hpp"
-//#include "rubikssolver_header.hpp"
+#include "ServerCube.hpp"
 
 char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
 int recvMsgSize;                    /* Size of received message */
@@ -33,64 +32,26 @@ int numberOfRotations(){
 	return numOfRotations;
 }
 
-void getActions(){
+void getActions(Cube& myCube){
 
-	//inverse rotations
-	if (echoBuffer[0] == 'd' && echoBuffer[1] == 'i')
-		cout << "Rotation Down inverse" << endl;
-	
-	if (echoBuffer[0] == 'f' && echoBuffer[1] == 'i')
-		cout << "Rotation Front inverse" << endl;
-	
-	if (echoBuffer[0] == 'u' && echoBuffer[1] == 'i')
-		cout << "Rotation Up inverse" << endl;
-	
-	if (echoBuffer[0] == 'r' && echoBuffer[1] == 'i')
-		cout << "Rotation Right inverse" << endl;
-	
-	if (echoBuffer[0] == 'b' && echoBuffer[1] == 'i')
-		cout << "Rotation Back inverse" << endl;
-	
-	if (echoBuffer[0] == 'l' && echoBuffer[1] == 'i')
-		cout << "Rotation Left inverse" << endl;
-	
-	//clockwise rotations
-	if (echoBuffer[0] == 'd' && echoBuffer[1] == '\0')
-		cout << "Rotation Down" << endl;
-	
-	if (echoBuffer[0] == 'f' && echoBuffer[1] == '\0')
-		cout << "Rotation Front" << endl;
-	
-	if (echoBuffer[0] == 'u' && echoBuffer[1] == '\0')
-		cout << "Rotation Up" << endl;
-	
-	if (echoBuffer[0] == 'r' && echoBuffer[1] == '\0')
-		cout << "Rotation Right" << endl;
-	
-	if (echoBuffer[0] == 'b' && echoBuffer[1] == '\0')
-		cout << "Rotation Back" << endl;
-	
-	if (echoBuffer[0] == 'l' && echoBuffer[1] == '\0')
-		cout << "Rotation Left" << endl;
-	
-	//double rotations
-	if (echoBuffer[0] == 'd' && echoBuffer[1] == '2')
-		cout << "Rotation Down 180 degrees" << endl;
-	
-	if (echoBuffer[0] == 'f' && echoBuffer[1] == '2')
-		cout << "Rotation Front 180 degrees" << endl;
-	
-	if (echoBuffer[0] == 'u' && echoBuffer[1] == '2')
-		cout << "Rotation Up 180 degrees" << endl;
-	
-	if (echoBuffer[0] == 'r' && echoBuffer[1] == '2')
-		cout << "Rotation Right 180 degrees" << endl;
-	
-	if (echoBuffer[0] == 'b' && echoBuffer[1] == '2')
-		cout << "Rotation Back 180 degrees" << endl;
-	
-	if (echoBuffer[0] == 'l' && echoBuffer[1] == '2')
-		cout << "Rotation Left 180 degrees" << endl;
+	if(echoBuffer[0]==r)
+	{
+		x.rotate(echoBuffer[1]-'0',echoBuffer[2]-'0');
+		//ack schicken
+	}
+	if(echoBuffer[0]==q)
+	{
+		char temp[54];
+		for(int i=0;i<54;i++)
+			temp[i]=echoBuffer[i+1];
+		string temp2(temp);
+		ServerCube question()=stringToCube(Temp2);
+		
+		int answer[3]=0;
+		
+		compare(question,myCube,answer);
+		//Array==>Answer schicken
+	}
 }
 
 void printReceivedBuffer(){
@@ -109,7 +70,7 @@ void HandleTCPClient(int clntSocket)
     //send test message
     //print recevied message
 	srand(time(NULL));
-	Cube y(1); //Create an abritary cube
+	ServerCube y(1); //Create an abritary cube
 
     y.printCubeColor();
 	//convert to String
