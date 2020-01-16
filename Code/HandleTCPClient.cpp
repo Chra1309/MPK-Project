@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-#define RCVBUFSIZE 64   /* Size of receive buffer */
+#define RCVBUFSIZE 128   /* Size of receive buffer */
 #include "ServerCube.hpp"
 
 char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
@@ -32,24 +32,31 @@ int numberOfRotations(){
 	return numOfRotations;
 }
 
-void getActions(Cube& myCube){
+void getActions(ServerCube& myCube){
 
-	if(echoBuffer[0]==r)
+	if(echoBuffer[0]=='r')
 	{
-		x.rotate(echoBuffer[1]-'0',echoBuffer[2]-'0');
+		int n=0;
+		for(int i=1;echoBuffer[i]!='\0';i+=2)
+		{
+			myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
+			n++;
+		}
+		
 		//ack schicken
 	}
-	if(echoBuffer[0]==q)
+	if(echoBuffer[0]=='q')
 	{
 		char temp[54];
 		for(int i=0;i<54;i++)
 			temp[i]=echoBuffer[i+1];
 		string temp2(temp);
-		ServerCube question()=stringToCube(Temp2);
+		ServerCube question();
+		question()=stringToCube(temp2);
 		
-		int answer[3]=0;
+		int answer[3];
 		
-		compare(question,myCube,answer);
+		compareCube(question,myCube,answer);
 		//Array==>Answer schicken
 	}
 }
@@ -98,7 +105,7 @@ void HandleTCPClient(int clntSocket)
 	
 	cout << "Received from Client: ";
 	printReceivedBuffer();
-	getActions();
+	getActions(y);
 	
     close(clntSocket);    /* Close client socket */
 }
