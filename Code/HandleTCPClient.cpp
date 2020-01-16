@@ -5,11 +5,13 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-#define RCVBUFSIZE 128   /* Size of receive buffer */
+#define RCVBUFSIZE 64   /* Size of receive buffer */
+#define TOSENDSIZE 64    //size of to send buffer
 #include "ServerCube.hpp"
 
 char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
 int recvMsgSize;                    /* Size of received message */
+char toSend[TOSENDSIZE];			//Buffer for send string		
 
 void DieWithError(string errorMessage);  /* Error handling function */
 
@@ -34,16 +36,15 @@ int numberOfRotations(){
 
 void getActions(ServerCube& myCube){
 
-	int n=0;
-	for(int i=1;echoBuffer[i]!='\0';i+=2)
-	{
-		myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
+	int n = 0;
+	for (int i = 1; echoBuffer[i]!='\0';i+=2){
+		myCube.rotate(echoBuffer[1]-'0',echoBuffer[2]-'0');
 		n++;
 	}
-
 	//ack schicken
+	toSend[0] = 'A';
 }	
-void getAnswer(ServerCube myCube)
+void makeAnswer(ServerCube myCube)
 {	
 	char temp[54];
 	for(int i=0;i<54;i++)
@@ -56,8 +57,15 @@ void getAnswer(ServerCube myCube)
 
 	myCube.compareToQuestion(*question,answer[0],answer[1],answer[2]);
 	delete question;
-	//Array==>Answer schicken(a;answer[0];answer[1];answer[2]\0)
 	
+	//Array==>Answer schicken(a;answer[0];answer[1];answer[2]\0
+	toSend[0]= 'a';
+	toSend[1]=answer[0]%10+'0';
+	toSend[2]=answer[0]/10+'0';
+	toSend[3]=answer[1]%10+'0';
+	toSend[4]=answer[1]/10+'0';
+	toSend[5]=answer[2]%10+'0';
+	toSend[6]=answer[2]/10+'0';
 }
 
 void printReceivedBuffer(){
