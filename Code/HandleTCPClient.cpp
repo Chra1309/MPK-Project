@@ -56,7 +56,7 @@ void getAnswer(ServerCube myCube)
 
 	myCube.compareToQuestion(*question,answer[0],answer[1],answer[2]);
 	delete question;
-	//Array==>Answer schicken
+	//Array==>Answer schicken(a;answer[0];answer[1];answer[2]\0)
 	
 }
 

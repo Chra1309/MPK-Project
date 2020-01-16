@@ -105,7 +105,6 @@ class Cube{
 		friend string makeCubeQuestion(Cube&);	//erstellt eine Cube Question
 		friend string cubeToString(Cube&);		//wandelt einen Cube in einen String um
 		friend Cube stringToCube(string&);		//wandelt string in Cube um
-		friend void compareCube(Cube&,Cube&,int*);	//
 			
 };
 Cube::Cube(int n=0)
@@ -238,6 +237,7 @@ void Cube::rotate(int side,int howOften)
 {
 	howOften+=4;
 	howOften=howOften%4;
+	
 	//Send r side howOften
 	switch (side)
 	{
@@ -385,30 +385,7 @@ Cube stringToCube(string& s)
 	}
 	return c;
 }
-void compareCube(Cube& qc,Cube& c,int* a)
-{
-	for(int i=0;i<3;i++)
-		a[i]=0;
-	for(int i=0;i<6;i++)
-	{
-		for(int j=0;j<3;j++)
-		{
-			for(int k=0;k<3;k++)
-			{
-				if(qc.data[i][j][k]==0)
-				{	
-					if(qc.data[i][j][k]==c.data[i][1][1])
-					{
-						if(1);
-					}else
-					{
-						a[0]++;
-					}
-				}
-			}
-		}	
-	}
-}
+
 void Cube::getEdge(int& a,int& b,int& c,int& x)
 {
 	if(a==0&&b==0&&c==1) x=data[0][2][1];
