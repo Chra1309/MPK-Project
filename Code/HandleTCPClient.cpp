@@ -34,31 +34,30 @@ int numberOfRotations(){
 
 void getActions(ServerCube& myCube){
 
-	if(echoBuffer[0]=='r')
+	int n=0;
+	for(int i=1;echoBuffer[i]!='\0';i+=2)
 	{
-		int n=0;
-		for(int i=1;echoBuffer[i]!='\0';i+=2)
-		{
-			myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
-			n++;
-		}
-		
-		//ack schicken
+		myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
+		n++;
 	}
-	if(echoBuffer[0]=='q')
-	{
-		char temp[54];
-		for(int i=0;i<54;i++)
-			temp[i]=echoBuffer[i+1];
-		string temp2(temp);
-		ServerCube question();
-		question()=stringToCube(temp2);
-		
-		int answer[3];
-		
-		compareCube(question,myCube,answer);
-		//Array==>Answer schicken
-	}
+
+	//ack schicken
+}	
+void getAnswer(ServerCube myCube)
+{	
+	char temp[54];
+	for(int i=0;i<54;i++)
+		temp[i]=echoBuffer[i+1];
+	string temp2(temp);
+	ServerCube* question=new ServerCube(0);
+	question->stringToCube(temp2);
+
+	int answer[3];
+
+	myCube.compareToQuestion(*question,answer[0],answer[1],answer[2]);
+	delete question;
+	//Array==>Answer schicken
+	
 }
 
 void printReceivedBuffer(){

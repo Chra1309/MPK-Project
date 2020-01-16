@@ -48,15 +48,17 @@ class ServerCube{
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen	
 		void rotate(int, int);	
-		    
-
+		void stringToCube(string&);		//wandelt string in Cube um    
+		void compareToQuestion(ServerCube&,int&,int&,int&);	//
+	
+	
 		friend string makeCubeQuestion(ServerCube&);	//erstellt eine Cube Question
 		friend string cubeToString(ServerCube&);		//wandelt einen Cube in einen String um
-		friend ServerCube stringToCube(string&);		//wandelt string in Cube um
-		friend void compareCube(ServerCube&,ServerCube&,int*);	//
+		
+		
 			
 };
-ServerCube::ServerCube(int n=0)
+ServerCube::ServerCube(int n)
 {
 	moves="";
 	for(int i=0;i<sizeof(lookup);i++) 
@@ -307,9 +309,8 @@ void ServerCube::toArray(int* a)
 		}	
 	}
 }
-ServerCube stringToCube(string& s)
+void ServerCube::stringToCube(string& s)
 {
-	ServerCube c(0);
 	int a[54];
 	int x=0;
 	for(int i=0;i<54;i++)
@@ -320,17 +321,15 @@ ServerCube stringToCube(string& s)
 		{
 			for(int k=0;k<3;k++)
 			{				
-				c.data[i][j][k]=a[x];
+				data[i][j][k]=a[x];
 				x++;
 			}
 		}	
 	}
-	return c;
 }
-void compareCube(ServerCube& qc,ServerCube& c,int* answer)
+void ServerCube::compareToQuestion(ServerCube& qc,int& answerB,int& answerS,int& answerW)
 {
-	for(int i=0;i<3;i++)
-		answer[i]=0;
+	answerB=0; answerS=0; answerW=0;
 		
 		
 	for(int i=0;i<6;i++)
@@ -341,42 +340,42 @@ void compareCube(ServerCube& qc,ServerCube& c,int* answer)
 			{
 				if(qc.data[i][j][k]!=6)
 				{	
-					if(qc.data[i][j][k]==c.data[i][j][k])
+					if(qc.data[i][j][k]==data[i][j][k])
 					{
-						if(qc.data[i][j][k]==c.data[i][1][1])
+						if(qc.data[i][j][k]==data[i][1][1])
 						{
 							if((j+k)%2==0)
 							{
 								int c1,c2,s1,s2;
-								c.getCorner(i,j,k,c1,c2,s1,s2);
+								getCorner(i,j,k,c1,c2,s1,s2);
 								
-								if(c1==c.data[s1][1][1]&&c2==c.data[s2][1][1])
+								if(c1==data[s1][1][1]&&c2==data[s2][1][1])
 								{
-									answer[2]++;
+									answerW++;
 								}else{
-									answer[1]++;
+									answerS++;
 								}
 								
 							}else
 							{
 								int c1,s1;
 								
-								c.getEdge(i,j,k,c1,s1);
+								getEdge(i,j,k,c1,s1);
 								
-								if(c1==c.data[s1][1][1])
+								if(c1==data[s1][1][1])
 								{
-									answer[2]++;
+									answerB++;
 								}else{
-									answer[1]++;
+									answerS++;
 								}
 							}	
 						}else
 						{
-							answer[0]++;
+							answerB++;
 						}
 					}else
 					{
-						answer[0]++;
+						answerB++;
 					}
 				}
 			}
