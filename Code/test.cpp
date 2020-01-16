@@ -1,4 +1,4 @@
-#include "ServerCube.hpp"
+#include "Cube.hpp"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -7,11 +7,13 @@
 int main()
 {
 	srand(time(NULL));
-	ServerCube x(0);
+	Cube x(1);
 	x.printCubeStd();
 	
-	//x.testSolve();
-	return 0;
+	x.testSolve();
 	
+	cout<<endl<<x.numberTurns;
+	
+	return 0;
 }
 

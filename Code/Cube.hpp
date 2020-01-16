@@ -30,6 +30,8 @@ class Cube{
 	string moves;
 	int lookup[6];
 	
+	
+	
 	///////////////Methoden Christoph (Bei Bedarf public machen, war ma zu blöd jetz und es sollt net alles default mäßig public sein...)
 	
 	void shift8by2n(int&, int&, int&, int&, int&, int&, int& ,int& ,int&);							//Methode zum Rotieren einer Fläche
@@ -93,6 +95,8 @@ class Cube{
 	
 	
 	public:
+		int numberTurns=0;
+		
 		Cube(int);	//Konstruktor Cube
 		void testSolve();
 	    string printColor(int); //Ausgabe von Farbe
@@ -109,7 +113,7 @@ class Cube{
 };
 Cube::Cube(int n=0)
 {
-	moves="";
+	moves="r";
 	for(int i=0;i<sizeof(lookup);i++) 
 		lookup[i]=0;
 	this->n=n;
@@ -137,6 +141,9 @@ Cube::Cube(int n=0)
 			
 		if(n)
 				randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
+		
+		numberTurns=0;
+		cout<<endl<<endl<<endl<<endl;
 	}
 }
 string Cube::printColor(int field)
@@ -237,7 +244,10 @@ void Cube::rotate(int side,int howOften)
 {
 	howOften+=4;
 	howOften=howOften%4;
-	
+	moves+=to_string(side);	
+	moves+=to_string(howOften);
+	//moves+=" ";
+	numberTurns++;
 	//Send r side howOften
 	switch (side)
 	{
@@ -471,7 +481,7 @@ void Cube::testSolve()
 	solveBottomLayer();
 	cout << "Bottom: " << moves << endl;
 	clearMoves();
-    printCubeStd();
+    printCubeColor();
 }
 
 void Cube::solveTopCross()
@@ -2094,7 +2104,7 @@ void Cube::removeLast()
 
 void Cube::clearMoves()
 {
-	moves = "";
+	moves = "r";
 }
 
 
