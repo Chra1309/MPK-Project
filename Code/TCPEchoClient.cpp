@@ -66,7 +66,10 @@ int main(int argc, char *argv[])
 	echoServPort = 10000;
 
 	///////////////////////////////////Start with Hello/////////////////////////////////////////
-    echoString = "hi! please send me a cube";   
+    //echoString = "hi! please send me a cube"; 
+	echoString = "00000000450000100050000000000000000000000000000000000";
+	
+		
 	//cout << "Sent rotate action: " << echoString <<endl;
 	
 	/////////////////////////////////////starting send loop here////////////////////////////////
@@ -120,7 +123,7 @@ int main(int argc, char *argv[])
         cout << echoBuffer[i];
     }
     cout << endl;
-
+	/*
     cout << "cubestring: " << endl;
     for(int i = 0; i<54; i++){
         
@@ -129,7 +132,7 @@ int main(int argc, char *argv[])
     }
     cout << endl;
 	//y.stringToCube(echoBuffer);
-
+	
     printCubeColor(cube);
     cubestring2cube(cubestring);
     printCubeColor(cube);
@@ -156,7 +159,7 @@ int main(int argc, char *argv[])
 	clearMoves();
     mapforcustomcolor();
     printCubeColor(cube_customcolor);
-	
+	*/
 	//usleep(10000);
 	
     

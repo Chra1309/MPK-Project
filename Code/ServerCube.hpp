@@ -329,7 +329,7 @@ void ServerCube::stringToCube(string& s)
 }
 void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 {
-	answerB=0; answerS=0; answerW=0;
+	//answerB=0; answerS=0; answerW=0;
 		
 		
 	for(int i=0;i<6;i++)

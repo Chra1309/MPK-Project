@@ -55,7 +55,7 @@ void makeAnswer(ServerCube myCube)
 
 	int answer[3];
 
-	myCube.compareToQuestion(*question,answer[0],answer[1],answer[2]);
+	myCube.compareToQuestion(*question,answer);
 	delete question;
 	
 	//Array==>Answer schicken(a;answer[0];answer[1];answer[2]\0
@@ -84,7 +84,7 @@ void HandleTCPClient(int clntSocket)
     //send test message
     //print recevied message
 	srand(time(NULL));
-	ServerCube y(1); //Create an abritary cube
+	ServerCube y(1); //Create an random cube
 
     y.printCubeColor();
 	//convert to String
@@ -94,14 +94,15 @@ void HandleTCPClient(int clntSocket)
 	// copying the contents of the 
 	// string to char array 
 	strcpy(sendCube, arbritaryCube.c_str()); 
-	cout << sendCube<<endl;
+	makeAnswer(y);
+	cout << toSend<<endl;
     
     int bufferLength = recvMsgSize;
     /* Send received string and receive again until end of transmission */
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
     {
         /* Echo message back to client */
-        if (send(clntSocket, sendCube, recvMsgSize, 0) != recvMsgSize)
+        if (send(clntSocket, toSend, recvMsgSize, 0) != recvMsgSize)
             DieWithError("send() failed");
 		
 		
@@ -112,7 +113,9 @@ void HandleTCPClient(int clntSocket)
 	
 	cout << "Received from Client: ";
 	printReceivedBuffer();
-	getActions(y);
+	//getActions(y);
+	
+	
 	
     close(clntSocket);    /* Close client socket */
 }
