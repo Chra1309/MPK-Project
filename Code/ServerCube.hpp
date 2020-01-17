@@ -49,7 +49,7 @@ class ServerCube{
 	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen	
 		void rotate(int, int);	
 		void stringToCube(string&);		//wandelt string in Cube um    
-		void compareToQuestion(ServerCube&,int&,int&,int&);	//
+		void compareToQuestion(ServerCube&,int*);	//
 	
 	
 		friend string makeCubeQuestion(ServerCube&);	//erstellt eine Cube Question
@@ -327,7 +327,7 @@ void ServerCube::stringToCube(string& s)
 		}	
 	}
 }
-void ServerCube::compareToQuestion(ServerCube& qc,int& answerB,int& answerS,int& answerW)
+void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 {
 	answerB=0; answerS=0; answerW=0;
 		
@@ -351,9 +351,9 @@ void ServerCube::compareToQuestion(ServerCube& qc,int& answerB,int& answerS,int&
 								
 								if(c1==data[s1][1][1]&&c2==data[s2][1][1])
 								{
-									answerW++;
+									answer[2]++;
 								}else{
-									answerS++;
+									answer[1]++;
 								}
 								
 							}else
@@ -364,18 +364,18 @@ void ServerCube::compareToQuestion(ServerCube& qc,int& answerB,int& answerS,int&
 								
 								if(c1==data[s1][1][1])
 								{
-									answerB++;
+									answer[2]++;
 								}else{
-									answerS++;
+									answer[1]++;
 								}
 							}	
 						}else
 						{
-							answerB++;
+							answer[0]++;
 						}
 					}else
 					{
-						answerB++;
+						answer[0]++;
 					}
 				}
 			}
