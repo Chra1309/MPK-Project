@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
 	///////////////////////////////////Start with Hello/////////////////////////////////////////
     //echoString = "hi! please send me a cube"; 
-	echoString = "00000000450000100050000000000000000000000000000000000";
+	echoString = "q666666666333366666666636666666666666566664666166666666\0";
 	
 		
 	//cout << "Sent rotate action: " << echoString <<endl;

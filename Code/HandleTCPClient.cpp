@@ -53,19 +53,22 @@ void makeAnswer(ServerCube myCube)
 	ServerCube* question=new ServerCube(0);
 	question->stringToCube(temp2);
 
+	cout<<temp2<<endl;
+	
 	int answer[3];
-
+	question->printCubeStd();
+	
 	myCube.compareToQuestion(*question,answer);
 	delete question;
 	
 	//Array==>Answer schicken(a;answer[0];answer[1];answer[2]\0
 	toSend[0]= 'a';
-	toSend[1]=answer[0]%10+'0';
-	toSend[2]=answer[0]/10+'0';
-	toSend[3]=answer[1]%10+'0';
-	toSend[4]=answer[1]/10+'0';
-	toSend[5]=answer[2]%10+'0';
-	toSend[6]=answer[2]/10+'0';
+	toSend[1]=answer[0]/10+'0';
+	toSend[2]=answer[0]%10+'0';
+	toSend[3]=answer[1]/10+'0';
+	toSend[4]=answer[1]%10+'0';
+	toSend[5]=answer[2]/10+'0';
+	toSend[6]=answer[2]%10+'0';
 }
 
 void printReceivedBuffer(){
