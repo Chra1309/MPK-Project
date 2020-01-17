@@ -5,8 +5,8 @@
 #include <iostream>
 #include <cstring>
 using namespace std;
-#define RCVBUFSIZE 64   /* Size of receive buffer */
-#define TOSENDSIZE 64    //size of to send buffer
+#define RCVBUFSIZE 256   /* Size of receive buffer */
+#define TOSENDSIZE 256    //size of to send buffer
 #include "ServerCube.hpp"
 
 char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */

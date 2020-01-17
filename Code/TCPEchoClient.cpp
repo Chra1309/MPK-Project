@@ -8,13 +8,12 @@
 #include <stdio.h> 
 #include <iostream>
 #include <cstring> 
-//#include "Cube_old.hpp"
-
+#include "Cube.hpp"
 #include "rubikssolver_header.hpp"
 
 using namespace std;
 
-#define RCVBUFSIZE 54   /* Size of receive buffer */
+#define RCVBUFSIZE 256   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
 
@@ -25,6 +24,10 @@ int cube[6][3][3] = {
 	{ { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } }, //red side
 	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
 	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
+
+Cube x (1);
+Cube y(0);
+
 
 int cube_customcolor[6][3][3];
 
@@ -110,7 +113,7 @@ int main(int argc, char *argv[])
     printf("\n");    // Print a final linefeed 
   */
 
-    recv(sock, echoBuffer, 54, 0);
+    recv(sock, echoBuffer, 256, 0);
     
     cout << "echoBuffer:" << endl;
     for(int i = 0; i<54; i++){
@@ -125,6 +128,7 @@ int main(int argc, char *argv[])
         cout << cubestring[i];
     }
     cout << endl;
+	//y.stringToCube(echoBuffer);
 
     printCubeColor(cube);
     cubestring2cube(cubestring);
