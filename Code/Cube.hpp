@@ -162,7 +162,7 @@ string Cube::printColor(int field)
 				
 	string printcolor;
 	switch(field){
-        case 8:
+        case 6:
 			printcolor = BLACK + "  " + RESET;		
 			break;
 		case 5: 
