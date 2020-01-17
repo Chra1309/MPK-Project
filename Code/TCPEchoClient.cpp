@@ -10,7 +10,7 @@
 #include <cstring> 
 #include "Cube.hpp"
 #include "rubikssolver_header.hpp"
-
+int k = 1;
 using namespace std;
 
 #define RCVBUFSIZE 256   /* Size of receive buffer */
@@ -67,13 +67,26 @@ int main(int argc, char *argv[])
 
 	///////////////////////////////////Start with Hello/////////////////////////////////////////
     //echoString = "hi! please send me a cube"; 
-	echoString = "q666666666333366666666636666666666666566664666166666666\0";
 	
-		
+	
 	//cout << "Sent rotate action: " << echoString <<endl;
 	
 	/////////////////////////////////////starting send loop here////////////////////////////////
 	while(1){
+		echoString = "q";
+	int randnmbr;
+		srand (time(NULL));
+	for (k = 1; k<55;k++){
+		/* initialize random seed: */
+  		
+		usleep(100);
+  		/* generate secret number between 1 and 10: */
+  		randnmbr = (rand() % 6) + 1;
+		echoString +=char(randnmbr)+'0';
+	}
+	k = 1;
+	echoString+='\0';
+	cout << echoString;
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
         DieWithError("socket() failed");
@@ -160,7 +173,7 @@ int main(int argc, char *argv[])
     mapforcustomcolor();
     printCubeColor(cube_customcolor);
 	*/
-	//usleep(10000);
+	//usleep(10000000);
 	
     
     //cout << "von array: " << echoBuffer[2] << endl; 

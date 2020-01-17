@@ -56,7 +56,7 @@ void makeAnswer(ServerCube myCube)
 	cout<<temp2<<endl;
 	
 	int answer[3];
-	question->printCubeStd();
+	question->printCubeColor();
 	
 	myCube.compareToQuestion(*question,answer);
 	delete question;

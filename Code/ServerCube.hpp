@@ -343,7 +343,11 @@ void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 				{	
 					if(qc.data[i][j][k]==data[i][j][k])
 					{
-						if(qc.data[i][j][k]==data[i][1][1])
+						if(j==1&&k==1)
+						{
+							answer[2]++;
+						}
+						else if(qc.data[i][j][k]==data[i][1][1])
 						{
 							if((j+k)%2==0)
 							{
