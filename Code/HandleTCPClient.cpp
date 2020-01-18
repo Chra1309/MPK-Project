@@ -14,7 +14,7 @@ int recvMsgSize;                    /* Size of received message */
 char toSend[TOSENDSIZE];			//Buffer for send string		
 
 void DieWithError(string errorMessage);  /* Error handling function */
-
+/*
 int numberOfRotations(){
 	//convert the received string to integers
 	int scndDigit = 0;
@@ -32,7 +32,7 @@ int numberOfRotations(){
 	int numOfRotations = firstDigit+scndDigit;
 	
 	return numOfRotations;
-}
+}*/
 
 void getActions(ServerCube& myCube){
 
@@ -43,6 +43,9 @@ void getActions(ServerCube& myCube){
 	}
 	//ack schicken
 	toSend[0] = 'A';
+	toSend[1] = (n/100)+'0';
+	toSend[2] = ((n/10)%10)+'0';
+	toSend[3] = (n%10)+'0';
 }	
 void makeAnswer(ServerCube myCube)
 {	
@@ -93,11 +96,14 @@ void HandleTCPClient(int clntSocket)
 	//convert to String
 	string arbritaryCube = cubeToString(y);
 	//send(clntSocket, arbritaryCube, 64, 0);
-	char sendCube[64];
+	char sendCube[8];
 	// copying the contents of the 
 	// string to char array 
 	strcpy(sendCube, arbritaryCube.c_str()); 
-	makeAnswer(y);
+	if(echoBuffer[0]=='q')
+		makeAnswer(y);
+	if(echoBuffer[0]=='r')
+		getAction(y);
 	cout << toSend<<endl;
     
     int bufferLength = recvMsgSize;
