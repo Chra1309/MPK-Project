@@ -15,6 +15,8 @@ using namespace std;
 #define RCVBUFSIZE 256   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
+void getAnswer(int* answer);
+void getTurnsServer(int& answer);
 
 /*int cube[6][3][3] = {
 	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
@@ -26,6 +28,9 @@ void DieWithError(string errorMessage);  /* Error handling function */
 
 ClientCube x(1);
 ClientCube y(0);
+
+extern char echoBuffer[];
+
 
 
 int cube_customcolor[6][3][3];
@@ -41,8 +46,8 @@ int main(int argc, char *argv[])
     
     int cubestring[54];
     unsigned int echoStringLen;      /* Length of string to echo */
-    int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
-                                        and total bytes read */
+    int bytesRcvd, totalBytesRcvd;   // Bytes read in single recv() 
+    srand (time(NULL));                                  //and total bytes read */
 	
     /*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
     {
@@ -64,7 +69,7 @@ int main(int argc, char *argv[])
     else
         echoServPort = 7;   //7 is the well-known port for the echo service */
 	echoServPort = 10000;
-
+	
 	///////////////////////////////////Start with Hello/////////////////////////////////////////
     //echoString = "hi! please send me a cube"; 
 	
@@ -74,9 +79,9 @@ int main(int argc, char *argv[])
 	/////////////////////////////////////starting send loop here////////////////////////////////
 	while(1){
 		//make a random question
-		srand (time(NULL));
+		
 		echoString = "q";
-		Cube z(0);
+		ClientCube z(1);
 		echoString +=cubeToString(z);
 
 		cout << echoString <<endl;
@@ -99,7 +104,7 @@ int main(int argc, char *argv[])
 		//echoStringLen = echoString.length();
 
 
-		/* Send the string to the server */
+		// Send the string to the server */
 		if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
 			DieWithError("send() sent a different number of bytes than expected");
 
@@ -131,7 +136,7 @@ int main(int argc, char *argv[])
 		cout << endl;
 		if(echoBuffer[0]=='a')
 		{
-			int answer[3]
+			int answer[3];
 			getAnswer(answer);
 		}else if(echoBuffer[0]=='A')
 		{

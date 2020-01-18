@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     unsigned short echoServPort;     /* Server port */
     unsigned int clntLen;            /* Length of client address data structure */
 	echoServPort = 10000; //Fixed Port = 10000
-
+	srand (time(NULL));
     if (argc != 1)    /* Test for correct number of arguments */
     {
         fprintf(stderr, "Fixed Server Port: %s <10000>\n", argv[0]);

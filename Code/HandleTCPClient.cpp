@@ -13,6 +13,7 @@ char echoBuffer[RCVBUFSIZE];        /* Buffer for echo string */
 int recvMsgSize;                    /* Size of received message */
 char toSend[TOSENDSIZE];			//Buffer for send string		
 
+
 void DieWithError(string errorMessage);  /* Error handling function */
 /*
 int numberOfRotations(){
@@ -89,21 +90,21 @@ void HandleTCPClient(int clntSocket)
 
     //send test message
     //print recevied message
-	srand(time(NULL));
+	
 	ServerCube y(1); //Create an random cube
 
     y.printCubeColor();
 	//convert to String
 	string arbritaryCube = cubeToString(y);
 	//send(clntSocket, arbritaryCube, 64, 0);
-	char sendCube[8];
+	char sendCube[64];
 	// copying the contents of the 
 	// string to char array 
 	strcpy(sendCube, arbritaryCube.c_str()); 
 	if(echoBuffer[0]=='q')
 		makeAnswer(y);
 	if(echoBuffer[0]=='r')
-		getAction(y);
+		getActions(y);
 	cout << toSend<<endl;
     
     int bufferLength = recvMsgSize;

@@ -10,9 +10,7 @@
 #include <cmath>
 #include <time.h>
 #include <stdio.h>
-
-extern char echoBuffer[];
-
+using namespace std;
 
 #define UP	 	1
 #define LEFT 	2
@@ -22,20 +20,25 @@ extern char echoBuffer[];
 #define DOWN 	6
 #define RANDOM	100
 
+extern char echoBuffer[];
 
-using namespace std;
-
-void getAnswer(int* answer){
+void getAnswer(int* answer)
+{
 	answer[0]=(echoBuffer[1]-'0')*10+(echoBuffer[2]-'0');
 	answer[1]=(echoBuffer[3]-'0')*10+(echoBuffer[4]-'0');
 	answer[2]=(echoBuffer[5]-'0')*10+(echoBuffer[6]-'0');
-	cout<<answer<<endl;
+	cout<<answer[0]<<";"<<answer[1]<<";"<<answer[2]<<endl;
 }
 
 void getTurnsServer(int& answer){
 	answer=(echoBuffer[1]-'0')*100+(echoBuffer[2]-'0')*10+(echoBuffer[3]-'0');
 	cout<<answer<<" Turns"<<endl;
 }
+
+
+
+
+
 
 class ClientCube{
 	int data[6][3][3];
@@ -127,6 +130,7 @@ class ClientCube{
 };
 ClientCube::ClientCube(int n=0)
 {
+	
 	moves="r";
 	for(int i=0;i<sizeof(lookup);i++) 
 		lookup[i]=0;
@@ -397,7 +401,7 @@ void ClientCube::toArray(int* a)
 }
 ClientCube stringToCube(string& s)
 {
-	Cube c(0);
+	ClientCube c(0);
 	int a[54];
 	int x=0;
 	for(int i=0;i<54;i++)
