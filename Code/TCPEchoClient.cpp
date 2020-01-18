@@ -10,7 +10,6 @@
 #include <cstring> 
 #include "Cube.hpp"
 #include "rubikssolver_header.hpp"
-int k = 1;
 using namespace std;
 
 #define RCVBUFSIZE 256   /* Size of receive buffer */
@@ -30,6 +29,7 @@ Cube y(0);
 
 
 int cube_customcolor[6][3][3];
+char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
 
 int main(int argc, char *argv[])
 {
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     unsigned short echoServPort;     /* Echo server port */
     char const *servIP;                    // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
     string echoString;                /* String to send to echo server */
-    char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
+    
     int cubestring[54];
     unsigned int echoStringLen;      /* Length of string to echo */
     int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
@@ -73,20 +73,13 @@ int main(int argc, char *argv[])
 	
 	/////////////////////////////////////starting send loop here////////////////////////////////
 	while(1){
-		echoString = "q";
-	int randnmbr;
-		srand (time(NULL));
-	for (k = 1; k<55;k++){
-		/* initialize random seed: */
-  		
-		usleep(100);
-  		/* generate secret number between 1 and 10: */
-  		randnmbr = (rand() % 6) + 1;
-		echoString +=char(randnmbr)+'0';
-	}
-	k = 1;
-	echoString+='\0';
-	cout << echoString;
+	//make a random question
+	srand (time(NULL));
+	echoString = "q";
+	Cube z(1);
+	echoString +=cubeToString(z);
+		
+	cout << echoString <<endl;
     /* Create a reliable, stream socket using TCP */
     if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
         DieWithError("socket() failed");
@@ -112,7 +105,7 @@ int main(int argc, char *argv[])
 		
     /* Receive the same string back from the server */
     totalBytesRcvd = 0;
-    printf("Received Random Cube from Server: \n");                /* Setup to print the echoed string */
+    
   /*
     while (totalBytesRcvd < echoStringLen)
     {
@@ -132,10 +125,11 @@ int main(int argc, char *argv[])
     recv(sock, echoBuffer, 256, 0);
     
     cout << "echoBuffer:" << endl;
-    for(int i = 0; i<54; i++){
+    for(int i = 0; i<256; i++){
         cout << echoBuffer[i];
     }
     cout << endl;
+	getAnswer();
 	/*
     cout << "cubestring: " << endl;
     for(int i = 0; i<54; i++){

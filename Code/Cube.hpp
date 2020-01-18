@@ -11,6 +11,8 @@
 #include <time.h>
 #include <stdio.h>
 
+extern char echoBuffer[];
+
 
 #define UP	 	1
 #define LEFT 	2
@@ -119,7 +121,6 @@ Cube::Cube(int n=0)
 	this->n=n;
 	//int num[6] = {0, 1, 2, 3, 4, 5};
 	int num[6] = {0, 1, 2, 3, 4, 5};
-	
 	//random_shuffle(num, num + 6);//Farben(Zahlen) zufällig am Cube erzeugen)
     
 	if(n==0) //Erzeugung des 0-Cubes
@@ -240,6 +241,11 @@ void Cube::randomize()
 		rotate(x,y);
 	}
 }
+
+void getAnswer(){
+	cout << "from Header function: "<<echoBuffer<<endl;	
+}
+
 void Cube::rotate(int side,int howOften)
 {
 	howOften+=4;
