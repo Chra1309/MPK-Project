@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
     mapforcustomcolor();
     printCubeColor(cube_customcolor);
 	*/
-	//usleep(10000000);
+	//usleep(10000);
 	
     
     //cout << "von array: " << echoBuffer[2] << endl; 
