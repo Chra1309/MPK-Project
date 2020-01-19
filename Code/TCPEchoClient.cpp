@@ -8,28 +8,33 @@
 #include <stdio.h> 
 #include <iostream>
 #include <cstring> 
-#include "Cube.hpp"
-#include "rubikssolver_header.hpp"
-int k = 1;
+#include "ClientCube.hpp"
+//#include "rubikssolver_header.hpp"
 using namespace std;
 
 #define RCVBUFSIZE 256   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
+void getAnswer(int* answer);
+void getTurnsServer(int& answer);
 
-int cube[6][3][3] = {
+/*int cube[6][3][3] = {
 	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
 	{ { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, //orange side
 	{ { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } }, //blue side
 	{ { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } }, //red side
 	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
-	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
+	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side*/
 
-Cube x (1);
-Cube y(0);
+ClientCube x(1);
+ClientCube y(0);
+
+extern char echoBuffer[];
+
 
 
 int cube_customcolor[6][3][3];
+char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
 
 int main(int argc, char *argv[])
 {
@@ -38,11 +43,11 @@ int main(int argc, char *argv[])
     unsigned short echoServPort;     /* Echo server port */
     char const *servIP;                    // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
     string echoString;                /* String to send to echo server */
-    char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
+    
     int cubestring[54];
     unsigned int echoStringLen;      /* Length of string to echo */
-    int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
-                                        and total bytes read */
+    int bytesRcvd, totalBytesRcvd;   // Bytes read in single recv() 
+    srand (time(NULL));                                  //and total bytes read */
 	
     /*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
     {
@@ -64,7 +69,7 @@ int main(int argc, char *argv[])
     else
         echoServPort = 7;   //7 is the well-known port for the echo service */
 	echoServPort = 10000;
-
+	
 	///////////////////////////////////Start with Hello/////////////////////////////////////////
     //echoString = "hi! please send me a cube"; 
 	
@@ -73,116 +78,118 @@ int main(int argc, char *argv[])
 	
 	/////////////////////////////////////starting send loop here////////////////////////////////
 	while(1){
+		//make a random question
+		
 		echoString = "q";
-	int randnmbr;
-		srand (time(NULL));
-	for (k = 1; k<55;k++){
-		/* initialize random seed: */
-  		
-		usleep(100);
-  		/* generate secret number between 1 and 10: */
-  		randnmbr = (rand() % 6) + 1;
-		echoString +=char(randnmbr)+'0';
-	}
-	k = 1;
-	echoString+='\0';
-	cout << echoString;
-    /* Create a reliable, stream socket using TCP */
-    if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-        DieWithError("socket() failed");
+		ClientCube z(1);
+		echoString +=cubeToString(z);
 
-    /* Construct the server address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
-    echoServAddr.sin_family      = AF_INET;             /* Internet address family */
-    echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
-    echoServAddr.sin_port        = htons(echoServPort); /* Server port */
+		cout << echoString <<endl;
+		/* Create a reliable, stream socket using TCP */
+		if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+			DieWithError("socket() failed");
 
-    
-	/* Establish the connection to the echo server */
-    if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
-        DieWithError("connect() failed");
+		/* Construct the server address structure */
+		memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
+		echoServAddr.sin_family      = AF_INET;             /* Internet address family */
+		echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
+		echoServAddr.sin_port        = htons(echoServPort); /* Server port */
 
-    echoStringLen = RCVBUFSIZE;         /* Determine input length */
-    //echoStringLen = echoString.length();
-	
-	
-    /* Send the string to the server */
-    if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
-       DieWithError("send() sent a different number of bytes than expected");
-		
-    /* Receive the same string back from the server */
-    totalBytesRcvd = 0;
-    printf("Received Random Cube from Server: \n");                /* Setup to print the echoed string */
-  /*
-    while (totalBytesRcvd < echoStringLen)
-    {
-        // Receive up to the buffer size (minus 1 to leave space for
-        //   a null terminator) bytes from the sender 
-        if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
-            DieWithError("recv() failed or connection closed prematurely");
 
-        totalBytesRcvd += bytesRcvd;   // Keep tally of total bytes 
-        echoBuffer[bytesRcvd] = '\0';  // Terminate the string! 
-        printf("%s", echoBuffer);      /// Print the echo buffer 
+		/* Establish the connection to the echo server */
+		if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+			DieWithError("connect() failed");
 
-    }
-    printf("\n");    // Print a final linefeed 
-  */
+		echoStringLen = RCVBUFSIZE;         /* Determine input length */
+		//echoStringLen = echoString.length();
 
-    recv(sock, echoBuffer, 256, 0);
-    
-    cout << "echoBuffer:" << endl;
-    for(int i = 0; i<54; i++){
-        cout << echoBuffer[i];
-    }
-    cout << endl;
-	/*
-    cout << "cubestring: " << endl;
-    for(int i = 0; i<54; i++){
-        
-        cubestring[i] = (int)(echoBuffer[i])-48;
-        cout << cubestring[i];
-    }
-    cout << endl;
-	//y.stringToCube(echoBuffer);
-	
-    printCubeColor(cube);
-    cubestring2cube(cubestring);
-    printCubeColor(cube);
-  
-    mapforsolver();
-  
-	solveTopCross();
-	cout << "cross: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveTopCorners();
-	cout << "corners: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveMiddleLayer();
-	cout << "middle layer: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveBottomLayer();
-	cout << "Bottom: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	*/
-	//usleep(10000000);
-	
-    
-    //cout << "von array: " << echoBuffer[2] << endl; 
 
-    //// wird funktion: 
-	//echoString = "u2";
-		
-    close(sock);
-    break;
+		// Send the string to the server */
+		if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
+			DieWithError("send() sent a different number of bytes than expected");
+
+		/* Receive the same string back from the server */
+		totalBytesRcvd = 0;
+
+	  /*
+		while (totalBytesRcvd < echoStringLen)
+		{
+			// Receive up to the buffer size (minus 1 to leave space for
+			//   a null terminator) bytes from the sender 
+			if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
+				DieWithError("recv() failed or connection closed prematurely");
+
+			totalBytesRcvd += bytesRcvd;   // Keep tally of total bytes 
+			echoBuffer[bytesRcvd] = '\0';  // Terminate the string! 
+			printf("%s", echoBuffer);      /// Print the echo buffer 
+
+		}
+		printf("\n");    // Print a final linefeed 
+	  */
+
+		recv(sock, echoBuffer, 256, 0);
+
+		cout << "echoBuffer:" << endl;
+		for(int i = 0; i<256; i++){
+			cout << echoBuffer[i];
+		}
+		cout << endl;
+		if(echoBuffer[0]=='a')
+		{
+			int answer[3];
+			getAnswer(answer);
+		}else if(echoBuffer[0]=='A')
+		{
+			int answer;
+			getTurnsServer(answer);
+		}
+		/*
+		cout << "cubestring: " << endl;
+		for(int i = 0; i<54; i++){
+
+			cubestring[i] = (int)(echoBuffer[i])-48;
+			cout << cubestring[i];
+		}
+		cout << endl;
+		//y.stringToCube(echoBuffer);
+
+		printCubeColor(cube);
+		cubestring2cube(cubestring);
+		printCubeColor(cube);
+
+		mapforsolver();
+
+		solveTopCross();
+		cout << "cross: " << moves << endl;
+		clearMoves();
+		mapforcustomcolor();
+		printCubeColor(cube_customcolor);
+		solveTopCorners();
+		cout << "corners: " << moves << endl;
+		clearMoves();
+		mapforcustomcolor();
+		printCubeColor(cube_customcolor);
+		solveMiddleLayer();
+		cout << "middle layer: " << moves << endl;
+		clearMoves();
+		mapforcustomcolor();
+		printCubeColor(cube_customcolor);
+		solveBottomLayer();
+		cout << "Bottom: " << moves << endl;
+		clearMoves();
+		mapforcustomcolor();
+		printCubeColor(cube_customcolor);
+		*/
+		//usleep(10000);
+
+
+		//cout << "von array: " << echoBuffer[2] << endl; 
+
+		//// wird funktion: 
+		//echoString = "u2";
+
+		close(sock);
+		break;
 	}
     exit(0);
 }
