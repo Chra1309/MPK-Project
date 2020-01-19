@@ -1,4 +1,4 @@
-#include "Cube.hpp"
+#include "QuestionCube.hpp"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -7,12 +7,12 @@
 int main()
 {
 	srand(time(NULL));
-	Cube x(1);
+	QuestionCube x;
 	x.printCubeStd();
+
+	string y=x.makeQuestion();
 	
-	x.testSolve();
-	
-	cout<<endl<<x.numberTurns;
+	cout << y;
 	
 	return 0;
 }

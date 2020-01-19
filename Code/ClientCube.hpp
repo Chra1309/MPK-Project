@@ -10,7 +10,7 @@
 #include <cmath>
 #include <time.h>
 #include <stdio.h>
-
+using namespace std;
 
 #define UP	 	1
 #define LEFT 	2
@@ -20,10 +20,27 @@
 #define DOWN 	6
 #define RANDOM	100
 
+extern char echoBuffer[];
 
-using namespace std;
+void getAnswer(int* answer)
+{
+	answer[0]=(echoBuffer[1]-'0')*10+(echoBuffer[2]-'0');
+	answer[1]=(echoBuffer[3]-'0')*10+(echoBuffer[4]-'0');
+	answer[2]=(echoBuffer[5]-'0')*10+(echoBuffer[6]-'0');
+	cout<<answer[0]<<";"<<answer[1]<<";"<<answer[2]<<endl;
+}
 
-class Cube{
+void getTurnsServer(int& answer){
+	answer=(echoBuffer[1]-'0')*100+(echoBuffer[2]-'0')*10+(echoBuffer[3]-'0');
+	cout<<answer<<" Turns"<<endl;
+}
+
+
+
+
+
+
+class ClientCube{
 	int data[6][3][3];
 	int cube_customcolor[6][3][3];
 	int n;	
@@ -97,7 +114,7 @@ class Cube{
 	public:
 		int numberTurns=0;
 		
-		Cube(int);	//Konstruktor Cube
+		ClientCube(int);	//Konstruktor Cube
 		void testSolve();
 	    string printColor(int); //Ausgabe von Farbe
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
@@ -106,17 +123,24 @@ class Cube{
 		
 		
 		
-		friend string makeCubeQuestion(Cube&);	//erstellt eine Cube Question
-		friend string cubeToString(Cube&);		//wandelt einen Cube in einen String um
-		friend Cube stringToCube(string&);		//wandelt string in Cube um
+		friend string makeCubeQuestion(ClientCube&);	//erstellt eine Cube Question
+		friend string cubeToString(ClientCube&);		//wandelt einen Cube in einen String um
+		friend ClientCube stringToCube(string&);		//wandelt string in Cube um
 			
 };
-Cube::Cube(int n=0)
+ClientCube::ClientCube(int n=0)
 {
+	
 	moves="r";
 	for(int i=0;i<sizeof(lookup);i++) 
 		lookup[i]=0;
-	this->n=n;
+	
+	if(n<2)
+		this->n=2;
+	else if(n>52)
+		this->n=52;
+	else
+		this->n=n;
 	//int num[6] = {0, 1, 2, 3, 4, 5};
 	int num[6] = {0, 1, 2, 3, 4, 5};
 	
@@ -146,7 +170,7 @@ Cube::Cube(int n=0)
 		cout<<endl<<endl<<endl<<endl;
 	}
 }
-string Cube::printColor(int field)
+string ClientCube::printColor(int field)
 {
 	
 	//			1 white			2 red			3 green			4 blue			5 orange			6 yellow	
@@ -187,7 +211,7 @@ string Cube::printColor(int field)
 	return printcolor;
 }
 
-void Cube::printCubeColor()
+void ClientCube::printCubeColor()
 { 
 	for(int i=0;i<3;i++)
 	{
@@ -206,7 +230,7 @@ void Cube::printCubeColor()
 	}	
 	cout<<endl<<endl;	
 }
-void Cube::printCubeStd()
+void ClientCube::printCubeStd()
 {
 	for(int i=0;i<3;i++)
 	{
@@ -225,7 +249,7 @@ void Cube::printCubeStd()
 	}	
 	cout<<endl<<endl;
 }
-void Cube::randomize()
+void ClientCube::randomize()
 {
 	int x=(rand()%6)+1;
 	int xOld=0;
@@ -240,7 +264,7 @@ void Cube::randomize()
 		rotate(x,y);
 	}
 }
-void Cube::rotate(int side,int howOften)
+void ClientCube::rotate(int side,int howOften)
 {
 	howOften+=4;
 	howOften=howOften%4;
@@ -292,7 +316,7 @@ void Cube::rotate(int side,int howOften)
 	}
 	//printCubeStd();
 }
-void Cube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)
+void ClientCube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)
 {				
 	int temp;
 	switch(n)
@@ -315,7 +339,7 @@ void Cube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,i
 			break;
 	}
 }
-void Cube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& i,int& j,int& k,int& l,int& n)
+void ClientCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& i,int& j,int& k,int& l,int& n)
 {
 	int temp;	
 	switch(n)
@@ -342,13 +366,13 @@ void Cube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,
 			break;
 	}		
 }
-string makeCubeQuestion(Cube& sendCube)
+string makeCubeQuestion(ClientCube& sendCube)
 {
-	string CubeQuestion="1,";
+	string CubeQuestion="q";
 	CubeQuestion+=cubeToString(sendCube);
 	return CubeQuestion;
 }
-string cubeToString(Cube& cube)
+string cubeToString(ClientCube& cube)
 { 
 	string returnString="";
 	int* a=new int[54];
@@ -360,7 +384,7 @@ string cubeToString(Cube& cube)
 	return returnString;
 	
 }
-void Cube::toArray(int* a)
+void ClientCube::toArray(int* a)
 {
 	int x=0;
 	for(int i=0;i<6;i++)
@@ -375,9 +399,9 @@ void Cube::toArray(int* a)
 		}	
 	}
 }
-Cube stringToCube(string& s)
+ClientCube stringToCube(string& s)
 {
-	Cube c(0);
+	ClientCube c(0);
 	int a[54];
 	int x=0;
 	for(int i=0;i<54;i++)
@@ -396,7 +420,7 @@ Cube stringToCube(string& s)
 	return c;
 }
 
-void Cube::getEdge(int& a,int& b,int& c,int& x)
+void ClientCube::getEdge(int& a,int& b,int& c,int& x)
 {
 	if(a==0&&b==0&&c==1) x=data[0][2][1];
 	if(a==0&&b==1&&c==0) x=data[1][1][2];
@@ -429,7 +453,7 @@ void Cube::getEdge(int& a,int& b,int& c,int& x)
 	if(a==5&&b==2&&c==1) x=data[5][2][1];
 }
 
-void Cube::getCorner(int& a,int& b,int& c,int& x,int& y)
+void ClientCube::getCorner(int& a,int& b,int& c,int& x,int& y)
 {
 	if(a==0&&b==0&&c==0) {x=data[0][2][0]; y=data[1][0][2];}
 	if(a==0&&b==0&&c==2) {x=data[0][2][2]; y=data[3][0][0];}
@@ -464,7 +488,7 @@ void Cube::getCorner(int& a,int& b,int& c,int& x,int& y)
 
 }
 
-void Cube::testSolve()
+void ClientCube::testSolve()
 {
 	solveTopCross();
 	cout << "cross: " << moves << endl;
@@ -484,7 +508,7 @@ void Cube::testSolve()
     printCubeColor();
 }
 
-void Cube::solveTopCross()
+void ClientCube::solveTopCross()
 {
     cout << "checkpoint1" << endl;
 	moveTopEdges();
@@ -644,7 +668,7 @@ void Cube::solveTopCross()
 	}
 }
 
-void Cube::moveTopEdges() //move all yellow edge stickers on top to the bottom
+void ClientCube::moveTopEdges() //move all yellow edge stickers on top to the bottom
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -660,7 +684,7 @@ void Cube::moveTopEdges() //move all yellow edge stickers on top to the bottom
 	}
 }
 
-void Cube::findNextTopEdge(int & s, int & p)
+void ClientCube::findNextTopEdge(int & s, int & p)
 {
 	for (s = 1; s < 6; s++)
 	{
@@ -687,7 +711,7 @@ void Cube::findNextTopEdge(int & s, int & p)
 	}
 }
 
-void Cube::solveTopCorners()
+void ClientCube::solveTopCorners()
 {
 	moveTopCorners();
 	for (int i = 1; i < 5; i++)
@@ -786,7 +810,7 @@ void Cube::solveTopCorners()
 	}
 }
 
-void Cube::moveTopCorners() //moves all yellow corners on the top to the bottom face
+void ClientCube::moveTopCorners() //moves all yellow corners on the top to the bottom face
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -804,7 +828,7 @@ void Cube::moveTopCorners() //moves all yellow corners on the top to the bottom 
 	}
 }
 
-void Cube::findNextTopCorner(int & s, int & p) //locates the next corner that is not in its correct spot (guaranteed to be one of the bottom four corners)
+void ClientCube::findNextTopCorner(int & s, int & p) //locates the next corner that is not in its correct spot (guaranteed to be one of the bottom four corners)
 //updates pos and side in solveTopCorners() to hold the side and position of the yellow sticker
 {
 	for (s = 1; s < 5; s++)
@@ -838,7 +862,7 @@ void Cube::findNextTopCorner(int & s, int & p) //locates the next corner that is
 	}
 }
 
-void Cube::solveMiddleLayer()
+void ClientCube::solveMiddleLayer()
 {
 	int side = -1;
 	int color = -1;
@@ -896,7 +920,7 @@ beginning:
 	int done = 0;
 }
 
-int Cube::findBottomMatch(int color)
+int ClientCube::findBottomMatch(int color)
 {
 	for (int i = 1; i <= 4; i++)
 	{
@@ -922,7 +946,7 @@ int Cube::findBottomMatch(int color)
 	return -1;
 }
 
-void Cube::placeMiddleEdge(int color, int edgeSide)
+void ClientCube::placeMiddleEdge(int color, int edgeSide)
 {
 	if (edgeSide - color == 0)
 	{
@@ -961,7 +985,7 @@ void Cube::placeMiddleEdge(int color, int edgeSide)
 	}
 }
 
-void Cube::middleAlgorithm(int color, int direction) //1 - L 2 - R -1 for nothing
+void ClientCube::middleAlgorithm(int color, int direction) //1 - L 2 - R -1 for nothing
 {
 	if (color == 1)
 	{
@@ -1065,7 +1089,7 @@ void Cube::middleAlgorithm(int color, int direction) //1 - L 2 - R -1 for nothin
 	}
 }
 
-void Cube::solveBottomLayer()
+void ClientCube::solveBottomLayer()
 {
 	positionBottomCorners();
 	//print();
@@ -1077,7 +1101,7 @@ void Cube::solveBottomLayer()
     //	print();
 }
 
-void Cube::positionBottomCorners()
+void ClientCube::positionBottomCorners()
 {
 	int dTurns[4];
     
@@ -1194,7 +1218,7 @@ void Cube::positionBottomCorners()
     
 }
 
-void Cube::swapCorners(int face)
+void ClientCube::swapCorners(int face)
 {
 	if (face == 1)
 	{
@@ -1246,7 +1270,7 @@ void Cube::swapCorners(int face)
 	}
 }
 
-int Cube::numCorrectCorners()
+int ClientCube::numCorrectCorners()
 {
 	//If numCorrect ==  4 it will return 4
 	//If numCorrect == 2 it will return 2nd Corner * 10 + 1st corner (i.e. 20)
@@ -1316,7 +1340,7 @@ int Cube::numCorrectCorners()
 	return pos;
 }
 
-void Cube::getCorner(int num, int corners[])
+void ClientCube::getCorner(int num, int corners[])
 {
 	if (num == 0)
 	{
@@ -1344,7 +1368,7 @@ void Cube::getCorner(int num, int corners[])
 	}
 }
 
-void Cube::positionBottomEdges()
+void ClientCube::positionBottomEdges()
 {
 	int pos = numEdgesInCorrectPos();
     
@@ -1374,7 +1398,7 @@ void Cube::positionBottomEdges()
 	}
 }
 
-int Cube::numEdgesInCorrectPos()
+int ClientCube::numEdgesInCorrectPos()
 {
 	//Note this will either be 1, 0 or 4...
 	//It will return 0 if none are in correct position
@@ -1485,7 +1509,7 @@ int Cube::numEdgesInCorrectPos()
 	return correctPos;
 }
 
-void Cube::rotateEdges(int face, bool rotClockwise)
+void ClientCube::rotateEdges(int face, bool rotClockwise)
 {
 	if (face == 1)
 	{
@@ -1597,7 +1621,7 @@ void Cube::rotateEdges(int face, bool rotClockwise)
 	}
 }
 
-void Cube::correctBottomCorners()
+void ClientCube::correctBottomCorners()
 {
 	int result = cornerOrientation();
     
@@ -1609,7 +1633,7 @@ void Cube::correctBottomCorners()
 	}
 }
 
-int Cube::cornerOrientation()
+int ClientCube::cornerOrientation()
 {
 	int numCorrect = 0;
 	int wrongPosition = 0;
@@ -1636,7 +1660,7 @@ int Cube::cornerOrientation()
 	return wrongPosition;
 }
 
-int Cube::findBestFace(int cornerNum)
+int ClientCube::findBestFace(int cornerNum)
 {
 	int corners[4] = { data[5][0][0], data[5][0][2], data[5][2][2], data[5][2][0] };
     
@@ -1702,7 +1726,7 @@ int Cube::findBestFace(int cornerNum)
 	}
 }
 
-void Cube::twoCornerRotate(int face, bool goForward)
+void ClientCube::twoCornerRotate(int face, bool goForward)
 {
 	if (face == 1)
 	{
@@ -1854,7 +1878,7 @@ void Cube::twoCornerRotate(int face, bool goForward)
 	}
 }
 
-void Cube::correctBottomEdges()
+void ClientCube::correctBottomEdges()
 {
 	int edges[4] = { data[5][1][0], data[5][0][1], data[5][1][2], data[5][2][1] };
     
@@ -1914,7 +1938,7 @@ void Cube::correctBottomEdges()
 	}
 }
 
-void Cube::twoEdgeRotate(int face, bool isNextTo)
+void ClientCube::twoEdgeRotate(int face, bool isNextTo)
 {
 	if (face == 1)
 	{
@@ -2082,7 +2106,7 @@ void Cube::twoEdgeRotate(int face, bool isNextTo)
 	}
 }
 
-string Cube::last()
+string ClientCube::last()
 {
 	if (moves.size() < 3)
 	{
@@ -2092,7 +2116,7 @@ string Cube::last()
 	return moves.substr(s - 3, 3);
 }
 
-void Cube::removeLast()
+void ClientCube::removeLast()
 {
 	if (moves.size() < 3)
 	{
@@ -2102,13 +2126,13 @@ void Cube::removeLast()
 	moves = moves.substr(0, s - 3);
 }
 
-void Cube::clearMoves()
+void ClientCube::clearMoves()
 {
 	moves = "r";
 }
 
 
-void Cube::inputCube(){
+void ClientCube::inputCube(){
     
     // generate black cube 
     {
@@ -2182,7 +2206,7 @@ void Cube::inputCube(){
 
 }
 
-void Cube::mapForSolver(){
+void ClientCube::mapForSolver(){
 
             for(int j = 0; j < 6; j++){    
                 for(int k = 0; k < 3; k++){
@@ -2209,7 +2233,7 @@ void Cube::mapForSolver(){
 }
 
 //// mapt die Farben des cubes für den solver auf die Farben des tatsächlichen Wüfel für die Ausgabe
-void Cube::mapForCustomColor()
+void ClientCube::mapForCustomColor()
 {	
 	for(int j = 0; j < 6; j++){    
 		for(int k = 0; k < 3; k++){
