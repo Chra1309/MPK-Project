@@ -24,7 +24,6 @@ int cube[6][3][3] = {
 	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
 	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
 
-Cube x (1);
 int cube_customcolor[6][3][3];
 char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
 int sock;                        /* Socket descriptor */
@@ -32,7 +31,7 @@ struct sockaddr_in echoServAddr; /* Echo server address */
 unsigned short echoServPort = 10000;     /* Echo server port */
 char const *servIP = "127.0.0.1";        // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
 string echoString;                		/* String to send to echo server */
-
+string outputAnswer;
 int cubestring[54];
 unsigned int echoStringLen;      /* Length of string to echo */
 int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
@@ -53,7 +52,7 @@ else
 	echoServPort = 7;   //7 is the well-known port for the echo service */
 
 
-void doTheClient(){
+string doTheClient(){
 	
 	//make a random question
 	srand (time(NULL));
@@ -91,8 +90,9 @@ void doTheClient(){
 	getAnswer();
 
 	close(sock);	
-	//outputAnswer = echoBuffer;
-	//return outputAnswer;
+	
+	outputAnswer = echoBuffer;
+	return outputAnswer;
 	}
 
 
