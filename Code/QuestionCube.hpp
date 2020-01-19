@@ -135,7 +135,7 @@ void QuestionCube::printCubeStd()
 }
 string QuestionCube::makeQuestion()
 { 
-	string returnString="r";
+	string returnString="q";
 	int* a=new int[54];
 	toArray(a);	
 	for(int i=0;i<54;i++)
