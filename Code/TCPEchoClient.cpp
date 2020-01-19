@@ -25,158 +25,93 @@ int cube[6][3][3] = {
 	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
 
 Cube x (1);
-Cube y(0);
-
-
 int cube_customcolor[6][3][3];
 char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
+int sock;                        /* Socket descriptor */
+struct sockaddr_in echoServAddr; /* Echo server address */
+unsigned short echoServPort = 10000;     /* Echo server port */
+char const *servIP = "127.0.0.1";        // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
+string echoString;                		/* String to send to echo server */
 
-int main(int argc, char *argv[])
+int cubestring[54];
+unsigned int echoStringLen;      /* Length of string to echo */
+int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
+									and total bytes read */
+
+/*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
 {
-    int sock;                        /* Socket descriptor */
-    struct sockaddr_in echoServAddr; /* Echo server address */
-    unsigned short echoServPort;     /* Echo server port */
-    char const *servIP;                    // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
-    string echoString;                /* String to send to echo server */
-    
-    int cubestring[54];
-    unsigned int echoStringLen;      /* Length of string to echo */
-    int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
-                                        and total bytes read */
-	
-    /*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
-    {
-       fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Port>]\n",
-               argv[0]);
-       exit(1);
-    }*/
-	
-	if (argc != 1){
-		cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
-		exit(1);
-	}
-	
-    /*servIP = argv[1];              First arg: server IP address (dotted quad) */
-	servIP = "127.0.0.1";
-	
-    /*if (argc == 4)
-        echoServPort = atoi(argv[3]);  //Use given port, if any
-    else
-        echoServPort = 7;   //7 is the well-known port for the echo service */
-	echoServPort = 10000;
+   fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Port>]\n",
+		   argv[0]);
+   exit(1);
+}*/
 
-	///////////////////////////////////Start with Hello/////////////////////////////////////////
-    //echoString = "hi! please send me a cube"; 
+/*servIP = argv[1];              First arg: server IP address (dotted quad) */
+
+/*if (argc == 4)
+	echoServPort = atoi(argv[3]);  //Use given port, if any
+else
+	echoServPort = 7;   //7 is the well-known port for the echo service */
+
+
+void doTheClient(){
 	
-	
-	//cout << "Sent rotate action: " << echoString <<endl;
-	
-	/////////////////////////////////////starting send loop here////////////////////////////////
-	while(1){
 	//make a random question
 	srand (time(NULL));
 	echoString = "q";
 	Cube z(1);
 	echoString +=cubeToString(z);
-		
+
 	cout << echoString <<endl;
-    /* Create a reliable, stream socket using TCP */
-    if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-        DieWithError("socket() failed");
+	// Create a reliable, stream socket using TCP
+	if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+		DieWithError("socket() failed");
 
-    /* Construct the server address structure */
-    memset(&echoServAddr, 0, sizeof(echoServAddr));     /* Zero out structure */
-    echoServAddr.sin_family      = AF_INET;             /* Internet address family */
-    echoServAddr.sin_addr.s_addr = inet_addr(servIP);   /* Server IP address */
-    echoServAddr.sin_port        = htons(echoServPort); /* Server port */
+	// Construct the server address structure
+	memset(&echoServAddr, 0, sizeof(echoServAddr));     // Zero out structure
+	echoServAddr.sin_family      = AF_INET;             // Internet address family
+	echoServAddr.sin_addr.s_addr = inet_addr(servIP);   // Server IP address 
+	echoServAddr.sin_port        = htons(echoServPort); // Server port 
 
-    
 	/* Establish the connection to the echo server */
-    if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
-        DieWithError("connect() failed");
+	if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
+		DieWithError("connect() failed");
 
-    echoStringLen = RCVBUFSIZE;         /* Determine input length */
-    //echoStringLen = echoString.length();
-	
-	
-    /* Send the string to the server */
-    if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
-       DieWithError("send() sent a different number of bytes than expected");
-		
-    /* Receive the same string back from the server */
-    totalBytesRcvd = 0;
-    
-  /*
-    while (totalBytesRcvd < echoStringLen)
-    {
-        // Receive up to the buffer size (minus 1 to leave space for
-        //   a null terminator) bytes from the sender 
-        if ((bytesRcvd = recv(sock, echoBuffer, RCVBUFSIZE - 1, 0)) <= 0)
-            DieWithError("recv() failed or connection closed prematurely");
+	echoStringLen = RCVBUFSIZE;         //Determine input length
 
-        totalBytesRcvd += bytesRcvd;   // Keep tally of total bytes 
-        echoBuffer[bytesRcvd] = '\0';  // Terminate the string! 
-        printf("%s", echoBuffer);      /// Print the echo buffer 
+	/* Send the string to the server */
+	if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
+	   DieWithError("send() sent a different number of bytes than expected");
 
-    }
-    printf("\n");    // Print a final linefeed 
-  */
+	/* Receive the same string back from the server */
+	totalBytesRcvd = 0;
 
-    recv(sock, echoBuffer, 256, 0);
-    
-    cout << "echoBuffer:" << endl;
-    for(int i = 0; i<256; i++){
-        cout << echoBuffer[i];
-    }
-    cout << endl;
+	recv(sock, echoBuffer, 256, 0);
+
+	cout <<echoBuffer << endl;
 	getAnswer();
-	/*
-    cout << "cubestring: " << endl;
-    for(int i = 0; i<54; i++){
-        
-        cubestring[i] = (int)(echoBuffer[i])-48;
-        cout << cubestring[i];
-    }
-    cout << endl;
-	//y.stringToCube(echoBuffer);
-	
-    printCubeColor(cube);
-    cubestring2cube(cubestring);
-    printCubeColor(cube);
-  
-    mapforsolver();
-  
-	solveTopCross();
-	cout << "cross: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveTopCorners();
-	cout << "corners: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveMiddleLayer();
-	cout << "middle layer: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveBottomLayer();
-	cout << "Bottom: " << moves << endl;
-	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	*/
-	//usleep(10000);
-	
-    
-    //cout << "von array: " << echoBuffer[2] << endl; 
 
-    //// wird funktion: 
-	//echoString = "u2";
-		
-    close(sock);
-    break;
+	close(sock);	
+	//outputAnswer = echoBuffer;
+	//return outputAnswer;
 	}
+
+
+int main(int argc, char *argv[])
+{
+    if (argc != 1){
+	cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
+	exit(1);
+	}	
+
+	///////////////////////////////////Start with Hello/////////////////////////////////////////
+    //echoString = "hi! please send me a cube"; 
+
+	
+	/////////do the client connection establishment, send, receive and socket closing///////////
+	doTheClient();
+	
+	
+		
+	
     exit(0);
 }
