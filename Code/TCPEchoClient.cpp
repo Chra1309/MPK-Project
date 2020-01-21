@@ -52,14 +52,11 @@ else
 	echoServPort = 7;   //7 is the well-known port for the echo service */
 
 
-string doTheClient(){
+string doTheClient(string toSend){
 	
 	//make a random question
-	srand (time(NULL));
-	echoString = "q666666666666666666666666666666666666666666666666666666";
-	
-	ClientCube z(1);
-	//echoString +=cubeToString(z);
+	echoString = "q";
+	echoString +=toSend;
 
 	cout << echoString <<endl;
 	// Create a reliable, stream socket using TCP
@@ -78,13 +75,12 @@ string doTheClient(){
 
 	echoStringLen = RCVBUFSIZE;         //Determine input length
 
-	/* Send the string to the server */
+	// Send the string to the server
 	if (send(sock, echoString.c_str(), echoStringLen, 0) != echoStringLen)
 	   DieWithError("send() sent a different number of bytes than expected");
 
-	/* Receive the same string back from the server */
+	// Receive the answer back from the server
 	totalBytesRcvd = 0;
-
 	recv(sock, echoBuffer, 64, 0);
 
 	cout <<echoBuffer << endl;
@@ -93,9 +89,7 @@ string doTheClient(){
 	close(sock);	
 	
 	outputAnswer = echoBuffer;
-	cout << "EOF"<<endl;
-
-
+	
 	return outputAnswer;
 	}
 
@@ -106,16 +100,14 @@ int main(int argc, char *argv[])
 	cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
 	exit(1);
 	}	
-
-	///////////////////////////////////Start with Hello/////////////////////////////////////////
-    //echoString = "hi! please send me a cube"; 
-
-	
-	/////////do the client connection establishment, send, receive and socket closing///////////
-	doTheClient();
-	cout << "WOHOOOOO!"<<endl;
-	
 		
+	//make a random cube as question
+	srand (time(NULL));
+	ClientCube z(1);
+	string x = cubeToString(z);
+
+	/////////do the client connection establishment, send, receive and socket closing///////////
+	doTheClient(x);
 	
     exit(0);
 }
