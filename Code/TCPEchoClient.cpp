@@ -8,11 +8,11 @@
 #include <stdio.h> 
 #include <iostream>
 #include <cstring> 
-#include "Cube.hpp"
+#include "ClientCube.hpp"
 #include "rubikssolver_header.hpp"
 using namespace std;
 
-#define RCVBUFSIZE 256   /* Size of receive buffer */
+#define RCVBUFSIZE 64   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
 
@@ -42,11 +42,11 @@ int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv()
    fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Port>]\n",
 		   argv[0]);
    exit(1);
-}*/
+}
 
-/*servIP = argv[1];              First arg: server IP address (dotted quad) */
+servIP = argv[1];              //First arg: server IP address (dotted quad)
 
-/*if (argc == 4)
+if (argc == 4)
 	echoServPort = atoi(argv[3]);  //Use given port, if any
 else
 	echoServPort = 7;   //7 is the well-known port for the echo service */
@@ -56,9 +56,10 @@ string doTheClient(){
 	
 	//make a random question
 	srand (time(NULL));
-	echoString = "q";
-	Cube z(1);
-	echoString +=cubeToString(z);
+	echoString = "q666666666666666666666666666666666666666666666666666666";
+	
+	ClientCube z(1);
+	//echoString +=cubeToString(z);
 
 	cout << echoString <<endl;
 	// Create a reliable, stream socket using TCP
@@ -71,7 +72,7 @@ string doTheClient(){
 	echoServAddr.sin_addr.s_addr = inet_addr(servIP);   // Server IP address 
 	echoServAddr.sin_port        = htons(echoServPort); // Server port 
 
-	/* Establish the connection to the echo server */
+	// Establish the connection to the echo server
 	if (connect(sock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
 		DieWithError("connect() failed");
 
@@ -84,14 +85,17 @@ string doTheClient(){
 	/* Receive the same string back from the server */
 	totalBytesRcvd = 0;
 
-	recv(sock, echoBuffer, 256, 0);
+	recv(sock, echoBuffer, 64, 0);
 
 	cout <<echoBuffer << endl;
-	getAnswer();
+	//getAnswer();
 
 	close(sock);	
 	
 	outputAnswer = echoBuffer;
+	cout << "EOF"<<endl;
+
+
 	return outputAnswer;
 	}
 
@@ -109,7 +113,7 @@ int main(int argc, char *argv[])
 	
 	/////////do the client connection establishment, send, receive and socket closing///////////
 	doTheClient();
-	
+	cout << "WOHOOOOO!"<<endl;
 	
 		
 	
