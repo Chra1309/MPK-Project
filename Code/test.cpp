@@ -8,8 +8,12 @@ int main()
 {
 	srand(time(NULL));
 	QuestionCube x;
+	
+	
+	x.accessData(1,1,1,1);
+	
+	
 	x.printCubeStd();
-
 	string y=x.makeQuestion();
 	
 	cout << y;

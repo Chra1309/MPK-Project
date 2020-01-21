@@ -376,7 +376,7 @@ void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 							}	
 						}else
 						{
-							answer[0]++;
+							answer[1]++;
 						}
 					}else
 					{
@@ -387,6 +387,67 @@ void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 		}	
 	}
 }
+/* ///////////////////////compareToQuestion old
+void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
+{
+	//answerB=0; answerS=0; answerW=0;
+	for (int i = 0; i<3; i++)
+		answer[i]=0;	
+		
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{
+				if(qc.data[i][j][k]!=6)
+				{	
+					if(qc.data[i][j][k]==data[i][j][k])
+					{
+						if(j==1&&k==1)
+						{
+							answer[2]++;
+						}
+						else if(qc.data[i][j][k]==data[i][1][1])
+						{
+							if((j+k)%2==0)
+							{
+								int c1,c2,s1,s2;
+								getCorner(i,j,k,c1,c2,s1,s2);
+								
+								if(c1==data[s1][1][1]&&c2==data[s2][1][1])
+								{
+									answer[2]++;
+								}else{
+									answer[1]++;
+								}
+								
+							}else
+							{
+								int c1,s1;
+								
+								getEdge(i,j,k,c1,s1);
+								
+								if(c1==data[s1][1][1])
+								{
+									answer[2]++;
+								}else{
+									answer[1]++;
+								}
+							}	
+						}else
+						{
+							answer[0]++;
+						}
+					}else
+					{
+						answer[0]++;
+					}
+				}
+			}
+		}	
+	}
+}*/
 
 
 void ServerCube::getEdge(int& a,int& b,int& c,int& c1,int& s1)
