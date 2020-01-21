@@ -56,7 +56,6 @@ class ClientCube{
 
 	void randomize(); 		//Methode zum zufälligen verdrehen des Cubes
 	void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
-	void toArray(int*);		//gibt dem 1. Parameter den Cube in Form eines 1D Feldes zurück
 
 	void getCorner(int&,int&,int&,int&,int&);
 	void getEdge(int&,int&,int&,int&);
@@ -374,30 +373,19 @@ string makeCubeQuestion(ClientCube& sendCube)
 }
 string cubeToString(ClientCube& cube)
 { 
-	string returnString="";
-	int* a=new int[54];
-	cube.toArray(a);	
-	for(int i=0;i<54;i++)
-    	returnString+=a[i]+'0';
-  	
-  	delete a;
-	return returnString;
-	
-}
-void ClientCube::toArray(int* a)
-{
-	int x=0;
+	string returnString="";	
 	for(int i=0;i<6;i++)
 	{
 		for(int j=0;j<3;j++)
 		{
 			for(int k=0;k<3;k++)
 			{				
-				a[x]=data[i][j][k];
-				x++;
+				returnString+=data[i][j][k]+'0';
 			}
 		}	
 	}
+	return returnString;
+	
 }
 ClientCube stringToCube(string& s)
 {
