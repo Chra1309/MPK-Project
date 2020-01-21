@@ -52,18 +52,18 @@ void changeAnswer(string& strAnswer, int* arrAnswer)
 	intTemp[2]+=(strAnswer.at(6)-'0');
 	
 	for(int i=0;i<(sizeof(arrAnswer)/sizeof(arrAnswer[0]));i++)
-	{
+	{ //Reihenfolge evtl noch ändern!!!!
 		if(intTemp[0]!=0)
 		{
-			arrAnswer[i]=0;
+			arrAnswer[i]=0; //nothing
 			intTemp[0]--;
 		} else if(intTemp[1]!=0)
 		{
-			arrAnswer[i]=1;
+			arrAnswer[i]=1; //black
 			intTemp[1]--;
 		} else if(intTemp[2]!=0)
 		{
-			arrAnswer[i]=2;
+			arrAnswer[i]=2; //white
 			intTemp[2]--;	
 		}	
 	}
