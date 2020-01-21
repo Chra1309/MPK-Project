@@ -380,7 +380,7 @@ string cubeToString(ClientCube& cube)
 		{
 			for(int k=0;k<3;k++)
 			{				
-				returnString+=data[i][j][k]+'0';
+				returnString+=cube.data[i][j][k]+'0';
 			}
 		}	
 	}
