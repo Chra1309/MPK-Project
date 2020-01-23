@@ -43,8 +43,7 @@ else
 string doTheClient(string toSend){
 	
 	//concatonate the question
-	echoString = "q";
-	echoString +=toSend;
+	echoString =toSend;
 
 	cout << echoString <<endl;
 	// Create a reliable, stream socket using TCP
