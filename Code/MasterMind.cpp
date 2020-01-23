@@ -83,8 +83,8 @@ int findMiddle(int foundColour[])
 		
 		//cout << "\nFrage Feld" << i <<":" << currentGuess[0] << "\nFrage Feld" << i+1 <<":" << currentGuess[1] << endl;
 		
-		x.accessData(i-1,1,1,currentGuess[0];
-		x.accessData(i,1,1,currentGuess[1];
+		x.accessData(i-1,1,1,currentGuess[0]);
+		x.accessData(i,1,1,currentGuess[1]);
 					 
 					 		 
 		string answer=doTheClient(x.makeQuestion());
