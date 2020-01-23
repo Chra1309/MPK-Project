@@ -9,33 +9,21 @@
 #include <iostream>
 #include <cstring> 
 #include "ClientCube.hpp"
-#include "rubikssolver_header.hpp"
+
 using namespace std;
 
 #define RCVBUFSIZE 64   /* Size of receive buffer */
 
 void DieWithError(string errorMessage);  /* Error handling function */
 
-int cube[6][3][3] = {
-	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
-	{ { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } }, //orange side
-	{ { 2, 2, 2 }, { 2, 2, 2 }, { 2, 2, 2 } }, //blue side
-	{ { 3, 3, 3 }, { 3, 3, 3 }, { 3, 3, 3 } }, //red side
-	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
-	{ { 5, 5, 5 }, { 5, 5, 5 }, { 5, 5, 5 } } }; //white side
-
-int cube_customcolor[6][3][3];
-char echoBuffer[RCVBUFSIZE];     /* Buffer for echo string */
-int sock;                        /* Socket descriptor */
-struct sockaddr_in echoServAddr; /* Echo server address */
-unsigned short echoServPort = 10000;     /* Echo server port */
-char const *servIP = "127.0.0.1";        // Server IP address (dotted quad) !!! remove const if not fixed!!!!!!!!
-string echoString;                		/* String to send to echo server */
-string outputAnswer;
-int cubestring[54];
-unsigned int echoStringLen;      /* Length of string to echo */
-int bytesRcvd, totalBytesRcvd;   /* Bytes read in single recv() 
-									and total bytes read */
+char echoBuffer[RCVBUFSIZE];     		// Buffer for echo string
+int sock;                        		// Socket descriptor
+struct sockaddr_in echoServAddr; 		// Echo server address
+unsigned short echoServPort = 10000;    // Echo server port
+char const *servIP = "127.0.0.1";       // Server IP address (dotted quad) (remove const if not fixed!)
+string echoString;                		// String to send to echo server
+unsigned int echoStringLen;      		// Length of string to echo
+int bytesRcvd, totalBytesRcvd;   		// Bytes read in single recv() and total bytes read
 
 /*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
 {
@@ -54,7 +42,7 @@ else
 
 string doTheClient(string toSend){
 	
-	//make a random question
+	//concatonate the question
 	echoString = "q";
 	echoString +=toSend;
 
@@ -87,10 +75,8 @@ string doTheClient(string toSend){
 	//getAnswer();
 
 	close(sock);	
-	
-	outputAnswer = echoBuffer;
-	
-	return outputAnswer;
+
+	return echoBuffer;
 	}
 
 
