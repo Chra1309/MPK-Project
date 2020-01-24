@@ -6,9 +6,15 @@
 #include <stdio.h>
 #include <ctime>
 #include <algorithm>    // std::random_shuffle
+#include <unistd.h>
 
 #include <vector>
 #include "rubikssolver_header.hpp"
+
+#include <list>
+#include <iterator>
+#include "QuestionCube.hpp"
+
 
 using namespace std;
 
@@ -19,6 +25,10 @@ int solveable = 0;
 //int getCorners(int** array, int ***cubetofind);
 //void getCorners();
 
+struct corner;
+struct edge;
+struct middle;
+
 
 //////////////////// PROTOTYPES ////////////////////
 string printColor(int); //Ausgabe von Farbe
@@ -26,11 +36,12 @@ void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen		
 int edgepartitytest();		    
 int cornerparitytest();
-void permutationpartiytest();
+void permutationparitytest(int permutationCube[6][3][3]);
 int getCorners(int array[8][3], int cubetofind[6][3][3]);
 int setCorners(int array[8][3], int cubetofind[6][3][3]);
 void getEdges(int array[12][2], int cubetofind[6][3][3]);
 void setEdges(int edge[12][2], int cube[6][3][3]);
+void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[]);
 
 int cube[6][3][3] = {
 	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },   //yellow side
@@ -58,6 +69,26 @@ void printnumber(int printo[]){
     cout << "w: " << printo[5] << endl; 
 
 }
+
+
+struct corner
+{
+	int field1;
+	int field2;
+	int field3;
+};
+
+struct edge
+{
+	int field1;
+	int field2;
+};
+
+struct middle
+{
+	int field1;
+	int field2;
+};
 
 int myrandom (int i) { return std::rand()%i;}
 /*
@@ -166,7 +197,7 @@ void fillcube(){
         cout << endl;
 */
         int cornerFilled[8] = {0,0,0,0,0,0,0,0};/*
-        cout << "number of filled faces: \t";
+        cout << "numb#1A1A1Aer of filled faces: \t";
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 3; j++){
                 if(corner[i][j] != 6)
@@ -391,7 +422,7 @@ void fillcube(){
                     cout << endl << "edges used:" << endl;
                     printnumber(edgeUsed); 
                     
-                     vector<int> leftColors;
+                    vector<int> leftColors;
                     
                     for(int k = 0; k < 6; k++){
                         for(int l = 0; l < (4-edgeUsed[k]); l++) 
@@ -608,6 +639,145 @@ int setCorners(int array[8][3], int cubetofind[6][3][3]){
 
 }
 
+void permutationparitytest(int permutationCube[6][3][3]){
+	int cnt=0;
+	int visitedCorner[8]={0,0,0,0,0,0,0,0};
+	long cornerAdress[8];
+	int corner[8][3];
+	int i=0;
+	int firstIndexSum=0;
+	int indexSum=0;
+	int whileCnt=0;
+	
+	corner[0][0] = permutationCube[0][0][0];
+    corner[0][1] = permutationCube[1][0][0];
+    corner[0][2] = permutationCube[4][0][2];
+
+    corner[1][0] = permutationCube[0][0][2];
+    corner[1][1] = permutationCube[4][0][0];
+    corner[1][2] = permutationCube[3][0][2];
+
+    corner[2][0] = permutationCube[0][2][2];
+    corner[2][1] = permutationCube[3][0][0];
+    corner[2][2] = permutationCube[2][0][2];
+
+    corner[3][0] = permutationCube[0][2][0];
+    corner[3][1] = permutationCube[2][0][0];
+    corner[3][2] = permutationCube[1][0][2];
+
+    corner[4][0] = permutationCube[5][2][0];
+    corner[4][1] = permutationCube[4][2][2];
+    corner[4][2] = permutationCube[1][2][0];
+
+    corner[5][0] = permutationCube[5][2][2];
+    corner[5][1] = permutationCube[3][2][2];
+    corner[5][2] = permutationCube[4][2][0];
+
+    corner[6][0] = permutationCube[5][0][2];
+    corner[6][1] = permutationCube[2][2][2];
+    corner[6][2] = permutationCube[3][2][0];
+
+    corner[7][0] = permutationCube[5][0][0];
+    corner[7][1] = permutationCube[1][2][2];
+    corner[7][2] = permutationCube[2][2][0];
+
+	cornerAdress[0]=14;
+	cornerAdress[1]=34;
+	cornerAdress[2]=23;
+	cornerAdress[3]=12;
+	cornerAdress[4]=145;
+	cornerAdress[5]=345;
+	cornerAdress[6]=235;
+	cornerAdress[7]=125;
+
+	while(1)
+	{
+		whileCnt=0;
+
+		for(i=0; i<8; i++)
+		{
+			//cout << "bin in for" << endl;
+			
+			if(visitedCorner[i]==0)
+			{
+				//cout<<cnt<<endl;
+				cnt=cnt+1;
+				break;
+			}
+		}
+		if(i==8)
+			break;
+			//cout<<cnt<<endl;
+
+		visitedCorner[i]=1;
+		firstIndexSum=cornerAdress[i];
+		
+		while(1)
+		{
+			int index[3];
+			for(int j=0; j<3; j++)
+			{	
+				for(int k=0;k<6; k++)
+				{
+					if(permutationCube[k][1][1]==corner[i][j])
+					{		
+						index[j]=k;
+						break;
+					}
+				}
+			}
+			
+			sort(index,index+3);
+			
+			indexSum=index[0]*100+index[1]*10+index[2];
+
+			for(i=0;i<8;i++)
+			{
+				if(whileCnt==0 && indexSum==firstIndexSum)
+				{
+					cnt=cnt+1;
+					break;
+				}
+				if(indexSum==firstIndexSum)
+				{
+                    cnt ++; 
+					break;
+				}
+				if(cornerAdress[i]==indexSum)
+				{
+					visitedCorner[i]=1;
+					cnt=cnt+1;
+					break;	
+				}
+			}
+			
+			if(indexSum==firstIndexSum)
+			{
+				break;
+			}
+			whileCnt=whileCnt+1;
+			if(whileCnt>16)
+				break;
+		}
+		if(whileCnt>16)
+			break;
+
+	}
+	if(cnt%2||whileCnt>16)
+	{
+		solveable=0;
+		 cout << "Permutation Partity Test \t\033[31mFAIL (Sum: " << cnt<< ")\033[39m" << endl;
+	}
+	else
+	{
+		solveable=solveable+1;
+		cout << "Permutation Partity Test \tPASS (Sum: " << cnt << ")" << endl;
+	}
+	//cout<<"Cycle Summe="<<cnt<<endl;
+	return;
+
+}
+
 
 int cornerparitytest(int cornercube[6][3][3]){
     int topcol = cornercube[0][1][1];
@@ -690,11 +860,14 @@ int cornerparitytest(int cornercube[6][3][3]){
 
     }    
 
-    if(sum%3 == 0)
-        cout << "Corner Partity Test \tPASS (Sum: " << sum << ")" << endl;
-    else 
+    if(sum%3 == 0){
+        cout << "Corner Partity Test \t\tPASS (Sum: " << sum << ")" << endl;
+        solveable += 1; 
+}
+    else{ 
         cout << "Corner Partity Test \t\033[101m FAIL (Sum: " << sum << ")\033[0m" << endl;
-
+        solveable = 0;
+}
 
 }
 
@@ -784,14 +957,6 @@ void getEdges(int edge[12][2], int cube[6][3][3]){
 
 }
 
-void permutationpartiytest(){
-
-
-
-    
-
-
-}
 
 
 int edgepartitytest(int edgecube[6][3][3]){
@@ -863,7 +1028,7 @@ int edgepartitytest(int edgecube[6][3][3]){
     }
 
     if(sum%2 == 0)
-        cout << "Edge Partity Test \tPASS (Sum: " << sum << ")" << endl;
+        cout << "Edge Partity Test \t\tPASS (Sum: " << sum << ")" << endl;
     else 
         cout << "Edge Partity Test \t\033[31mFAIL (Sum: " << sum << ")\033[39m" << endl;
 
@@ -895,6 +1060,42 @@ void printCubeStd(int data[6][3][3])
 	cout<<endl<<endl;
 }
 
+void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[])
+{
+	for (int k=0; k<12; k++)
+	{
+		list <edge>::iterator it = EdgeCodes[k].begin();
+		
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				if (i == j)
+					continue;
+				
+				bool skip = false;
+				
+				for (int l=0; l<5; l+=2)
+				{
+					if ( (i == MiddleCodes[l] && j == MiddleCodes[l+1]) || (j == MiddleCodes[l] && i == MiddleCodes[l+1]) )
+						skip = true;
+				}
+				
+				if (skip)
+					continue;
+					
+				edge tmp;
+				
+				tmp.field1=i;
+				tmp.field2=j;
+				
+				EdgeCodes[k].push_back(tmp);
+			}
+		}
+	}
+}
+
+
 
 int main()
 {
@@ -902,56 +1103,72 @@ int main()
 
     srand((int)time(0));
     int solved = 0;
+    int error = 0; 
+    int counter = 0; 
 
-    printCubeColor(probcube);
-    fillcube();
+    //printCubeColor(probcube);
+    //fillcube();
 
-    /*
+    
     //for(int i = 0; i <10; i++){
-        //scramble();
+    int MiddleCode[6] = {0,5,1,3,2,4};
+	list <edge> EdgeCodes[12];
+	list <corner> CornerCodes[8];    
+
+	buildCombOfEdge(EdgeCodes, MiddleCode);
+
+	for (int j=0; j<12; j++)
+	{
+		cout << "List number " << j << " ";
+		
+		list <edge>::iterator it = EdgeCodes[j].begin();
+		
+		while(it != EdgeCodes[j].end())
+		{
+			cout << it->field1 << it->field2 << " | ";
+			
+			it++;
+		}
+		
+		cout << endl;
+	}
+/*
     do{
+        solveable = 0; 
+        scramble();
+    
         system("clear");
         cout << endl;
-        fillrandom();
+        //fillrandom();
         //clearMoves();
         printCubeColor(cube);
 
         // generate black cube 
         //printCubeStd(cube);
-    */
-        edgepartitytest(probcube);
-        cornerparitytest(probcube);
-    //}
+    
+        edgepartitytest(cube);
+        cornerparitytest(cube);
+        permutationparitytest(cube);
 
-        cout << solveable << endl;
-        if(solveable != 2){
-            cout << "\033[31m___________________________" << endl << endl; 
+        counter ++;
+        if(solveable != 3){
+            cout << "\033[31m___________________________"       <<      endl << endl; 
             cout <<         "       unsolveable" << endl;
             cout <<         "___________________________\033[39m" << endl << endl;
-
+            error = 1; 
 
         }
         else{
-            cout << "\033[32m___________________________" << endl << endl; 
+            cout << "\033[92m___________________________" << endl << endl; 
             cout <<         "        solveable" << endl;
             cout <<         "___________________________\033[39m" << endl << endl;
 
         }
-/*
-        else{
-            solved = 1;
-            break;
-            }
-
+        cout << "checked cubes: \t" << counter << endl; 
+        //usleep(1000000*0.25);  
+              
     }
-
-    //while(solved <= 1);
-    */
-    
-
-
-
-
-
+    while(error == 0);
+*/
 return 0;
 }
