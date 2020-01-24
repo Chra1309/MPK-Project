@@ -1,5 +1,5 @@
-#ifndef A_H
-#define A_H
+#ifndef QQ
+#define QQ
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -41,8 +41,9 @@ class QuestionCube{
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen		
 		void stringToCube(string&);	
-		void accessData(int, int, int, int);
-		void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
+		void accessData(int&, int&, int&, int&);
+		void rotate(int&, int&);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
+		int getColor(int&, int&, int&);
 	
 	
 		string makeQuestion();			//wandelt einen Cube in einen String um
@@ -137,7 +138,7 @@ void QuestionCube::printCubeStd()
 	}	
 	cout<<endl<<endl;
 }
-void QuestionCube::accessData(int i, int j, int k, int value)
+void QuestionCube::accessData(int& i, int& j, int& k, int& value)
 {
 	data[i][j][k]=value;
 }
@@ -177,14 +178,11 @@ void QuestionCube::stringToCube(string& s)
 		}	
 	}
 }
-void ClientCube::rotate(int side,int howOften)
+void QuestionCube::rotate(int side,int howOften)
 {
 	howOften+=4;
 	howOften=howOften%4;
-	moves+=to_string(side);	
-	moves+=to_string(howOften);
-	//moves+=" ";
-	numberTurns++;
+	
 	//Send r side howOften
 	switch (side)
 	{
@@ -230,7 +228,7 @@ void ClientCube::rotate(int side,int howOften)
 	//printCubeStd();
 }
 
-void ClientCube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)
+void QuestionCube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)
 {				
 	int temp;
 	switch(n)
@@ -253,7 +251,7 @@ void ClientCube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,in
 			break;
 	}
 }
-void ClientCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& i,int& j,int& k,int& l,int& n)
+void QuestionCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& i,int& j,int& k,int& l,int& n)
 {
 	int temp;	
 	switch(n)
@@ -281,6 +279,10 @@ void ClientCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,i
 	}		
 }
 
+int getColor(int& i, int& j,int& k)
+{
+	return data[i][j][k];
+}
 
 
 
