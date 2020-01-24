@@ -5,6 +5,8 @@
 #include <cmath>
 #include <time.h>
 #include <stdio.h>
+
+#include "cubeoperations.hpp"
 using namespace std;
 
 
