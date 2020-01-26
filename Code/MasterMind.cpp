@@ -1,7 +1,7 @@
 #include <iostream>
 #include <list>
 #include <iterator>
-#include "QuestionCube.hpp"
+
 using namespace std;
 
 struct corner;
@@ -12,6 +12,7 @@ int findMiddle(int n);
 void sortAnswer(int answer[]);
 void buildCombOfTwo(list<middle> &midComb);
 void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[]);
+void buildCombOfConrer(list<corner> CornerCodes[], int MiddleCodes[]);
 void eliminateFound(list<middle> &midComb, int foundColours[]);
 void getNextQuestion(list<middle> &midComb, int currentQuestion[]);
 void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[]);
@@ -39,7 +40,7 @@ struct middle
 
 void changeAnswer(string& strAnswer, int* arrAnswer)
 {
-	int intTemp[3]
+	int intTemp[3];
 	for (int i=0;i<3;i++)
 		intTemp[i]=0;
 		
@@ -72,7 +73,6 @@ void changeAnswer(string& strAnswer, int* arrAnswer)
 int findMiddle(int foundColour[])
 {	
 	list<middle> midComb;
-	QuestionCube x;
 	
 	for (int i=1; i<7; i+=2)
 	{
@@ -81,16 +81,8 @@ int findMiddle(int foundColour[])
 		buildCombOfTwo(midComb);
 		eliminateFound(midComb, foundColour);
 		
-		//cout << "\nFrage Feld" << i <<":" << currentGuess[0] << "\nFrage Feld" << i+1 <<":" << currentGuess[1] << endl;
+		cout << "\nFrage Feld" << i <<":" << currentGuess[0] << "\nFrage Feld" << i+1 <<":" << currentGuess[1] << endl;
 		
-		x.accessData(i-1,1,1,currentGuess[0]);
-		x.accessData(i,1,1,currentGuess[1]);
-					 
-					 		 
-		string answer=doTheClient(x.makeQuestion());
-		
-		// server input
-		changeAnswer(answer,currentAnswer);
 		
 		sortOutImpossibleCodes(currentGuess, midComb, currentAnswer);
 		
@@ -163,6 +155,49 @@ void buildCombOfTwo(list<middle> &midComb)
 		}
 	}
 }
+
+void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
+{
+	cout << "In funktion build Comb of Corner" << endl;
+	corner cornerGeometrie[8]={	{0,1,2},
+					{0,2,3},
+					{0,3,4},
+					{0,4,1},
+					{1,2,5},
+					{1,4,5},
+					{2,5,3},
+					{3,5,4}	};
+	
+
+	for(int k=0; k<8; k++)
+	{	
+		for(int i = 0; i<8; i++)
+		{
+								
+					corner tmp;
+	
+					tmp.field1 = cornerGeometrie[i].field1;
+					tmp.field2 = cornerGeometrie[i].field2;
+					tmp.field3 = cornerGeometrie[i].field3;
+
+					CornerCodes[k].push_back(tmp);
+					
+					tmp.field1 = cornerGeometrie[i].field3;
+					tmp.field2 = cornerGeometrie[i].field1;
+					tmp.field3 = cornerGeometrie[i].field2;
+
+					CornerCodes[k].push_back(tmp);
+
+					tmp.field1 = cornerGeometrie[i].field2;
+					tmp.field2 = cornerGeometrie[i].field3;
+					tmp.field3 = cornerGeometrie[i].field1;
+
+					CornerCodes[k].push_back(tmp);				
+				
+		}
+	}
+}
+
 
 void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[])
 {
@@ -343,13 +378,21 @@ int main()
 	int MiddleCode[6] = {0,5,1,3,2,4};
 	list <edge> EdgeCodes[12];
 	list <corner> CornerCodes[8];
+
+
+
 	
 	//findMiddle(MiddleCode);
 	buildCombOfEdge(EdgeCodes, MiddleCode);
+
+	buildCombOfCorner(CornerCodes, MiddleCode);
+
+	
+
 	
 	for (int j=0; j<12; j++)
 	{
-		cout << "List number " << j << " ";
+		cout << endl  << "List number " << j << " ";
 		
 		list <edge>::iterator it = EdgeCodes[j].begin();
 		
@@ -362,6 +405,24 @@ int main()
 		
 		cout << endl;
 	}
+
+	for(int j=0;j<8;j++)
+	{
+		cout << endl  << "List number " << j << " ";
+
+		list<corner>::iterator it = CornerCodes[j].begin();
+
+		while(it != CornerCodes[j].end())
+		{
+			cout << it->field1 << it->field2 << it->field3 << " | ";
+			
+			it++;
+		}
+
+		cout << endl;
+
+	}
+
 
 	return 0;
 }
