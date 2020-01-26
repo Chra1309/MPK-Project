@@ -9,12 +9,16 @@
 #include <iostream>
 #include <cstring> 
 #include "ClientCube.hpp"
+#include "QuestionCube.hpp"
 
 using namespace std;
 
 #define RCVBUFSIZE 64   /* Size of receive buffer */
 
+int n = 10;
+
 void DieWithError(string errorMessage);  /* Error handling function */
+void ask(int answer[], QuestionCube q);
 
 char echoBuffer[RCVBUFSIZE];     		// Buffer for echo string
 int sock;                        		// Socket descriptor
@@ -76,7 +80,18 @@ string doTheClient(string toSend){
 	close(sock);	
 
 	return echoBuffer;
-	}
+}
+
+void ask(int answer[], QuestionCube question)
+{
+	string quanser;
+	QuestionCube quanserCube = question;
+	
+	for (int i=0; i++
+	
+	doTheClient(quanser);
+}	
+
 
 
 int main(int argc, char *argv[])
@@ -84,7 +99,15 @@ int main(int argc, char *argv[])
     if (argc != 1){
 	cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
 	exit(1);
-	}	
+	}
+
+	QuestionCube q;
+	q.accessData(0,0,0,1);
+	q.accessData(0,0,1,2);
+
+	int answer[2] = {0,0};
+
+	ask(answer, q);
 		
 	//make a random cube as question
 	srand (time(NULL));
