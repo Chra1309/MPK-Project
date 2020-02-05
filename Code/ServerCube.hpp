@@ -12,12 +12,12 @@
 #include <stdio.h>
 
 
-#define UP	 	1
-#define LEFT 	2
-#define FRONT 	3
-#define RIGHT	4
-#define BACK	5
-#define DOWN 	6
+#define UP	 	0
+#define LEFT 	1
+#define FRONT 	2
+#define RIGHT	3
+#define BACK	4
+#define DOWN 	5
 #define RANDOM	100
 
 
@@ -26,8 +26,6 @@ using namespace std;
 class ServerCube{
 	int data[6][3][3];
 	int n;	
-	string moves;
-	int lookup[6];
 	
 	///////////////Methoden Christoph (Bei Bedarf public machen, war ma zu blöd jetz und es sollt net alles default mäßig public sein...)
 	
@@ -35,39 +33,26 @@ class ServerCube{
 	void shift12by3n(int&, int&, int&, int&, int&, int&, int& ,int& ,int&, int&, int&, int&, int&); //Methode zum Rotieren einer der Felder um eine Fläche
 
 	void randomize(); 		//Methode zum zufälligen verdrehen des ServerCubes
-		//Methode zum Rotieren des ServerCubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
-	void toArray(int*);		//gibt dem 1. Parameter den ServerCube in Form eines 1D Feldes zurück
 
 	void getCorner(int&,int&,int&,int&,int&,int&,int&);
 	void getEdge(int&,int&,int&,int&,int&);
 
 	public:
-		ServerCube(int);	//Konstruktor Cube
-		void testSolve();
+		ServerCube(int);
 	    string printColor(int); //Ausgabe von Farbe
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen	
 		void rotate(int, int);	
-		void stringToCube(string&);		//wandelt string in Cube um    
+		void stringToCube(string);		//wandelt string in Cube um    
 		void compareToQuestion(ServerCube&,int*);	//
 	
-	
-		friend string makeCubeQuestion(ServerCube&);	//erstellt eine Cube Question
-		friend string cubeToString(ServerCube&);		//wandelt einen Cube in einen String um
-		
-		
-			
 };
-ServerCube::ServerCube(int n)
+ServerCube::ServerCube(int n=0)
 {
-	moves="";
-	for(int i=0;i<sizeof(lookup);i++) 
-		lookup[i]=0;
 	this->n=n;
-	//int num[6] = {0, 1, 2, 3, 4, 5};
 	int num[6] = {0, 1, 2, 3, 4, 5};
 	
-	//random_shuffle(num, num + 6);//Farben(Zahlen) zufällig am Cube erzeugen)
+	random_shuffle(num, num + 6);//Farben(Zahlen) zufällig am Cube erzeugen)
     
 	if(n==0) //Erzeugung des 0-Cubes
 	{
@@ -82,12 +67,8 @@ ServerCube::ServerCube(int n)
 				for(int k=0;k<3;k++)
 				{
 					data[i][j][k]=num[i]; //Erzeugung eines Cubes mit zufälligen Farben (Zahlen)
-					//data[i][j][k]=i; //Erzeugung Standardcube
 				}
-					
-			
-		if(n)
-				randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
+		randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
 	}
 }
 string ServerCube::printColor(int field)
@@ -282,34 +263,7 @@ void ServerCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,i
 	}		
 }
 
-string cubeToString(ServerCube& cube)
-{ 
-	string returnString="";
-	int* a=new int[54];
-	cube.toArray(a);	
-	for(int i=0;i<54;i++)
-    	returnString+=a[i]+'0';
-  	
-  	delete a;
-	return returnString;
-	
-}
-void ServerCube::toArray(int* a)
-{
-	int x=0;
-	for(int i=0;i<6;i++)
-	{
-		for(int j=0;j<3;j++)
-		{
-			for(int k=0;k<3;k++)
-			{				
-				a[x]=data[i][j][k];
-				x++;
-			}
-		}	
-	}
-}
-void ServerCube::stringToCube(string& s)
+void ServerCube::stringToCube(string s)
 {
 	int a[54];
 	int x=0;
@@ -329,10 +283,9 @@ void ServerCube::stringToCube(string& s)
 }
 void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 {
-	//answerB=0; answerS=0; answerW=0;
-	for (int i = 0; i<3; i++)
-		answer[i]=0;	
-		
+	for(int i = 0; i<3; i++)
+		answer[i]=0;
+	
 	for(int i=0;i<6;i++)
 	{
 		for(int j=0;j<3;j++)
@@ -341,6 +294,7 @@ void ServerCube::compareToQuestion(ServerCube& qc,int* answer)
 			{
 				if(qc.data[i][j][k]!=6)
 				{	
+					
 					if(qc.data[i][j][k]==data[i][j][k])
 					{
 						if(j==1&&k==1)
@@ -517,27 +471,6 @@ void ServerCube::getCorner(int& a,int& b,int& c,int& c1,int& c2,int& s1, int& s2
 	
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif

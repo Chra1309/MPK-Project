@@ -131,7 +131,7 @@ ClientCube::ClientCube(int n=0)
 {
 	
 	moves="r";
-	for(int i=0;i<sizeof(lookup);i++) 
+	for(int i=0;i<6;i++) 
 		lookup[i]=0;
 	
 	if(n<2)
@@ -481,15 +481,15 @@ void ClientCube::testSolve()
 	solveTopCross();
 	cout << "cross: " << moves << endl;
 	clearMoves();
-    printCubeStd();
+    printCubeColor();
 	solveTopCorners();
 	cout << "corners: " << moves << endl;
 	clearMoves();
-    printCubeStd();
+    printCubeColor();
 	solveMiddleLayer();
 	cout << "middle layer: " << moves << endl;
 	clearMoves();
-    printCubeStd();
+    printCubeColor();
 	solveBottomLayer();
 	cout << "Bottom: " << moves << endl;
 	clearMoves();

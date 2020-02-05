@@ -42,9 +42,9 @@ class QuestionCube{
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen		
 		void stringToCube(string&);	
-		void accessData(int&, int&, int&, int&);
-		void rotate(int&, int&);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
-		int getColor(int&, int&, int&);
+		void accessData(int, int, int, int);
+		void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
+		int getColor(int, int, int);
 	
 	
 		string makeQuestion();			//wandelt einen Cube in einen String um
@@ -139,7 +139,7 @@ void QuestionCube::printCubeStd()
 	}	
 	cout<<endl<<endl;
 }
-void QuestionCube::accessData(int& i, int& j, int& k, int& value)
+void QuestionCube::accessData(int i, int j, int k, int value)
 {
 	data[i][j][k]=value;
 }
@@ -179,7 +179,7 @@ void QuestionCube::stringToCube(string& s)
 		}	
 	}
 }
-void QuestionCube::rotate(int& side,int& howOften)
+void QuestionCube::rotate(int side,int howOften)
 {
 
 	howOften+=4;
@@ -280,7 +280,7 @@ void QuestionCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g
 	}		
 }
 
-int QuestionCube::getColor(int& i, int& j,int& k)
+int QuestionCube::getColor(int i, int j,int k)
 {
 	return data[i][j][k];
 }

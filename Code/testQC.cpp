@@ -1,4 +1,4 @@
-#include "ClientCube.hpp"
+#include "QuestionCube.hpp"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	srand(time(NULL));
-	ClientCube x(1);
+	QuestionCube x;
 	
 	int side,row,column,color,numberTurns;
 	
@@ -19,12 +19,15 @@ int main()
 	color=1;
 	numberTurns=2;
 	
-	//x.accessData(side,row,column,color);
+	x.accessData(0,0,0,0);
+	x.accessData(0,2,2,2);
 	x.printCubeColor();
 	
 	x.rotate(side,numberTurns);
 	
 	x.printCubeColor();
+	
+	cout<<x.makeQuestion()<<endl<<x.getColor(0,0,0)<<endl;
 	
 	return 0;
 }
