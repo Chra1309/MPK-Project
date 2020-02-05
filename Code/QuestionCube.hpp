@@ -1,5 +1,6 @@
 #ifndef QC
 #define QC
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -43,6 +44,7 @@ class QuestionCube{
 		void stringToCube(string&);	
 		void accessData(int&, int&, int&, int&);
 		void rotate(int&, int&);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
+		int getColor(int&, int&, int&);
 	
 	
 		string makeQuestion();			//wandelt einen Cube in einen String um
@@ -179,6 +181,10 @@ void QuestionCube::stringToCube(string& s)
 }
 void QuestionCube::rotate(int& side,int& howOften)
 {
+
+	howOften+=4;
+	howOften=howOften%4;
+	
 	switch (side)
 	{
 		case FRONT:
@@ -274,6 +280,10 @@ void QuestionCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g
 	}		
 }
 
+int QuestionCube::getColor(int& i, int& j,int& k)
+{
+	return data[i][j][k];
+}
 
 
 

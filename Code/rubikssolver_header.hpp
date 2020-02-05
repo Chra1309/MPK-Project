@@ -5,6 +5,8 @@
 #include <cmath>
 #include <time.h>
 #include <stdio.h>
+
+#include "cubeoperations.hpp"
 using namespace std;
 
 
@@ -2370,6 +2372,21 @@ void clearMoves()
 }
 void scramble()
 {
+/*
+cout << "r " ;
+r();
+cout << "u " ;
+u();
+cout << "l " ;
+l();
+cout << "r " ;
+r();
+cout << "ri " ;
+ri();
+cout << "d " ;
+d();
+*/
+
 	srand(time(NULL));
 	for (int i = 0; i < 30; i++)
 	{
@@ -2390,6 +2407,7 @@ void scramble()
             case 12: di(); break;
 		}
 	}
+
 }
 
 void inputCube(){
