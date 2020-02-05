@@ -1,5 +1,5 @@
-#ifndef A_H
-#define A_H
+#ifndef CC
+#define CC
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -12,17 +12,17 @@
 #include <stdio.h>
 using namespace std;
 
-#define UP	 	1
-#define LEFT 	2
-#define FRONT 	3
-#define RIGHT	4
-#define BACK	5
-#define DOWN 	6
+#define UP	 	0
+#define LEFT 	1
+#define FRONT 	2
+#define RIGHT	3
+#define BACK	4
+#define DOWN 	5
 #define RANDOM	100
 
 extern char echoBuffer[];
 
-void getAnswer(int* answer)
+/*void getAnswer(int* answer)
 {
 	answer[0]=(echoBuffer[1]-'0')*10+(echoBuffer[2]-'0');
 	answer[1]=(echoBuffer[3]-'0')*10+(echoBuffer[4]-'0');
@@ -33,7 +33,7 @@ void getAnswer(int* answer)
 void getTurnsServer(int& answer){
 	answer=(echoBuffer[1]-'0')*100+(echoBuffer[2]-'0')*10+(echoBuffer[3]-'0');
 	cout<<answer<<" Turns"<<endl;
-}
+}*/
 
 
 
@@ -55,8 +55,7 @@ class ClientCube{
 	void shift12by3n(int&, int&, int&, int&, int&, int&, int& ,int& ,int&, int&, int&, int&, int&); //Methode zum Rotieren einer der Felder um eine Fläche
 
 	void randomize(); 		//Methode zum zufälligen verdrehen des Cubes
-	void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
-
+	
 	void getCorner(int&,int&,int&,int&,int&);
 	void getEdge(int&,int&,int&,int&);
 
@@ -118,7 +117,8 @@ class ClientCube{
 	    string printColor(int); //Ausgabe von Farbe
 	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen		
-		    
+		void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
+
 		
 		
 		
@@ -150,7 +150,7 @@ ClientCube::ClientCube(int n=0)
 		for(int i=0;i<6;i++)
 			for(int j=0;j<3;j++)
 				for(int k=0;k<3;k++)
-					data[i][j][k]=0;
+					data[i][j][k]=6;
 	}else
 	{ 
 		for(int i=0;i<6;i++)
@@ -257,7 +257,7 @@ void ClientCube::randomize()
 	for(int i=0;i<RANDOM;i++)
 	{
 		while(x==xOld)
-			x=(rand()%6)+1;
+			x=(rand()%6);
 		xOld=x;
 		y=(rand()%3)+1;
 		rotate(x,y);
@@ -2196,13 +2196,13 @@ void ClientCube::inputCube(){
 
 void ClientCube::mapForSolver(){
 
-            for(int j = 0; j < 6; j++){    
-                for(int k = 0; k < 3; k++){
-                    for(int l = 0; l <3; l++){
-                            data[j][k][l] += 10;
-                    }
-                }
-            }
+	for(int j = 0; j < 6; j++){    
+		for(int k = 0; k < 3; k++){
+			for(int l = 0; l <3; l++){
+					data[j][k][l] += 10;
+			}
+		}
+	}
     
     for(int i = 0; i <6; i++){
     int changer = data[i][1][1];

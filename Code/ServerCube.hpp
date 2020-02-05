@@ -1,5 +1,5 @@
-#ifndef A_H
-#define A_H
+#ifndef SC
+#define SC
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
