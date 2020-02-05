@@ -15,7 +15,7 @@ int getCorners(int array[8][3], int cubetofind[6][3][3]);
 int setCorners(int array[8][3], int cubetofind[6][3][3]);
 void getEdges(int array[12][2], int cubetofind[6][3][3]);
 void setEdges(int edge[12][2], int cube[6][3][3]);
-
+/*
 string printColor(int); //Ausgabe von Farbe
 void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
 void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen
@@ -39,48 +39,48 @@ void printCubeStd(int data[6][3][3])
 	}	
 	cout<<endl<<endl;
 }
+*/
 
+void setEdges(int edge[12][2], int edge_cube[6][3][3]){
+    edge_cube[0][1][0] = edge[0][0];  
+    edge_cube[1][0][1] = edge[0][1];
 
-void setEdges(int edge[12][2], int cube[6][3][3]){
-    cube[0][1][0] = edge[0][0];  
-    cube[1][0][1] = edge[0][1];
+    edge_cube[0][0][1] = edge[1][0];
+    edge_cube[4][0][1] = edge[1][1];
 
-    cube[0][0][1] = edge[1][0];
-    cube[4][0][1] = edge[1][1];
+    edge_cube[0][1][2] = edge[2][0];
+    edge_cube[3][0][1] = edge[2][1];
 
-    cube[0][1][2] = edge[2][0];
-    cube[3][0][1] = edge[2][1];
-
-    cube[0][2][1] = edge[3][0];
-    cube[2][0][1] = edge[3][1]; 
-
-////////////////////////////
-
-    cube[1][1][0] = edge[4][0];
-    cube[4][1][2] = edge[4][1];
-
-    cube[3][1][2] = edge[5][0];
-    cube[4][1][0] = edge[5][1];
-
-    cube[2][1][2] = edge[6][0];
-    cube[3][1][0] = edge[6][1];
-
-    cube[1][1][2] = edge[7][0];
-    cube[2][1][0] = edge[7][1];
+    edge_cube[0][2][1] = edge[3][0];
+    edge_cube[2][0][1] = edge[3][1]; 
 
 ////////////////////////////
 
-    cube[1][2][1] = edge[8][0];
-    cube[5][1][0] = edge[8][1];
+    edge_cube[1][1][0] = edge[4][0];
+    edge_cube[4][1][2] = edge[4][1];
 
-    cube[4][2][1] = edge[9][0];
-    cube[5][2][1] = edge[9][1];
+    edge_cube[3][1][2] = edge[5][0];
+    edge_cube[4][1][0] = edge[5][1];
 
-    cube[3][2][1] = edge[10][0];
-    cube[5][1][2] = edge[10][1];
+    edge_cube[2][1][2] = edge[6][0];
+    edge_cube[3][1][0] = edge[6][1];
 
-    cube[2][2][1] = edge[11][0];
-    cube[5][0][1] = edge[11][1];
+    edge_cube[1][1][2] = edge[7][0];
+    edge_cube[2][1][0] = edge[7][1];
+
+////////////////////////////
+
+    edge_cube[1][2][1] = edge[8][0];
+    edge_cube[5][1][0] = edge[8][1];
+
+    edge_cube[4][2][1] = edge[9][0];
+    edge_cube[5][2][1] = edge[9][1];
+
+    edge_cube[3][2][1] = edge[10][0];
+    edge_cube[5][1][2] = edge[10][1];
+
+    edge_cube[2][2][1] = edge[11][0];
+    edge_cube[5][0][1] = edge[11][1];
 
 }
 

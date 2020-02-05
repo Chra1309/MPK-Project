@@ -54,45 +54,42 @@ struct middle
 };
 
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
 {
     int edge2fill[12][2]; 
 
-    // set all adges to black
     for(int i = 0; i < 12; i++)
         for(int j = 0; j < 2; j++)
             edge2fill[i][j]=6;
     
     list <edge> UsedEdges;
     
+
+    int more = 0;
     for(int i = 0; i < 12; i++){  
 
+
         edge tmp;
-        // UI begin
-            cout << "________________________________________________" << endl;
-            cout << "fill edge: " << edgeorder[i] << endl;
-        // UI end
+        cout << "________________________________________________" << endl;
+        cout << "fill edge: " << edgeorder[i] << endl;
 
         list <edge>::iterator itPossible = EdgeCodes[edgeorder[i]].begin();        
         list <edge>::iterator itUsed = UsedEdges.begin(); 
 
-        // UI begin
-            cout << "used: \t\t"; 
-            for(int j = 0; j < UsedEdges.size(); j++){
-                cout << itUsed->field1 << itUsed->field2 << " | "; itUsed++;}
-            cout << endl;
-            itUsed= UsedEdges.begin();       
-        // UI end
+        cout << "used: \t\t"; 
+        for(int j = 0; j < UsedEdges.size(); j++){
+            cout << itUsed->field1 << itUsed->field2 << " | "; itUsed++;}
+        cout << endl;
 
-        //going through already used combinations and deleting them from possible combinations
+
+        itUsed= UsedEdges.begin();       
         while(itUsed != UsedEdges.end())
         {
 
             list <int> deletelist;
             int deleter = 0; 
 
-            // finding matching with already used
             itPossible = EdgeCodes[edgeorder[i]].begin();
             while(itPossible != EdgeCodes[edgeorder[i]].end()){
 
@@ -107,7 +104,6 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
                 deleter ++;
             }
 
-            // deleting already used
             while(deletelist.size()>0){
                 itPossible = EdgeCodes[edgeorder[i]].begin();//deletelist.back(itdelete); 
                 advance(itPossible,deletelist.back());
@@ -115,23 +111,23 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
                 EdgeCodes[edgeorder[i]].erase(itPossible);
             }
 
-            //UI begin
-                {
-                cout << "possible: \t";
 
-                    list <edge>::iterator itrem = EdgeCodes[edgeorder[i]].begin();		                    
-                    while(itrem != EdgeCodes[edgeorder[i]].end())
-                    {
-	                    cout << itrem->field1 << itrem->field2 << " | ";			                    
-	                    itrem++;
-                    }		                    
-                    cout << endl;
-                }
-            //UI end 
+                        {
+                        cout << "possible: \t";
+
+		                    list <edge>::iterator itrem = EdgeCodes[edgeorder[i]].begin();		                    
+		                    while(itrem != EdgeCodes[edgeorder[i]].end())
+		                    {
+			                    cout << itrem->field1 << itrem->field2 << " | ";			                    
+			                    itrem++;
+		                    }		                    
+		                    cout << endl;
+                        }
+            
             itUsed++;
         }  
 
-        // fill cube with random combinations from remaining possible ones
+
         list <edge>::iterator it = EdgeCodes[edgeorder[i]].begin();        
         int random = rand()%(EdgeCodes[edgeorder[i]].size());
         //cout << "rand: " << random << endl;
@@ -142,7 +138,6 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
         edge2fill[edgeorder[i]][0] = it->field1;
         edge2fill[edgeorder[i]][1] = it->field2;  
         
-        // adding currently used combinations to used-list
         tmp.field1 = it->field1; 
         tmp.field2 = it->field2;
         UsedEdges.push_back(tmp);
@@ -151,11 +146,10 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
     
     }
 
-    setEdges(edge2fill, randcube);
+        setEdges(edge2fill, randcube);
 
 }
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
 
     bool done = 0;   
@@ -175,13 +169,17 @@ void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
                 order[i+1] = temporder;
                 done = 0;
             }
-   
+/*
+            else
+                rightorder++;
+           
+            if(rightorder >= 11)
+                done = 1; */     
         }    
 
     }
     while(!done);
 
-    // UI begin
     cout << "sorted lists:" << endl;
     for(int k = 0; k < size; k++){
         cout << "list " << order[k] << ": \t";
@@ -189,14 +187,13 @@ void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
             cout << "|";
         cout << endl;   
     }
-    // UI end
 
 
 }
 
 
 void clearEdgeList(list<edge> EdgeCodes[]){
-//just for deleting random entries from list - will be done by master mind
+
 	for (int j=0; j<12; j++)
 	{
 		
@@ -214,6 +211,7 @@ void clearEdgeList(list<edge> EdgeCodes[]){
             for(int i = 0; i < randnum; i++)
                 it++;                
             EdgeCodes[j].erase(it);
+
 
             more++; 
         }
