@@ -83,6 +83,7 @@ int findMiddle(int foundColour[])
 		
 		cout << "\nFrage Feld" << i <<":" << currentGuess[0] << "\nFrage Feld" << i+1 <<":" << currentGuess[1] << endl;
 		
+		//First Server Question for Midfield		
 		
 		sortOutImpossibleCodes(currentGuess, midComb, currentAnswer);
 		
@@ -95,6 +96,8 @@ int findMiddle(int foundColour[])
 			
 			cout << "\nFrage Feld" << i <<" :" << currentGuess[0] << "\nFrage Feld" << i+1 <<" :" << currentGuess[1] << endl;
 			
+			//Server Question in Loop 
+
 			// server input
 			cin >> currentAnswer[0];
 			cin >> currentAnswer[1];
@@ -159,15 +162,15 @@ void buildCombOfTwo(list<middle> &midComb)
 void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 {
 	cout << "In funktion build Comb of Corner" << endl;
-	corner cornerGeometrie[8]={	{0,1,2},
-					{0,2,3},
-					{0,3,4},
-					{0,4,1},
-					{1,2,5},
-					{1,4,5},
-					{2,5,3},
-					{3,5,4}	};
-	
+	corner cornerGeometrie[8]={	{MiddleCodes[0],MiddleCodes[2],MiddleCodes[4]},
+					{MiddleCodes[0],MiddleCodes[4],MiddleCodes[3]},
+					{MiddleCodes[0],MiddleCodes[3],MiddleCodes[5]},
+					{MiddleCodes[0],MiddleCodes[5],MiddleCodes[2]},
+					{MiddleCodes[2],MiddleCodes[1],MiddleCodes[4]},
+					{MiddleCodes[4],MiddleCodes[1],MiddleCodes[3]},
+					{MiddleCodes[3],MiddleCodes[1],MiddleCodes[5]},
+					{MiddleCodes[2],MiddleCodes[5],MiddleCodes[1]}	};
+
 
 	for(int k=0; k<8; k++)
 	{	
@@ -320,6 +323,11 @@ void getNextQuestion(list<middle> &midComb, int currentQuestion[])
 		}
 	}
 }
+
+
+// void getNextEdgeQuestion(list<edge> &edgeComb)
+
+
 
 void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[])
 {
