@@ -14,7 +14,7 @@ struct corner;
 struct edge;
 struct middle;
 
-#define useUI 0
+#define useUI 0 
 
 int findMiddle(int n);
 void sortAnswer(int answer[]);
@@ -30,7 +30,7 @@ void fillMiddle(int cubeMiddle[6][3][3], int Middle[]);
 void clearEdgeList(list<edge> EdgeCodes[]);
 void fillCorners(list <corner> CornerCodes[]);
 
-int randcube[6][3][3] = {
+int cube[6][3][3] = {
 	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //yellow side
 	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //orange side
 	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //blue side
@@ -93,18 +93,20 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
         }       
         // UI end
 
-        //going through already used combinations and deleting them from possible combinations
-        while(itUsed != UsedEdges.end())
-        {
 
+    int caunt = 0; 
+        //going through already used combinations and deleting them from possible combinations
+        itUsed = UsedEdges.begin(); 
+        while(itUsed != UsedEdges.end())
+        //for(int k = 0; k < UsedEdges.size(); k++)
+        {
+         //   cout << "hier 1: " << UsedEdges.size()<< " i: " << i << endl;
             list <int> deletelist;
             int deleter = 0; 
 
             // finding matching with already used
             itPossible = EdgeCodes[edgeorder[i]].begin();
             while(itPossible != EdgeCodes[edgeorder[i]].end()){
-
-
                 if(((itPossible->field1 == itUsed->field1) && (itPossible->field2 == itUsed->field2)) || 
                    ((itPossible->field1 == itUsed->field2) && (itPossible->field2 == itUsed->field1)))
                 {
@@ -135,35 +137,38 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
 	                    itrem++;
                     }		                    
                     cout << endl;
+
                 }
             //UI end 
+
             }
             itUsed++;
-            
+            caunt++;
+     //cout << "hier 6: "<< caunt << endl;           
         }  
 
         // fill cube with random combinations from remaining possible ones
         list <edge>::iterator it = EdgeCodes[edgeorder[i]].begin();        
         int random = rand()%(EdgeCodes[edgeorder[i]].size());
-        //cout << "rand: " << random << endl;
+
 
         for(int j = 0; j < random; j++)
             it++;
 
         edge2fill[edgeorder[i]][0] = it->field1;
         edge2fill[edgeorder[i]][1] = it->field2;  
-        
+
         // adding currently used combinations to used-list
         tmp.field1 = it->field1; 
         tmp.field2 = it->field2;
         UsedEdges.push_back(tmp);
-        
+
         if(useUI){
             cout << "set to: " << it->field1 << "." << it->field2 << endl;
         }
     }
 
-    setEdges(edge2fill, randcube);
+    setEdges(edge2fill, cube);
 
 }
 
@@ -322,39 +327,39 @@ void fillCorners(list<corner> CornerCodes[]){ //einträge mit wenigsten zu erst,
 	
 	}
 
-    setCorners(arCorner, randcube);
+    setCorners(arCorner, cube);
 /*
-	randcube[0][2][0] = arCorner[0][0] ;
-	randcube[1][0][2] = arCorner[0][1] ;	
-    randcube[2][0][0] = arCorner[0][2] ;
+	cube[0][2][0] = arCorner[0][0] ;
+	cube[1][0][2] = arCorner[0][1] ;	
+    cube[2][0][0] = arCorner[0][2] ;
     
-    randcube[0][2][2] = arCorner[1][0] ;
-    randcube[2][0][2] = arCorner[1][1] ;
-    randcube[3][0][0] = arCorner[1][2] ;
+    cube[0][2][2] = arCorner[1][0] ;
+    cube[2][0][2] = arCorner[1][1] ;
+    cube[3][0][0] = arCorner[1][2] ;
     
-    randcube[0][0][2] = arCorner[2][0] ;
-    randcube[3][0][2] = arCorner[2][1] ;
-    randcube[4][0][0] = arCorner[2][2] ;
+    cube[0][0][2] = arCorner[2][0] ;
+    cube[3][0][2] = arCorner[2][1] ;
+    cube[4][0][0] = arCorner[2][2] ;
     
-    randcube[0][0][0] = arCorner[3][0] ;
-    randcube[4][0][2] = arCorner[3][1] ;
-    randcube[1][0][0] = arCorner[3][2] ;
+    cube[0][0][0] = arCorner[3][0] ;
+    cube[4][0][2] = arCorner[3][1] ;
+    cube[1][0][0] = arCorner[3][2] ;
     
-    randcube[1][2][2] = arCorner[4][0] ;
-    randcube[2][2][0] = arCorner[4][1] ;
-    randcube[5][0][0] = arCorner[4][2] ;
+    cube[1][2][2] = arCorner[4][0] ;
+    cube[2][2][0] = arCorner[4][1] ;
+    cube[5][0][0] = arCorner[4][2] ;
     
-    randcube[1][2][0] = arCorner[5][0] ;
-    randcube[4][2][2] = arCorner[5][1] ;
-    randcube[5][2][0] = arCorner[5][2] ;
+    cube[1][2][0] = arCorner[5][0] ;
+    cube[4][2][2] = arCorner[5][1] ;
+    cube[5][2][0] = arCorner[5][2] ;
     
-    randcube[2][2][2] = arCorner[6][0] ;
-    randcube[5][0][2] = arCorner[6][1] ;
-    randcube[3][2][0] = arCorner[6][2] ;
+    cube[2][2][2] = arCorner[6][0] ;
+    cube[5][0][2] = arCorner[6][1] ;
+    cube[3][2][0] = arCorner[6][2] ;
     
-    randcube[3][2][2] = arCorner[7][0] ;
-    randcube[5][2][2] = arCorner[7][1] ;
-    randcube[4][2][0] = arCorner[7][2] ;
+    cube[3][2][2] = arCorner[7][0] ;
+    cube[5][2][2] = arCorner[7][1] ;
+    cube[4][2][0] = arCorner[7][2] ;
 */
 }
 
@@ -408,13 +413,47 @@ void clearEdgeList(list<edge> EdgeCodes[]){
 void fillCenter(int center[6], int color[6]){
 
     for(int i = 0; i < 6; i++)
-        randcube[center[i]][1][1] = color[center[i]];
+        cube[center[i]][1][1] = color[center[i]];
 
 }
 
+void CopyListEdges(list<edge> original[], list<edge> copy[]){
+
+	edge temp;
+
+	for(int i=0;i<12;i++)
+	{
+		list<edge>::iterator it= original[i].begin();
+		while(it != original[i].end())
+		{
+			temp.field1=it->field1;
+			temp.field2=it->field2;
+			copy[i].push_back(temp);
+			it++;
+		}
+    }
 
 
 
+}
+
+void CopyListCorners(list<corner> original[], list<corner> copy[]){
+
+	corner temp;
+
+	for(int i=0;i<8;i++)
+	{
+		list<corner>::iterator it= original[i].begin();
+		while(it != original[i].end())
+		{
+			temp.field1=it->field1;
+			temp.field2=it->field2;
+			temp.field3=it->field3;
+			copy[i].push_back(temp);
+			it++;
+		}
+    }
+}
 
 
 
@@ -423,50 +462,92 @@ void fillCenter(int center[6], int color[6]){
 
 void fillrandomcube(){
 
-	int MiddleCode[6] = {0,5,1,3,2,4}; // index: 
-    int MiddleColor[6] = {0,1,2,3,4,5};
-    int edgeorder[12] ={0,1,2,3,4,5,6,7,8,9,10,11};
-	list <edge> EdgeCodes[12];
-	list <corner> CornerCodes[8];
+bool solvable = 0; 
+int solved = 0; 
+int tries = 0; 
 
-	//findMiddle(MiddleCode);
-	buildCombOfEdge(EdgeCodes, MiddleCode);
-	buildCombOfCorner(CornerCodes, MiddleCode);
+    while(!solvable){
+	    int MiddleCode[6] = {0,5,1,3,2,4}; // index: 
+        int MiddleColor[6] = {0,1,2,3,4,5};
+        int edgeorder[12] ={0,1,2,3,4,5,6,7,8,9,10,11};
+	    list <edge> EdgeCodes[12];
+	    list <corner> CornerCodes[8];
 
-    list <edge> EdgeCodesRandomCube(EdgeCodes[0]);
-	list <corner> CornerCodesRandomCube[8](CornerCodes);
+	    buildCombOfEdge(EdgeCodes, MiddleCode);
+	    buildCombOfCorner(CornerCodes, MiddleCode);
 
-    int count = 0;
-    bool check = 0;
+        list <edge> EdgeCodesCopy[12];
+	    list <corner> CornerCodesCopy[8];
 
-    //for(int i = 0; i < 10 ; i++)
-    //{
-    system("clear");
+        CopyListCorners(CornerCodes, CornerCodesCopy);
+        CopyListEdges(EdgeCodes, EdgeCodesCopy);
+        //clearEdgeList(EdgeCodes); 
+        system("clear");
         fillCenter(MiddleCode, MiddleColor);
-        //printCubeColor(randcube);
 
-        clearEdgeList(EdgeCodes); // loescht random werte aus den listen - wird später durch mastermind erledigt
-        SortEdgesList(EdgeCodes, edgeorder, 12); // sortiert das listen - array der groeße der listen nach
-        fillEdges(EdgeCodes, randcube, edgeorder); // befuelle randcube mit random edges aus den listen 
-        //printCubeColor(randcube);
+        // befuelle cube mit random edges aus den listen  
+        SortEdgesList(EdgeCodesCopy, edgeorder, 12);
+        fillEdges(EdgeCodesCopy, cube, edgeorder); 
 
-        fillCorners(CornerCodes);
-        printCubeColor(randcube);
 
-        check = checksolvability(randcube);
-        cout << "check: " << check << endl;
-        count++;
-        cout << "count: " << count << endl;
-    //}
+        fillCorners(CornerCodesCopy);
+        //printCubeColor(cube);
 
+        solvable = checksolvability(cube);
+        //solved += checksolvability(cube);
+        //if(solvable)
+        //    solved ++;
+
+        //cout << "check: " << solved << endl;
+        tries++;
+        //cout << "tries: " << tries << endl;
+        //float verh = (float)solved/(float)tries;
+        //cout << "soll:\t1/12 = 0,0833  ist:\t" << verh << endl;
+        //usleep(1000000*0.01);  
+        //cin.get();
+    }
+    cout << "tries:\t" << tries << endl; 
 
 }
 
 
 int main()
 {
+    bool error = 0; 
     srand(clock());
-    fillrandomcube();
+
+    
+        fillrandomcube();
+
+	    solveTopCross();
+	    cout << "cross: " << moves << endl;
+	    clearMoves();
+
+        printCubeColor(cube);
+	    solveTopCorners();
+	    cout << "corners: " << moves << endl;
+	    clearMoves();
+        if(checktop())
+            error = 1; 
+        printCubeColor(cube);  
+        cout << "error: " << error << endl;
+        if(!error)
+	        solveMiddleLayer();
+	    cout << "middle layer: " << moves << endl;
+	    clearMoves();
+
+        printCubeColor(cube);
+        if(!error)
+	        solveBottomLayer();
+	    cout << "Bottom: " << moves << endl;
+        printCubeColor(cube);
+	    clearMoves();
+
+
+
+    if(error)
+        cout << "\033[31mERROR ERROR ERROR\033[39m" << endl; 
+
 
 	return 0;
 }
@@ -674,15 +755,15 @@ void buildCombOfTwo(list<middle> &midComb)
 
 void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 {
-	cout << "In funktion build Comb of Corner" << endl;
-	corner cornerGeometrie[8]={	{0,1,2},
-					{0,2,3},
-					{0,3,4},
-					{0,4,1},
-					{1,2,5},
-					{1,4,5},
-					{2,5,3},
-					{3,5,4}	};
+	//cout << "In funktion build Comb of Corner" << endl;
+	corner cornerGeometrie[8]={	{MiddleCodes[0],MiddleCodes[2],MiddleCodes[4]},
+					{MiddleCodes[0],MiddleCodes[4],MiddleCodes[3]},
+					{MiddleCodes[0],MiddleCodes[3],MiddleCodes[5]},
+					{MiddleCodes[0],MiddleCodes[5],MiddleCodes[2]},
+					{MiddleCodes[2],MiddleCodes[1],MiddleCodes[4]},
+					{MiddleCodes[4],MiddleCodes[1],MiddleCodes[3]},
+					{MiddleCodes[3],MiddleCodes[1],MiddleCodes[5]},
+					{MiddleCodes[2],MiddleCodes[5],MiddleCodes[1]}	};
 
 	for(int k=0; k<8; k++)
 	{	
