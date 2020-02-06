@@ -13,6 +13,6 @@ fillcube: Code/fillcube.cpp
 solvability: Code/solvability.cpp
 	$(CC) -o executables/solvability Code/solvability.cpp
 
-clean:
+clean:gi
 	rm rubikssolver, fillcube, solvability
 

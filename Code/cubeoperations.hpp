@@ -56,17 +56,17 @@ void setEdges(int edge[12][2], int edge_cube[6][3][3]){
 
 ////////////////////////////
 
-    edge_cube[1][1][0] = edge[4][0];
-    edge_cube[4][1][2] = edge[4][1];
+    edge_cube[1][1][2] = edge[4][0];
+    edge_cube[2][1][0] = edge[4][1];
 
-    edge_cube[3][1][2] = edge[5][0];
-    edge_cube[4][1][0] = edge[5][1];
+    edge_cube[1][1][0] = edge[5][0];
+    edge_cube[4][1][2] = edge[5][1];
 
-    edge_cube[2][1][2] = edge[6][0];
-    edge_cube[3][1][0] = edge[6][1];
+    edge_cube[3][1][2] = edge[6][0];
+    edge_cube[4][1][0] = edge[6][1];
 
-    edge_cube[1][1][2] = edge[7][0];
-    edge_cube[2][1][0] = edge[7][1];
+    edge_cube[2][1][2] = edge[7][0];
+    edge_cube[3][1][0] = edge[7][1];
 
 ////////////////////////////
 
@@ -100,17 +100,17 @@ void getEdges(int edge[12][2], int cube[6][3][3]){
 
     ////////////////////////////
 
-    edge[4][0] = cube[1][1][0];
-    edge[4][1] = cube[4][1][2];
+    edge[4][0] = cube[1][1][2];
+    edge[4][1] = cube[2][1][0];
 
-    edge[5][0] = cube[3][1][2];
-    edge[5][1] = cube[4][1][0];
+    edge[5][0] = cube[1][1][0];
+    edge[5][1] = cube[4][1][2];
 
-    edge[6][0] = cube[2][1][2];
-    edge[6][1] = cube[3][1][0];
+    edge[6][0] = cube[3][1][2];
+    edge[6][1] = cube[4][1][0];
 
-    edge[7][0] = cube[1][1][2];
-    edge[7][1] = cube[2][1][0];
+    edge[7][0] = cube[2][1][2];
+    edge[7][1] = cube[3][1][0];
 
     ////////////////////////////
 
@@ -130,73 +130,73 @@ void getEdges(int edge[12][2], int cube[6][3][3]){
 
 int getCorners(int array[8][3], int cubetofind[6][3][3]){
 
-    array[0][0] = cubetofind[0][0][0];
-    array[0][1] = cubetofind[1][0][0];
-    array[0][2] = cubetofind[4][0][2];
+    array[0][0] = cubetofind[0][2][0];
+    array[0][1] = cubetofind[1][0][2];
+    array[0][2] = cubetofind[2][0][0];
 
-    array[1][0] = cubetofind[0][0][2];
-    array[1][1] = cubetofind[4][0][0];
-    array[1][2] = cubetofind[3][0][2];
+    array[1][0] = cubetofind[0][0][0];
+    array[1][1] = cubetofind[4][0][2];
+    array[1][2] = cubetofind[1][0][0];
 
-    array[2][0] = cubetofind[0][2][2];
-    array[2][1] = cubetofind[3][0][0];
-    array[2][2] = cubetofind[2][0][2];
+    array[2][0] = cubetofind[0][0][2];
+    array[2][1] = cubetofind[3][0][2];
+    array[2][2] = cubetofind[4][0][0];
 
-    array[3][0] = cubetofind[0][2][0];
-    array[3][1] = cubetofind[2][0][0];
-    array[3][2] = cubetofind[1][0][2];
+    array[3][0] = cubetofind[0][2][2];
+    array[3][1] = cubetofind[2][0][2];
+    array[3][2] = cubetofind[3][0][0];
 
-    array[4][0] = cubetofind[5][2][0];
-    array[4][1] = cubetofind[4][2][2];
-    array[4][2] = cubetofind[1][2][0];
+    array[4][0] = cubetofind[1][2][2];
+    array[4][1] = cubetofind[5][0][0];
+    array[4][2] = cubetofind[2][2][0];
 
-    array[5][0] = cubetofind[5][2][2];
-    array[5][1] = cubetofind[3][2][2];
-    array[5][2] = cubetofind[4][2][0];
+    array[5][0] = cubetofind[1][2][0];
+    array[5][1] = cubetofind[4][2][2];
+    array[5][2] = cubetofind[5][2][0];
 
-    array[6][0] = cubetofind[5][0][2];
-    array[6][1] = cubetofind[2][2][2];
-    array[6][2] = cubetofind[3][2][0];
+    array[6][0] = cubetofind[3][2][2];
+    array[6][1] = cubetofind[5][2][2];
+    array[6][2] = cubetofind[4][2][0];
 
-    array[7][0] = cubetofind[5][0][0];
-    array[7][1] = cubetofind[1][2][2];
-    array[7][2] = cubetofind[2][2][0];
+    array[7][0] = cubetofind[2][2][2];
+    array[7][1] = cubetofind[5][0][2];
+    array[7][2] = cubetofind[3][2][0];
 
 }
 
 int setCorners(int array[8][3], int cubetofind[6][3][3]){
 
 
-    cubetofind[0][0][0] = array[0][0];
-    cubetofind[1][0][0] = array[0][1];
-    cubetofind[4][0][2] = array[0][2];
+    cubetofind[0][2][0] = array[0][0];
+    cubetofind[1][0][2] = array[0][1];
+    cubetofind[2][0][0] = array[0][2];
 
-    cubetofind[0][0][2] = array[1][0];
-    cubetofind[4][0][0] = array[1][1];
-    cubetofind[3][0][2] = array[1][2];
+    cubetofind[0][0][0] = array[1][0];
+    cubetofind[4][0][2] = array[1][1];
+    cubetofind[1][0][0] = array[1][2];
 
-    cubetofind[0][2][2] = array[2][0];
-    cubetofind[3][0][0] = array[2][1];
-    cubetofind[2][0][2] = array[2][2];
+    cubetofind[0][0][2] = array[2][0];
+    cubetofind[3][0][2] = array[2][1];
+    cubetofind[4][0][0] = array[2][2];
 
-    cubetofind[0][2][0] = array[3][0];
-    cubetofind[2][0][0] = array[3][1];
-    cubetofind[1][0][2] = array[3][2];
+    cubetofind[0][2][2] = array[3][0];
+    cubetofind[2][0][2] = array[3][1];
+    cubetofind[3][0][0] = array[3][2];
 
-    cubetofind[5][2][0] = array[4][0];
-    cubetofind[4][2][2] = array[4][1];
-    cubetofind[1][2][0] = array[4][2];
+    cubetofind[1][2][2] = array[4][0];
+    cubetofind[5][0][0] = array[4][1];
+    cubetofind[2][2][0] = array[4][2];
 
-    cubetofind[5][2][2] = array[5][0];
-    cubetofind[3][2][2] = array[5][1];
-    cubetofind[4][2][0] = array[5][2];
+    cubetofind[1][2][0] = array[5][0];
+    cubetofind[4][2][2] = array[5][1];
+    cubetofind[5][2][0] = array[5][2];
 
-    cubetofind[5][0][2] = array[6][0];
-    cubetofind[2][2][2] = array[6][1];
-    cubetofind[3][2][0] = array[6][2];
+    cubetofind[3][2][2] = array[6][0];
+    cubetofind[5][2][2] = array[6][1];
+    cubetofind[4][2][0] = array[6][2];
 
-    cubetofind[5][0][0] = array[7][0];
-    cubetofind[1][2][2] = array[7][1];
-    cubetofind[2][2][0] = array[7][2];
+    cubetofind[2][2][2] = array[7][0];
+    cubetofind[5][0][2] = array[7][1];
+    cubetofind[3][2][0] = array[7][2];
 
 }
