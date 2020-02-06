@@ -1,5 +1,6 @@
-#ifndef QQ
-#define QQ
+#ifndef QC
+#define QC
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -12,12 +13,12 @@
 #include <stdio.h>
 
 
-#define UP	 	1
-#define LEFT 	2
-#define FRONT 	3
-#define RIGHT	4
-#define BACK	5
-#define DOWN 	6
+#define UP	 	0
+#define LEFT 	1
+#define FRONT 	2
+#define RIGHT	3
+#define BACK	4
+#define DOWN 	5
 #define RANDOM	100
 
 
@@ -178,12 +179,12 @@ void QuestionCube::stringToCube(string& s)
 		}	
 	}
 }
-void QuestionCube::rotate(int side,int howOften)
+void QuestionCube::rotate(int& side,int& howOften)
 {
+
 	howOften+=4;
 	howOften=howOften%4;
 	
-	//Send r side howOften
 	switch (side)
 	{
 		case FRONT:
@@ -279,7 +280,7 @@ void QuestionCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g
 	}		
 }
 
-int getColor(int& i, int& j,int& k)
+int QuestionCube::getColor(int& i, int& j,int& k)
 {
 	return data[i][j][k];
 }

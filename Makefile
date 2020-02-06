@@ -1,20 +1,18 @@
 CC = g++
 
-all: cube
-all: client
-all: server
+all: rubikssolver
+all: fillcube
+all: solvability
 
-
-
-client: Code/TCPEchoClient.cpp
-	$(CC) -o executables/client Code/TCPEchoClient.cpp Code/DieWithError.cpp
-
-server: Code/TCPEchoServer.cpp
-	$(CC) -o executables/server Code/TCPEchoServer.cpp Code/DieWithError.cpp Code/HandleTCPClient.cpp
-
-cube: Code/rubikssolver.cpp
+rubikssolver: Code/rubikssolver.cpp
 	$(CC) -o executables/rubikssolver Code/rubikssolver.cpp
 
+fillcube: Code/fillcube.cpp
+	$(CC) -o executables/fillcube Code/fillcube.cpp
+
+solvability: Code/solvability.cpp
+	$(CC) -o executables/solvability Code/solvability.cpp
+
 clean:
-	rm cube, client, server
+	rm rubikssolver, fillcube, solvability
 

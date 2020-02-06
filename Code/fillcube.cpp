@@ -1,484 +1,683 @@
-int myrandom (int i) { return std::rand()%i;}
+#include <iostream>
+#include <list>
+#include <iterator>
+#include <unistd.h>
+#include <array>
+#include "rubikssolver_header.hpp"
 
-int probcube[6][3][3] = {
-	{ { 1, 6, 2 }, { 6, 6, 6 }, { 6, 6, 6 } },   //yellow side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 1 } },   //orange side
-	{ { 6, 6, 6 }, { 0, 6, 6 }, { 5, 6, 6 } },   //blue side
-	{ { 6, 6, 3 }, { 6, 3, 6 }, { 6, 6, 6 } },   //red side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 2, 6 } },   //green side
-	{ { 6, 6, 6 }, { 4, 6, 6 }, { 6, 6, 6 } } }; //white side
+using namespace std;
 
-void printnumber(int printo[]){
-        
-    cout << "y: " << printo[0] << " | ";  
-    cout << "o: " << printo[1] << " | ";       
-    cout << "b: " << printo[2] << " | ";       
-    cout << "r: " << printo[3] << " | ";       
-    cout << "g: " << printo[4] << " | ";       
-    cout << "w: " << printo[5] << endl; 
+struct corner;
+struct edge;
+struct middle;
 
-}
+int findMiddle(int n);
+void sortAnswer(int answer[]);
+void buildCombOfTwo(list<middle> &midComb);
+void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[]);
+void buildCombOfConrer(list<corner> CornerCodes[], int MiddleCodes[]);
+void eliminateFound(list<middle> &midComb, int foundColours[]);
+void getNextQuestion(list<middle> &midComb, int currentQuestion[]);
+void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[]);
+bool contains (list<middle> &midComb, int a, int b);
+void changeAnswer(string& strAnswer, int* arrAnswer);
+void fillMiddle(int cubeMiddle[6][3][3], int Middle[]);
+void clearEdgeList(list<edge> EdgeCodes[]);
 
-void fillcube(){
+int cube[6][3][3];
+int cube_customcolor[6][3][3];
+int randcube[6][3][3] = {
+	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //yellow side
+	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //orange side
+	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //blue side
+	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //red side
+	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //green side
+	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } } }; //white side
+
+struct corner
+{
+	int field1;
+	int field2;
+	int field3;
+};
+
+struct edge
+{
+	int field1;
+	int field2;
+};
+
+struct middle
+{
+	int field1;
+	int field2;
+};
+
+
+
+void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
+{
+    int edge2fill[12][2]; 
+
+    // set all adges to black
+    for(int i = 0; i < 12; i++)
+        for(int j = 0; j < 2; j++)
+            edge2fill[i][j]=6;
     
-    int coluse[6] = {0,0,0,0,0,0};
+    list <edge> UsedEdges;
     
-    for(int i = 0; i < 6; i++){
-        for(int j = 0; j < 3; j++){
-            for(int k = 0; k < 3; k++){
-                int curcol = probcube[i][j][k];
-                    if(curcol != 6){
-                        coluse[curcol] +=1;                       
-                    }
-            }    
-        }
-    } 
-    cout << endl << "colors used:" << endl;          
-    printnumber(coluse);  
- 
+    for(int i = 0; i < 12; i++){  
 
-    //////////////////////////////// fill centers ////////////////////////////////
-    {
-        int centerUsed[6] = {0,0,0,0,0,0};
+        edge tmp;
+        // UI begin
+            cout << "________________________________________________" << endl;
+            cout << "fill edge: " << edgeorder[i] << endl;
+        // UI end
 
-        for(int i = 0; i < 6; i++){
-            if(probcube[i][1][1] != 6)
-                centerUsed[probcube[i][1][1]] += 1;
-        } 
+        list <edge>::iterator itPossible = EdgeCodes[edgeorder[i]].begin();        
+        list <edge>::iterator itUsed = UsedEdges.begin(); 
 
-        cout << endl << "centers used:" << endl;
-        printnumber(centerUsed);  
-       
-        vector<int> leftColors;
-        
-        for(int i = 0; i < 6; i++){
-            if(centerUsed[i] == 0) 
-                leftColors.push_back(i);
-        }
-        random_shuffle(leftColors.begin(), leftColors.end(), myrandom);
-
-        cout << endl;
-        cout << "colors left for center:";
-        for(int i=0; i<leftColors.size(); i++)
-            cout << ' ' << leftColors.at(i);
-        cout << endl;
-
-        for(int i = 0; i < 6; i++){
-            //cout << "center is: " << probcube[i][1][1] << endl;
-            if(probcube[i][1][1] == 6){
-                probcube[i][1][1] = leftColors.back();
-            //    cout << "setting center to: " << leftColors.back() << endl;;
-                leftColors.pop_back();
-            }
-            
-            //printCubeColor(probcube);
-            /*
-            cout << "colors left for center:";
-                for(int i=0; i<leftColors.size(); i++)
-                    cout << ' ' << leftColors.at(i);
-         
+        // UI begin
+            cout << "used: \t\t"; 
+            for(int j = 0; j < UsedEdges.size(); j++){
+                cout << itUsed->field1 << itUsed->field2 << " | "; itUsed++;}
             cout << endl;
-            */
-        }
-        printCubeColor(probcube); 
-                    cout << "________________________ CENTER COMPLETE ________________________" << endl; 
-    }
-    //////////////////////////////// fill corners ////////////////////////////////     
-    {
-        int cornerUsed[6] = {0,0,0,0,0,0};
+            itUsed= UsedEdges.begin();       
+        // UI end
 
-        int corner[8][3];
-       // getCorners(corner, probcube);
-/*
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 3; j++){
-                if(corner[i][j] != 6)
-                    cornerUsed[corner[i][j]] += 1;
-            }
-            
-        } 
-        cout << endl << "number of colors in corners:" << endl;
-        printnumber(cornerUsed); 
-        
-         vector<int> leftColors;
-        
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < (4-cornerUsed[i]); j++) 
-                leftColors.push_back(i);
-        }
-        //random_shuffle(leftColors.begin(), leftColors.end());      
-        cout << endl;
-        cout << "colors left for corners:\t";
-        for(int i=0; i<leftColors.size(); i++)
-            cout << leftColors.at(i) <<  " " ;
-        cout << endl;
-*/
-        int cornerFilled[8] = {0,0,0,0,0,0,0,0};/*
-        cout << "numb#1A1A1Aer of filled faces: \t";
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 3; j++){
-                if(corner[i][j] != 6)
-                    cornerFilled[i] ++;
-            }
-            cout << cornerFilled[i] << " ";
-        }
-        cout << endl;
-        */
+        //going through already used combinations and deleting them from possible combinations
+        while(itUsed != UsedEdges.end())
+        {
 
-        getCorners(corner, probcube);
-        
-        for(int m = 0; m < 6; m++)
-            cornerUsed[m] = 0;
+            list <int> deletelist;
+            int deleter = 0; 
 
-        for(int m = 0; m < 8; m++){
-            for(int n = 0; n < 3; n++){
-                if(corner[m][n] != 6)
-                    cornerUsed[corner[m][n]] += 1;
-            }
-            
-        } 
-        cout << endl << "coners used:" << endl;
-        printnumber(cornerUsed); 
+            // finding matching with already used
+            itPossible = EdgeCodes[edgeorder[i]].begin();
+            while(itPossible != EdgeCodes[edgeorder[i]].end()){
 
 
-        for(int l = 0; l < 3; l ++){
-            for(int k = 0; k < 8; k++){
-
-
-
-                int cornerFilled[8] = {0,0,0,0,0,0,0,0};
-                //cout << "filled faces: \t\t\t";
-                for(int i = 0; i < 8; i++){
-                    for(int j = 0; j < 3; j++){
-                        if(corner[i][j] != 6)
-                            cornerFilled[i] ++;
-                    }
-                    //cout << cornerFilled[i] << " ";
+                if(((itPossible->field1 == itUsed->field1) && (itPossible->field2 == itUsed->field2)) || 
+                   ((itPossible->field1 == itUsed->field2) && (itPossible->field2 == itUsed->field1)))
+                {
+                    deletelist.push_back(deleter);
                 }
-                //cout << endl;
-
-
-
-                //cout << "cornerFilled " << cornerFilled[k] << endl;
-                if(cornerFilled[k] == (2-l)){
-                    cout << endl << "_________________________________________________________________" << endl;
-
-                    cout << "FILLING UP CORNER: " << k << endl;
-                    getCorners(corner, probcube);
-                    
-                    for(int m = 0; m < 6; m++)
-                        cornerUsed[m] = 0;
-
-                    for(int m = 0; m < 8; m++){
-                        for(int n = 0; n < 3; n++){
-                            if(corner[m][n] != 6)
-                                cornerUsed[corner[m][n]] += 1;
-                        }
-                        
-                    } 
-                    cout << endl << "coners used:" << endl;
-                    printnumber(cornerUsed); 
-                    
-
-
-                    vector<int> leftColors;
-                    
-                    for(int m = 0; m < 6; m++){
-                        for(int n = 0; n < (4-cornerUsed[m]); n++) 
-                            leftColors.push_back(m);
-                    }
-
-                    cout << endl;
-                    cout << "colors left for corners:\t";
-                    for(int i=0; i<leftColors.size(); i++)
-                        cout << leftColors.at(i) << " ";
-                    cout << endl;
-
-                    {
-                        int totalcol = 0;
-                        for(int m = 0; m < 6; m++){
-                            totalcol += cornerUsed[m];
-                        }
-                        totalcol += leftColors.size();
-                        cout << "colorsum " << totalcol << endl;
-                    }
-
-
-                    vector<int> remCorCol;
-                    for(int i = 0; i < 6; i++){
-                        int used = 6;
-                        for(int j = 0; j < leftColors.size(); j++){
-                            if(used == i) 
-                                break;
-                            if(leftColors.at(j) == i){
-                                remCorCol.push_back(i);
-                                used = i; 
-                            }
-                        }  
-                    }          
-
-                    for(int i = 0; i < 3; i++){         
-                        remCorCol.erase(remove(remCorCol.begin(), remCorCol.end(),  corner[k][i]), remCorCol.end());
-                    }
-
-                    cout << "oldcorner " << k << ": \t\t\t" ;   
-                    for(int i = 0; i < 3; i++){
-
-                        cout << corner[k][i] << " ";
-                    }
-                    cout << endl;
-                    cout << "colors left for corner " << k <<":\t";
-                    for(int i=0; i<remCorCol.size(); i++)
-                        cout << remCorCol.at(i) << " ";
-                    cout << endl;
-                    random_shuffle(remCorCol.begin(), remCorCol.end());
-
-                    cout << "newcorner " << k << ": \t\t\t" ;                             
-                    for(int i = 0; i < 3; i++){
-                        if(corner[k][i] == 6){
-                            corner[k][i] = remCorCol.back();
-                            remCorCol.pop_back();
-                        }
-                        cout << corner[k][i] << " ";
-                    }
-                    cout << endl << endl;
-                    setCorners(corner, probcube);
-                    
-                    cout << "new cube:" << endl;                    
-                    printCubeColor(probcube);                   
-
-                    
-
-                      
-                }
-            }
-        }/*
-        cout << "total used colors:" << endl;
-        
-        for(int i = 0; i < 6; i++)
-            coluse[i] = 0;
-
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 3; j++){
-                for(int k = 0; k < 3; k++){
-                    int curcol = probcube[i][j][k];
-                        if(curcol != 6){
-                            coluse[curcol] +=1;                       
-                        }
-                }    
-            }
-        } 
-        cout << endl << "colors used:" << endl;          
-        printnumber(coluse); 
-        */
-
-        cout << endl << "________________________ CORNERS COMPLETE ________________________" << endl; 
-    }
-
-    //////////////////////////////// fill edges ////////////////////////////////     
-    {
-        int edgeUsed[6] = {0,0,0,0,0,0};
-
-        int edge[12][2];
-        getEdges(edge, probcube);
-
-        for(int i = 0; i < 6; i++)
-            edgeUsed[i] = 0;
-
-        for(int i = 0; i < 12; i++){
-            for(int j = 0; j < 2; j++){
-                if(edge[i][j] != 6)
-                    edgeUsed[edge[i][j]] += 1;
-            }
-            
-        } 
-        cout << endl << "number of colors in edges:" << endl;
-        printnumber(edgeUsed); 
-        
-        vector<int> leftColors;
-        
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < (4-edgeUsed[i]); j++) 
-                leftColors.push_back(i);
-        }
-        
-        cout << endl;
-        cout << "colors left for corners:\t";
-        for(int i=0; i<leftColors.size(); i++)
-            cout << leftColors.at(i) <<  " " ;
-        cout << endl;
-    
-        //// find cubies with already filled faces
-        int edgeFilled[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
-        cout << "number of filled faces: \t";
-        for(int i = 0; i < 12; i++){
-            for(int j = 0; j < 2; j++){
-                if(edge[i][j] != 6)
-                    edgeFilled[i] ++;
-            }
-            cout << edgeFilled[i] << " ";
-        }
-        cout << endl;
-
-        //// fill up edges first using the ones already filled
-        for(int i = 0; i < 2; i ++){
-            for(int j = 0; j < 12; j++){
-                if(edgeFilled[j] == (1-i)){
-                    getEdges(edge, probcube);
-
-                    for(int k = 0; k < 6; k++)
-                        edgeUsed[k] = 0;
-
-                    for(int k = 0; k < 12; k++){
-                        for(int l = 0; l < 2; l++){
-                            if(edge[k][l] != 6)
-                                edgeUsed[edge[k][l]] += 1;
-                        }
-                        
-                    } 
-                    cout << endl << "edges used:" << endl;
-                    printnumber(edgeUsed); 
-                    
-                    vector<int> leftColors;
-                    
-                    for(int k = 0; k < 6; k++){
-                        for(int l = 0; l < (4-edgeUsed[k]); l++) 
-                            leftColors.push_back(k);
-                    }
-                    cout << endl;
-                    cout << "colors left for corners:\t";
-                    for(int k=0; k<leftColors.size(); k++)
-                        cout << leftColors.at(k) << " ";
-                    cout << endl;
-
-                    int edgeFilled[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
-                    cout << "filled faces: \t\t\t";
-                    for(int k = 0; k < 12; k++){
-                        for(int l = 0; l < 2; l++){
-                            if(edge[k][l] != 6)
-                                edgeFilled[k] ++;
-                        }
-                        cout << edgeFilled[k] << " ";
-                    }
-                    cout << endl;
-
-                    vector<int> remCorCol;
-                    for(int k = 0; k < 6; k++){
-                        int used = 6;
-                        for(int l = 0; l < leftColors.size(); l++){
-                            if(used == k) 
-                                break;
-                            if(leftColors.at(l) == k){
-                                remCorCol.push_back(k);
-                                used = k; 
-                            }
-                        }  
-                    }  
-
-                    for(int k = 0; k < 3; k++){         
-                        remCorCol.erase(remove(remCorCol.begin(), remCorCol.end(),  edge[j][k]), remCorCol.end());
-                    }
-
-                    cout << "oldedge " << i << ": \t\t\t" ;   
-                    for(int k = 0; k < 2; k++){
-
-                        cout << edge[j][k] << " ";
-                    }
-                    cout << endl;
-                    cout << "colors left for edge " << j <<":\t";
-                    for(int k=0; k<remCorCol.size(); k++)
-                        cout << remCorCol.at(k) << " ";
-                    cout << endl;
-                    random_shuffle(remCorCol.begin(), remCorCol.end());
-
-                    cout << "newedge " << j << ": \t\t\t" ;                             
-                    for(int k = 0; k < 2; k++){
-                        if(edge[j][k] == 6){
-                            edge[j][k] = remCorCol.back();
-                            remCorCol.pop_back();
-                        }
-                        cout << edge[j][k] << " ";
-                    }
-                    cout << endl;
-                    setEdges(edge, probcube);
-
-                    printCubeColor(probcube);                   
-
-                    
-                    cout << endl << "_________________________________________________________________" << endl;
-                   
-                }
-
-            }
-
-        }
-
-    }
-
-        cout << "colors used:" << endl;
-        
-        for(int i = 0; i < 6; i++)
-            coluse[i] = 0;
-
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 3; j++){
-                for(int k = 0; k < 3; k++){
-                    int curcol = probcube[i][j][k];
-                        if(curcol != 6){
-                            coluse[curcol] +=1;                       
-                        }
-                }    
-            }
-        } 
-        cout << endl << "total:" << endl;          
-        printnumber(coluse); 
-
-        for(int i = 0; i < 6; i++)
-            coluse[i] = 0;
-
-        int corner[8][3];
-        getCorners(corner, probcube);
-
-        for(int m = 0; m < 8; m++){
-            for(int n = 0; n < 3; n++){
-                if(corner[m][n] != 6)
-                    coluse[corner[m][n]] += 1;
-            }
-            
-        }         
-        cout << endl << "corners:" << endl;          
-        printnumber(coluse); 
-
-        int edge[12][2];
-        getEdges(edge, probcube);
-        for(int i = 0; i < 6; i++)
-            coluse[i] = 0;
-
-        for(int i = 0; i < 12; i++){
-            for(int j = 0; j < 2; j++){
-                if(edge[i][j] != 6)
-                    coluse[edge[i][j]] += 1;
-            }
-            
-        } 
-        cout << endl << "edges:" << endl;
-        printnumber(coluse); 
-
-
-
-
-}
-
-void fillrandom(){
-
-    //srand(time(nullptr));
-    for(int i = 0; i < 6; i++){
-        for(int j = 0; j <3; j++){
-            for(int k = 0; k < 3; k++){
                 
-                cube[i][j][k] = rand() % 6;
-            }    
-        }
+                itPossible++;
+                deleter ++;
+            }
+
+            // deleting already used
+            while(deletelist.size()>0){
+                itPossible = EdgeCodes[edgeorder[i]].begin();//deletelist.back(itdelete); 
+                advance(itPossible,deletelist.back());
+                deletelist.pop_back();   
+                EdgeCodes[edgeorder[i]].erase(itPossible);
+            }
+
+            //UI begin
+                {
+                cout << "possible: \t";
+
+                    list <edge>::iterator itrem = EdgeCodes[edgeorder[i]].begin();		                    
+                    while(itrem != EdgeCodes[edgeorder[i]].end())
+                    {
+	                    cout << itrem->field1 << itrem->field2 << " | ";			                    
+	                    itrem++;
+                    }		                    
+                    cout << endl;
+                }
+            //UI end 
+            itUsed++;
+        }  
+
+        // fill cube with random combinations from remaining possible ones
+        list <edge>::iterator it = EdgeCodes[edgeorder[i]].begin();        
+        int random = rand()%(EdgeCodes[edgeorder[i]].size());
+        //cout << "rand: " << random << endl;
+
+        for(int j = 0; j < random; j++)
+            it++;
+
+        edge2fill[edgeorder[i]][0] = it->field1;
+        edge2fill[edgeorder[i]][1] = it->field2;  
+        
+        // adding currently used combinations to used-list
+        tmp.field1 = it->field1; 
+        tmp.field2 = it->field2;
+        UsedEdges.push_back(tmp);
+
+        cout << "set to: " << it->field1 << "." << it->field2 << endl;
+    
     }
+
+    setEdges(edge2fill, randcube);
+
 }
 
+
+void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
+
+    bool done = 0;   
+    do{
+
+
+        done = 1;
+        int rightorder = 0;
+        for(int i = 0; i < size-1; i++){ 
+
+            if(EdgeCodes[order[i]].size()>EdgeCodes[order[i+1]].size())
+            {
+
+                int temporder; 
+                temporder = order[i];
+                order[i] = order[i+1];
+                order[i+1] = temporder;
+                done = 0;
+            }
+   
+        }    
+
+    }
+    while(!done);
+
+    // UI begin
+    cout << "sorted lists:" << endl;
+    for(int k = 0; k < size; k++){
+        cout << "list " << order[k] << ": \t";
+        for(int j = 0; j < EdgeCodes[order[k]].size(); j++)
+            cout << "|";
+        cout << endl;   
+    }
+    // UI end
+
+
+}
+
+
+void clearEdgeList(list<edge> EdgeCodes[]){
+//just for deleting random entries from list - will be done by master mind
+	for (int j=0; j<12; j++)
+	{
+		
+		list <edge>::iterator it = EdgeCodes[j].begin();
+
+        int randnum2 = rand()%(EdgeCodes[j].size()-2);
+        
+        int more = 0;
+        for(int k = 0; k < randnum2; k++)
+        {
+            int randnum = rand()%EdgeCodes[j].size();
+
+            it = EdgeCodes[j].begin();
+            //cout << "iterator" << it << endl;
+            for(int i = 0; i < randnum; i++)
+                it++;                
+            EdgeCodes[j].erase(it);
+
+            more++; 
+        }
+
+	}  
+
+	for (int j=0; j<12; j++)
+	{
+		cout << "List number " << j << " " << endl;
+		
+		list <edge>::iterator it = EdgeCodes[j].begin();
+		
+		while(it != EdgeCodes[j].end())
+		{
+			cout << it->field1 << it->field2 << " | ";
+			
+			it++;
+		}
+		
+		cout << endl;
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void fillrandomcube(){
+
+	int MiddleCode[6] = {0,5,1,3,2,4};
+    int edgeorder[12] ={0,1,2,3,4,5,6,7,8,9,10,11};
+	list <edge> EdgeCodes[12];
+	list <corner> CornerCodes[8];
+
+	//findMiddle(MiddleCode);
+	buildCombOfEdge(EdgeCodes, MiddleCode);
+	//buildCombOfCorner(CornerCodes, MiddleCode);
+
+    list <edge> EdgeCodesRandomCube(EdgeCodes[0]);
+	list <corner> CornerCodesRandomCube[8](CornerCodes);
+
+    clearEdgeList(EdgeCodes); // loescht random werte aus den listen - wird später durch mastermind erledigt
+    SortEdgesList(EdgeCodes, edgeorder, 12); // sortiert das listen - array der groeße der listen nach
+    fillEdges(EdgeCodes, randcube, edgeorder); // befuelle randcube mit random edges aus den listen 
+
+    printCubeColor(randcube);
+}
+
+
+int main()
+{
+    srand(time(nullptr));
+    fillrandomcube();
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void changeAnswer(string& strAnswer, int* arrAnswer)
+{
+	int intTemp[3];
+	for (int i=0;i<3;i++)
+		intTemp[i]=0;
+		
+		 
+	intTemp[0]+=(strAnswer.at(1)-'0')*10;
+	intTemp[0]+=(strAnswer.at(2)-'0');
+	intTemp[1]+=(strAnswer.at(3)-'0')*10;
+	intTemp[1]+=(strAnswer.at(4)-'0');
+	intTemp[2]+=(strAnswer.at(5)-'0')*10;
+	intTemp[2]+=(strAnswer.at(6)-'0');
+	
+	for(int i=0;i<(sizeof(arrAnswer)/sizeof(arrAnswer[0]));i++)
+	{ //Reihenfolge evtl noch ändern!!!!
+		if(intTemp[0]!=0)
+		{
+			arrAnswer[i]=0; //nothing
+			intTemp[0]--;
+		} else if(intTemp[1]!=0)
+		{
+			arrAnswer[i]=1; //black
+			intTemp[1]--;
+		} else if(intTemp[2]!=0)
+		{
+			arrAnswer[i]=2; //white
+			intTemp[2]--;	
+		}	
+	}
+}
+
+int findMiddle(int foundColour[])
+{	
+	list<middle> midComb;
+	
+	for (int i=1; i<7; i+=2)
+	{
+		int currentAnswer[2] = { 0,0 }, currentGuess[2] = {1,2}; // eventuell mit geratenem cube abstimmen
+		
+		buildCombOfTwo(midComb);
+		eliminateFound(midComb, foundColour);
+		
+		cout << "\nFrage Feld" << i <<":" << currentGuess[0] << "\nFrage Feld" << i+1 <<":" << currentGuess[1] << endl;
+		
+		
+		sortOutImpossibleCodes(currentGuess, midComb, currentAnswer);
+		
+		if(midComb.size()==1)
+			goto skip;
+
+		while(1)
+		{
+			getNextQuestion(midComb, currentGuess);
+			
+			cout << "\nFrage Feld" << i <<" :" << currentGuess[0] << "\nFrage Feld" << i+1 <<" :" << currentGuess[1] << endl;
+			
+			// server input
+			cin >> currentAnswer[0];
+			cin >> currentAnswer[1];
+			
+			sortOutImpossibleCodes(currentGuess, midComb, currentAnswer);
+
+			if(midComb.size()==1)
+				break;
+		}
+		
+		skip:
+		
+		cout << "Farbe Feld " << i <<" ist: "<< midComb.begin()->field1 << " | Farbe Feld " << i+1 <<" ist: " << midComb.begin()->field2 << endl;
+		
+		foundColour[i-1]=midComb.begin()->field1;
+		foundColour[i]=midComb.begin()->field2;	
+	}
+
+	cout << "Mittelfelder:\n";
+	
+	for(int i=0; i<6; i++)
+	{
+		 cout << foundColour[i] << endl;
+		 foundColour[i]--; // lol
+	}
+
+	return 0;
+}
+
+void sortAnswer(int answer[])
+{
+	if (answer[0] > answer[1])
+	{
+		int temp;
+		temp = answer[0];
+		answer[0] = answer[1];
+		answer[1] = temp;
+	}
+}
+
+void buildCombOfTwo(list<middle> &midComb)
+{
+	cout << "In funktion buildCombOfTwo: generating combos:" << endl;
+	for (int i = 1; i < 7; i++)
+	{
+		for (int j = 1; j < 7; j++)
+		{
+			if (i == j)
+				continue;
+				
+            middle tmp;
+            
+            tmp.field1=i;
+            tmp.field2=j;
+			midComb.push_back(tmp);
+			
+			cout << midComb.back().field1 << midComb.back().field2 << endl;
+		}
+	}
+}
+
+void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
+{
+	cout << "In funktion build Comb of Corner" << endl;
+	corner cornerGeometrie[8]={	{0,1,2},
+					{0,2,3},
+					{0,3,4},
+					{0,4,1},
+					{1,2,5},
+					{1,4,5},
+					{2,5,3},
+					{3,5,4}	};
+
+	for(int k=0; k<8; k++)
+	{	
+		for(int i = 0; i<8; i++)
+		{
+								
+					corner tmp;
+	
+					tmp.field1 = cornerGeometrie[i].field1;
+					tmp.field2 = cornerGeometrie[i].field2;
+					tmp.field3 = cornerGeometrie[i].field3;
+
+					CornerCodes[k].push_back(tmp);
+					
+					tmp.field1 = cornerGeometrie[i].field3;
+					tmp.field2 = cornerGeometrie[i].field1;
+					tmp.field3 = cornerGeometrie[i].field2;
+
+					CornerCodes[k].push_back(tmp);
+
+					tmp.field1 = cornerGeometrie[i].field2;
+					tmp.field2 = cornerGeometrie[i].field3;
+					tmp.field3 = cornerGeometrie[i].field1;
+
+					CornerCodes[k].push_back(tmp);				
+				
+		}
+	}
+}
+
+
+void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[])
+{
+	for (int k=0; k<12; k++)
+	{
+		list <edge>::iterator it = EdgeCodes[k].begin();
+		
+		for (int i = 0; i < 6; i++)
+		{
+			for (int j = 0; j < 6; j++)
+			{
+				if (i == j)
+					continue;
+				
+				bool skip = false;
+				
+				for (int l=0; l<5; l+=2)
+				{
+					if ( (i == MiddleCodes[l] && j == MiddleCodes[l+1]) || (j == MiddleCodes[l] && i == MiddleCodes[l+1]) )
+						skip = true;
+				}
+				
+				if (skip)
+					continue;
+					
+				edge tmp;
+				
+				tmp.field1=i;
+				tmp.field2=j;
+				
+				EdgeCodes[k].push_back(tmp);
+			}
+		}
+	}
+}
+
+void eliminateFound(list<middle> &midComb, int foundColour[])
+{
+	list<middle>::iterator it = midComb.begin();
+
+	cout << "In funktion eliminateFound:" << endl;
+
+	for (int i=0; i<6; i++)
+	{
+		while(it != midComb.end())
+		{
+			if(it->field1 == foundColour[i] || it->field2 == foundColour[i])
+			{
+				cout << "erased field : " << it->field1 << it->field2 << endl;
+				it = midComb.erase(it);
+				if (it == midComb.end())
+					return;
+				continue;
+			}
+			it++;
+		}
+		it = midComb.begin();
+	}
+}
+
+
+void fillMiddle(int cubeMiddle[6][3][3], int Middle[])
+{
+
+    for(int i = 0; i < 6; i++)
+        cubeMiddle[i][1][1] = Middle[i];
+
+}
+
+
+void getNextQuestion(list<middle> &midComb, int currentQuestion[])
+{
+    int case1=0, case2=0, case3=0; //case1 (0,0) case2(0,2) case3(2,2)
+    int nextQuestionMax=5725775;
+    list<middle>::iterator it = midComb.begin();
+
+
+	for(int i=1;i<7;i++)
+	{
+		for(int j=1;j<7;j++)
+		{
+			if(j!=i)
+			{
+				while(it != midComb.end())
+				{
+					if(it->field1 == i && it->field2 == j)
+						case3++;
+					else if( (it->field1 == i && it->field2 != j) || (it->field1 != i && it->field2 == j) )
+						case2++;
+					else
+						case1++;
+
+					it++;
+				}
+				
+				it = midComb.begin();
+
+				if(case1>=case2 && case1>=case3 && case1<=nextQuestionMax)
+				{
+					if ( (contains(midComb, i, j) && nextQuestionMax == case1) || case1 < nextQuestionMax)
+					{
+						nextQuestionMax=case1;
+						currentQuestion[0]=i;
+						currentQuestion[1]=j;
+					}
+				}
+				else if(case2>=case1 && case2>=case3 && case2<=nextQuestionMax)
+				{
+					if ( (contains(midComb, i, j) && nextQuestionMax == case2) || case1 < nextQuestionMax)
+					{
+						nextQuestionMax=case2;
+						currentQuestion[0]=i;
+						currentQuestion[1]=j;
+					}
+				}
+				else if(case3>=case1 && case3>=case2 && case3<=nextQuestionMax)
+				{
+					if ( (contains(midComb, i, j) && nextQuestionMax == case3) || case1 < nextQuestionMax)
+					{
+						nextQuestionMax=case3;
+						currentQuestion[0]=i;
+						currentQuestion[1]=j;
+					}
+				}
+				
+				case1=0;
+				case2=0;
+				case3=0;
+			}
+		}
+	}
+}
+
+void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[])
+{
+	cout << "In Funktion sortOutImpossibleCodes:" << endl;
+	
+	list<middle>::iterator it;
+	it = midComb.begin();
+	
+	int tempAnswer[2] = {0,0};
+	
+	while(it != midComb.end())
+	{
+		if (currentguess[0] == it->field1)
+			tempAnswer[0] = 2;
+		else
+			tempAnswer[0] = 0;
+
+		if (currentguess[1] == it->field2)
+			tempAnswer[1] = 2;
+		else
+			tempAnswer[1] = 0;
+
+		sortAnswer(tempAnswer);
+		sortAnswer(currentAnswer);
+
+		if (tempAnswer[0] != currentAnswer[0] || tempAnswer[1] != currentAnswer[1])
+		{
+			cout << "Combination: " << it->field1 << it->field2 <<" sorted out!"<<endl;
+			
+			it = midComb.erase(it);
+			if (it == midComb.end())
+				return;
+			continue;
+		}
+        it++;
+	}
+}
+
+bool contains (list<middle> &midComb, int a, int b)
+{
+	list<middle>::iterator it = midComb.begin();
+	
+	while(it != midComb.end())
+	{
+		if (it->field1 == a && it->field2 == b)
+			return true;
+		
+		it++;
+	}
+	
+	return false;
+}

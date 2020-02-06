@@ -1,22 +1,30 @@
-#include "QuestionCube.hpp"
+#include "ClientCube.hpp"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
 
+using namespace std;
+
 int main()
 {
 	srand(time(NULL));
-	QuestionCube x;
+	ClientCube x(1);
 	
+	int side,row,column,color,numberTurns;
 	
-	x.accessData(1,1,1,1);
+	side=0;
+	row=0;
+	column=0;
+	color=1;
+	numberTurns=2;
 	
+	//x.accessData(side,row,column,color);
+	x.printCubeColor();
 	
-	x.printCubeStd();
-	string y=x.makeQuestion();
+	x.rotate(side,numberTurns);
 	
-	cout << y;
+	x.printCubeColor();
 	
 	return 0;
 }
