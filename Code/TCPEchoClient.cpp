@@ -81,7 +81,7 @@ string doTheClient(string toSend){
 
 	return echoBuffer;
 }
-
+/*
 void ask(int answer[], QuestionCube question)
 {
 	string quanser;
@@ -90,7 +90,7 @@ void ask(int answer[], QuestionCube question)
 	for (int i=0; i++
 	
 	doTheClient(quanser);
-}	
+}	*/
 
 
 
@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
 
 	int answer[2] = {0,0};
 
-	ask(answer, q);
+	//ask(answer, q);
 		
 	//make a random cube as question
 	srand (time(NULL));
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 	string x = cubeToString(z);
 
 	/////////do the client connection establishment, send, receive and socket closing///////////
-	doTheClient(x);
+	doTheClient(q.makeQuestion());
 	
     exit(0);
 }
