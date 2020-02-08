@@ -95,12 +95,7 @@ void HandleTCPClient(int clntSocket)
 
     y.printCubeColor();
 	//convert to String
-	string arbritaryCube = cubeToString(y);
-	//send(clntSocket, arbritaryCube, 64, 0);
-	char sendCube[64];
-	// copying the contents of the 
-	// string to char array 
-	strcpy(sendCube, arbritaryCube.c_str()); 
+
 	if(echoBuffer[0]=='q')
 		makeAnswer(y);
 	if(echoBuffer[0]=='r')

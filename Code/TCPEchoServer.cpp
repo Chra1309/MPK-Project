@@ -6,6 +6,7 @@
 #include <unistd.h>     /* for close() */
 #include <iostream>
 #include <cstring>
+#include "HandleTCPClient.cpp"
 
 using namespace std;
 
