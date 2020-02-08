@@ -9,14 +9,14 @@ using namespace std;
 int main()
 {
 	srand(time(NULL));
-	ClientCube x;
+	ClientCube x(1);
 	
 	
-//	x.printCubeColor();
-//	
-//	x.testSolve();
-//	
-//	x.printCubeColor();
+	x.printCubeColor();
+	
+	x.testSolve();
+	
+	x.printCubeColor();
 	
 	
 	return 0;
