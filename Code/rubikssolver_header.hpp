@@ -72,6 +72,7 @@ void twoEdgeRotate(int face, bool isNextTo);
 
 extern int cube[6][3][3];
 extern int cube_customcolor[6][3][3];
+int checktop();
 
 int old[6][3][3] = {
 	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
@@ -555,6 +556,7 @@ void bi()
 
 void solveTopCross()
 {
+
     //cout << "checkpoint1" << endl;
 	moveTopEdges();
     //cout << "checkpoint2" << endl;
@@ -761,6 +763,18 @@ void findNextTopEdge(int & s, int & p)
 		}
 	}
 }
+
+int checktop(){
+    int col = cube[0][1][1];
+
+    for(int j = 0; j < 3; j++)
+        for(int k = 0; k < 3; k++)
+            if(col != cube[0][j][k])
+                return 1;
+    return 0;
+}
+
+
 
 void solveTopCorners()
 {
