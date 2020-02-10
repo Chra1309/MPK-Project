@@ -171,9 +171,7 @@ ClientCube::ClientCube(int n=0)
 }
 string ClientCube::printColor(int field)
 {
-	
-	//			1 white			2 red			3 green			4 blue			5 orange			6 yellow	
-    // neuer farbenversuch		
+		
     string RESET = "\033[0m";
 	string WHITE = "\033[107m";      /* White */
 	string RED = "\033[101m";      /* Red */
@@ -191,10 +189,10 @@ string ClientCube::printColor(int field)
 		case 5: 
 			printcolor = WHITE + "  " + RESET;		
 			break;		
-		case 4:
+		case 3:
 			printcolor = RED + "  " + RESET;					
 			break;
-		case 3: 
+		case 4: 
 			printcolor = GREEN + "  " + RESET;					
 			break;
 		case 2:
