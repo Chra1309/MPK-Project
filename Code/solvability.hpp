@@ -1,3 +1,6 @@
+#ifndef SOLVABILITY_HPP
+#define SOLVABILITY_HPP
+
 // https://math.stackexchange.com/questions/127577/how-to-tell-if-a-rubiks-cube-is-solvable
 // online solver:   https://rubiks-cube-solver.com/
 // solver:          http://kociemba.org/cube.htm
@@ -18,6 +21,8 @@
 //#include "QuestionCube.hpp"
 
 #define useUI 0
+
+
 
 using namespace std;
 
@@ -375,3 +380,5 @@ int checksolvability(int checkcube[6][3][3])
 
 
 }
+
+#endif

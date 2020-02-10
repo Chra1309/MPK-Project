@@ -1,3 +1,6 @@
+#ifndef CUBEOPERATIONS_HPP
+#define CUBEOPERATIONS_HPP
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -274,3 +277,4 @@ void PlaceToBeEdges(int array[12][2], int cubetofind[6][3][3]){
 
 }
 
+#endif

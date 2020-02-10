@@ -1,3 +1,6 @@
+#ifndef RUBIKSSOLVER_HEADER_HPP
+#define RUBIKSSOLVER_HEADER_HPP
+
 //#include "stdafx.h"
 #include <iostream>
 #include <stdlib.h>
@@ -2552,3 +2555,6 @@ int i = 0;
 
 }
 
+
+
+#endif
