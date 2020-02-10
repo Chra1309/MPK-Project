@@ -29,6 +29,10 @@ _____________________________________________________________________________
 
 ## PROGRESS:
 
+Spuli:
+-Fragen für beliebige "n" können jetzt zu 2er fragen heruntergebrochen werden. Diese 2er fragen werden sogar als geordnetes array beantwortet. Die funktion "aksTwo" im client ist dafür zuständig.
+-Der server erstellt jetzt nur noch beim starten einen random cube und dieser lebt dann weiter über die ganze progreammlaufzeit.
+
 jakob:
 Solver kann Würfel aus jeder Orientierung lösen
 next steps: 
