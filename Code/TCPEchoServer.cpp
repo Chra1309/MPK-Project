@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
         /* clntSock is connected to a client! */
 
 		printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-		printf("Creating and sending random Cube: \n");
+		//printf("Creating and sending random Cube: \n");
 		
 
 		HandleTCPClient(clntSock);

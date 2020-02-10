@@ -46,8 +46,8 @@ The faces are displayed as if you are facing them in this order
 	0   y   yellow
 	1   o   orange
 	2   b   blue    
-	3   r   red
-	4   g   green
+	3   r   red // falsch es ist green
+	4   g   green // falsch es ist red
 	5   w   white
 	6       black
 

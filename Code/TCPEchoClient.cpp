@@ -15,11 +15,13 @@ using namespace std;
 
 #define RCVBUFSIZE 64   /* Size of receive buffer */
 
-int n = 10;
+int n = 20;
+
+int changeColor(int col);
+void answerConverter(int answer[3], string str_answer);
 
 void DieWithError(string errorMessage);  /* Error handling function */
-void ask(int answer[], QuestionCube q);
-
+void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3]);
 char echoBuffer[RCVBUFSIZE];     		// Buffer for echo string
 int sock;                        		// Socket descriptor
 struct sockaddr_in echoServAddr; 		// Echo server address
@@ -44,12 +46,13 @@ else
 	echoServPort = 7;   //7 is the well-known port for the echo service */
 
 
-string doTheClient(string toSend){
+string doTheClient(string toSend)
+{
 	
 	//concatonate the question
 	echoString =toSend;
 
-	cout << echoString <<endl;
+	//cout << echoString <<endl;
 	// Create a reliable, stream socket using TCP
 	if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
 		DieWithError("socket() failed");
@@ -74,24 +77,132 @@ string doTheClient(string toSend){
 	totalBytesRcvd = 0;
 	recv(sock, echoBuffer, 64, 0);
 
+	//debug msg:
 	cout <<echoBuffer << endl;
-	//getAnswer();
 
 	close(sock);	
 
 	return echoBuffer;
 }
-/*
-void ask(int answer[], QuestionCube question)
-{
-	string quanser;
-	QuestionCube quanserCube = question;
-	
-	for (int i=0; i++
-	
-	doTheClient(quanser);
-}	*/
 
+int changeColor(int col)
+{
+	if (col == 0)
+		return 1;
+	
+	return 0;
+}
+
+void answerConverter(int answer[3], string str_answer)
+{
+	string temp_wrong = str_answer.substr(1, 2); // cout << endl << temp_wrong << endl;
+	string temp_right = str_answer.substr(3, 2);
+	string temp_correct = str_answer.substr(5, 2);
+
+	answer[0] = atoi(temp_wrong.c_str()); // cout << answer[0];
+	answer[1] = atoi(temp_right.c_str());
+	answer[2] = atoi(temp_correct.c_str());
+}
+
+// kodierung putAnswer: 0 flasch, 2 richtig, 2 ganz richtig
+void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
+{
+	QuestionCube q;
+	int cur_n = 0;
+	int not_set = 2;
+	int ref_answer[3] = {0};
+	int new_answer[3] = {0};
+
+	for (int i=0; i<6; i++) // seite
+	{
+		for (int j=0; j<3; j++) // reihe
+		{
+			for (int k=0; k<3; k++) // spalte
+			{
+				cur_n++;
+				
+				if (i==field1[0] && j==field1[1] && k==field1[2])
+				{
+					not_set--;
+				}
+				else if (i==field2[0] && j==field2[1] && k==field2[2])
+				{
+					not_set--;
+				}
+				else
+				{
+					q.accessData(i,j,k,0);
+				}
+
+				if (not_set + cur_n >= n)
+					goto out;
+			}
+		}
+	}
+	out:
+
+	q.accessData(field1[0],field1[1],field1[2],changeColor(question[0]));
+	q.accessData(field2[0],field2[1],field2[2],changeColor(question[1]));
+	answerConverter( ref_answer, doTheClient(q.makeQuestion()) );
+
+	// jetzt die farbe des ersten feldes auf die echte frage aendern!
+	q.accessData(field1[0],field1[1],field1[2],question[0]);
+	answerConverter( new_answer, doTheClient(q.makeQuestion()) );
+
+	// evaluieren des ergebnises:
+	// A) etwas ist gleich geblieben > falsch
+	// B) es ist etwas falsches dazugekommen > falsch
+	// C) es ist etwas richtiges dazugekommen > richtig
+
+	// A)
+	if (ref_answer[0] == new_answer[0] && ref_answer[1] == new_answer[1] && ref_answer[2] == new_answer[2])
+	{
+		putAnswer[0] = 0;
+	}
+	// B)
+	else if (ref_answer[0] < new_answer[0])
+	{
+		putAnswer[0] = 0;
+	}
+	// C)
+	else if (ref_answer[1] < new_answer[1])
+	{
+		putAnswer[0] = 1;
+	}
+	else if (ref_answer[2] < new_answer[2])
+	{
+		putAnswer[0] = 2;
+	}
+
+	// wiederholen fuer zweites feld!
+	q.accessData(field1[0],field1[1],field1[2],changeColor(question[0]));
+
+	q.accessData(field2[0],field2[1],field2[2],question[1]);
+	answerConverter( new_answer, doTheClient(q.makeQuestion()) );
+
+	// A)
+	if (ref_answer[0] == new_answer[0] && ref_answer[1] == new_answer[1] && ref_answer[2] == new_answer[2])
+	{
+		putAnswer[1] = 0;
+	}
+	// B)
+	else if (ref_answer[0] < new_answer[0])
+	{
+		putAnswer[1] = 0;
+	}
+	// C)
+	else if (ref_answer[1] < new_answer[1])
+	{
+		putAnswer[1] = 1;
+	}
+	else if (ref_answer[2] < new_answer[2])
+	{
+		putAnswer[1] = 2;
+	}
+	
+
+	return;
+}
 
 
 int main(int argc, char *argv[])
@@ -101,21 +212,17 @@ int main(int argc, char *argv[])
 	exit(1);
 	}
 
-	QuestionCube q;
-	q.accessData(0,0,0,1);
-	q.accessData(0,0,1,2);
+	////MY-CODE////
+	int answer[2] = {0};
+	int question[2] = {4,5};
+	int field1[3] = {1,0,0};
+	int field2[3] = {1,0,1};
 
-	int answer[2] = {0,0};
+	askTwo(answer, question, field1, field2);
 
-	//ask(answer, q);
-		
-	//make a random cube as question
-	srand (time(NULL));
-	ClientCube z(1);
-	string x = cubeToString(z);
+	cout << answer[0] << endl << answer[1] << endl;
 
-	/////////do the client connection establishment, send, receive and socket closing///////////
-	doTheClient(q.makeQuestion());
+	/////END//////
 	
     exit(0);
 }

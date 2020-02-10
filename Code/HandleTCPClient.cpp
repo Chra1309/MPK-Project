@@ -81,6 +81,8 @@ void printReceivedBuffer(){
     cout << echoBuffer << endl;      /* Print the echo buffer */
 }
 
+ServerCube y(1); //Create an random cube
+
 void HandleTCPClient(int clntSocket)
 {
 
@@ -91,7 +93,7 @@ void HandleTCPClient(int clntSocket)
     //send test message
     //print recevied message
 	
-	ServerCube y(1); //Create an random cube
+	
 
     y.printCubeColor();
 	//convert to String
