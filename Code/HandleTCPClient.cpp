@@ -98,6 +98,7 @@ void HandleTCPClient(int clntSocket)
     y.print();
 	//convert to String
 
+
 	if(echoBuffer[0]=='q')
 		makeAnswer(y);
 	if(echoBuffer[0]=='r')

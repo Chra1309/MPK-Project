@@ -72,7 +72,7 @@ int findMiddle(int foundColour[])
 			cout << "\nFrage Feld" << i <<" :" << currentGuess[0] << "\nFrage Feld" << i+1 <<" :" << currentGuess[1] << endl;
 			
 			//Server Question in Loop 
-			askTwo(currentAnswer, currentGuess, field1, field2); //void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
+			//askTwo(currentAnswer, currentGuess, field1, field2); //void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 
 			// server input
 			cin >> currentAnswer[0];

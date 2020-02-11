@@ -1,4 +1,5 @@
-#ifndef A_H
+#ifndef MMHPP
+#define MMHPP
 
 #include "masterheader.hpp"
 #include <iostream>
@@ -58,6 +59,7 @@ int findMiddle(int foundColour[])
 	list<middle> midComb;
 	int field1 [3] = {0, 1, 1};
 	int field2 [3] = {0, 1, 1};
+	int questionOrder[6] = {0, 5, 1, 3, 2, 4};
 	
 	for (int i=1; i<7; i+=2)
 	{
@@ -65,21 +67,19 @@ int findMiddle(int foundColour[])
 		
 		buildCombOfTwo(midComb);
 		eliminateFound(midComb, foundColour);
-		field1 [0] = i-1;
-		field2 [0] = i;
+		field1 [0] = questionOrder[i-1];
+		field2 [0] = questionOrder[i];
 
 		while(midComb.size()>1)
 		{
 			getNextQuestion(midComb, currentGuess);
 			
-			cout << "\nFrage Feld" << i <<" :" << currentGuess[0] << "\nFrage Feld" << i+1 <<" :" << currentGuess[1] << endl;
+			cout << "\nFrage Feld" << i-1 <<" :" << currentGuess[0] << "\nFrage Feld" << i <<" :" << currentGuess[1] << endl;
 			
-			//Server Question in Loop 
+			//Server Question 
 			askTwo(currentAnswer, currentGuess, field1, field2); //void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 
-			// server input
-			cin >> currentAnswer[0];
-			cin >> currentAnswer[1];
+			
 			
 			sortOutImpossibleCodes(currentGuess, midComb, currentAnswer);
 
@@ -88,7 +88,7 @@ int findMiddle(int foundColour[])
 		}
 		
 		
-		cout << "Farbe Feld " << i <<" ist: "<< midComb.begin()->field1 << " | Farbe Feld " << i+1 <<" ist: " << midComb.begin()->field2 << endl;
+		cout << "Farbe Feld " << i-1 <<" ist: "<< midComb.begin()->field1 << " | Farbe Feld " << i <<" ist: " << midComb.begin()->field2 << endl;
 		
 		foundColour[i-1]=midComb.begin()->field1;
 		foundColour[i]=midComb.begin()->field2;	

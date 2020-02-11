@@ -135,7 +135,7 @@ void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 					q.accessData(i,j,k,0);
 				}
 
-				if (not_set + cur_n >= n)
+				if ((not_set + cur_n) >= n)
 					goto out;
 			}
 		}
@@ -213,15 +213,18 @@ int main(int argc, char *argv[])
 	exit(1);
 	}
 
-	////MY-CODE////
-	int answer[2] = {0};
-	int question[2] = {4,5};
-	int field1[3] = {1,0,0};
-	int field2[3] = {1,0,1};
+	int MiddleCode[6] = {6,6,6,6,6,6};
+	list <edge> EdgeCodes[12];
+	list <corner> CornerCodes[8];
+	
 
-	askTwo(answer, question, field1, field2);
+	findMiddle(MiddleCode);
+	
+	buildCombOfEdge(EdgeCodes, MiddleCode);
 
-	cout << answer[0] << endl << answer[1] << endl;
+	buildCombOfCorner(CornerCodes, MiddleCode);
+	
+	
 
 	/////END//////
 	
