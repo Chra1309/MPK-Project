@@ -60,7 +60,7 @@ void makeAnswer(ServerCube myCube)
 	cout<<temp2<<endl;
 	
 	int answer[3];
-	question->printCubeColor();
+	question->print();
 	
 	myCube.compareToQuestion(*question,answer);
 	delete question;
@@ -95,7 +95,7 @@ void HandleTCPClient(int clntSocket)
 	
 	
 
-    y.printCubeColor();
+    y.print();
 	//convert to String
 
 	if(echoBuffer[0]=='q')
