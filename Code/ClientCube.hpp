@@ -10,6 +10,7 @@
 #include <cmath>
 #include <time.h>
 #include <stdio.h>
+#include "cubeoperations.hpp"
 using namespace std;
 
 #define UP	 	0
@@ -113,18 +114,12 @@ class ClientCube{
 		int numberTurns=0;
 		
 		ClientCube(int);	//Konstruktor Cube
-		void testSolve();
-	    string printColor(int); //Ausgabe von Farbe
-	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
-	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen		
+		void testSolve();	
 		void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
-
-		
-		
-		
-		friend string makeCubeQuestion(ClientCube&);	//erstellt eine Cube Question
-		friend string cubeToString(ClientCube&);		//wandelt einen Cube in einen String um
-		friend ClientCube stringToCube(string&);		//wandelt string in Cube um
+		string cubeToString();		//wandelt einen Cube in einen String um
+		void cubeToArray(int array[6][3][3]);
+		void stringToCube(string&);		//wandelt string in Cube um
+		void print();
 			
 };
 ClientCube::ClientCube(int n=0)
@@ -169,83 +164,11 @@ ClientCube::ClientCube(int n=0)
 		cout<<endl<<endl<<endl<<endl;
 	}
 }
-string ClientCube::printColor(int field)
+void ClientCube::print()
 {
-		
-    string RESET = "\033[0m";
-	string WHITE = "\033[107m";      /* White */
-	string RED = "\033[101m";      /* Red */
-	string GREEN = "\033[102m";      /* Green */
-	string BLUE = "\e[48;5;21m";      /* Blue */
-	string ORANGE = "\e[48;5;208m";      /* Magenta */	 
-	string YELLOW = "\033[103m";      /* Yellow */
-    string BLACK = "\033[40m"; 
-				
-	string printcolor;
-	switch(field){
-        case 6:
-			printcolor = BLACK + "  " + RESET;		
-			break;
-		case 5: 
-			printcolor = WHITE + "  " + RESET;		
-			break;		
-		case 3:
-			printcolor = RED + "  " + RESET;					
-			break;
-		case 4: 
-			printcolor = GREEN + "  " + RESET;					
-			break;
-		case 2:
-			printcolor = BLUE + "  " + RESET;									
-			break;
-		case 1: 				
-			printcolor = ORANGE + "  " + RESET;					
-			break;			
-		case 0: 
-			printcolor = YELLOW + "  " + RESET;								
-			break;				
-	}
-	return printcolor;
+	printCubeColor(data);
 }
 
-void ClientCube::printCubeColor()
-{ 
-	for(int i=0;i<3;i++)
-	{
-		cout<<"       "<<printColor(data[0][i][0])<<printColor(data[0][i][1])<<printColor(data[0][i][2])<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<printColor(data[1][i][0])<<printColor(data[1][i][1])<<printColor(data[1][i][2])<<" ";
-		cout<<printColor(data[2][i][0])<<printColor(data[2][i][1])<<printColor(data[2][i][2])<<" ";
-		cout<<printColor(data[3][i][0])<<printColor(data[3][i][1])<<printColor(data[3][i][2])<<" ";
-		cout<<printColor(data[4][i][0])<<printColor(data[4][i][1])<<printColor(data[4][i][2])<<" "<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<"       "<<printColor(data[5][i][0])<<printColor(data[5][i][1])<<printColor(data[5][i][2])<<endl;
-	}	
-	cout<<endl<<endl;	
-}
-void ClientCube::printCubeStd()
-{
-	for(int i=0;i<3;i++)
-	{
-		cout<<"    "<<data[0][i][0]<<data[0][i][1]<<data[0][i][2]<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<data[1][i][0]<<data[1][i][1]<<data[1][i][2]<<" ";
-		cout<<data[2][i][0]<<data[2][i][1]<<data[2][i][2]<<" ";
-		cout<<data[3][i][0]<<data[3][i][1]<<data[3][i][2]<<" ";
-		cout<<data[4][i][0]<<data[4][i][1]<<data[4][i][2]<<" "<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<"    "<<data[5][i][0]<<data[5][i][1]<<data[5][i][2]<<endl;
-	}	
-	cout<<endl<<endl;
-}
 void ClientCube::randomize()
 {
 	int x=(rand()%6)+1;
@@ -311,7 +234,6 @@ void ClientCube::rotate(int side,int howOften)
 		default:
 			break;					
 	}
-	//printCubeStd();
 }
 void ClientCube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)
 {				
@@ -363,13 +285,21 @@ void ClientCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,i
 			break;
 	}		
 }
-string makeCubeQuestion(ClientCube& sendCube)
+void ClientCube::cubeToArray(int array[6][3][3])
 {
-	string CubeQuestion="q";
-	CubeQuestion+=cubeToString(sendCube);
-	return CubeQuestion;
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{				
+				array[i][j][k]=data[i][j][k];
+			}
+		}	
+	}
 }
-string cubeToString(ClientCube& cube)
+
+string ClientCube::cubeToString()
 { 
 	string returnString="";	
 	for(int i=0;i<6;i++)
@@ -378,16 +308,15 @@ string cubeToString(ClientCube& cube)
 		{
 			for(int k=0;k<3;k++)
 			{				
-				returnString+=cube.data[i][j][k]+'0';
+				returnString+=data[i][j][k]+'0';
 			}
 		}	
 	}
 	return returnString;
 	
 }
-ClientCube stringToCube(string& s)
+void ClientCube::stringToCube(string& s)
 {
-	ClientCube c(0);
 	int a[54];
 	int x=0;
 	for(int i=0;i<54;i++)
@@ -398,12 +327,11 @@ ClientCube stringToCube(string& s)
 		{
 			for(int k=0;k<3;k++)
 			{				
-				c.data[i][j][k]=a[x];
+				data[i][j][k]=a[x];
 				x++;
 			}
 		}	
 	}
-	return c;
 }
 
 void ClientCube::getEdge(int& a,int& b,int& c,int& x)
@@ -479,19 +407,19 @@ void ClientCube::testSolve()
 	solveTopCross();
 	cout << "cross: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    printCubeColor(data);
 	solveTopCorners();
 	cout << "corners: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    printCubeColor(data);
 	solveMiddleLayer();
 	cout << "middle layer: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    printCubeColor(data);
 	solveBottomLayer();
 	cout << "Bottom: " << moves << endl;
 	clearMoves();
-    printCubeColor();
+    printCubeColor(data);
 }
 
 void ClientCube::solveTopCross()
@@ -2132,7 +2060,7 @@ void ClientCube::inputCube(){
                 }
             }
     }
-         printCubeColor();   
+         printCubeColor(data);   
 
     int cubesausage[54];
     cout << endl << "INPUT CUBE" << endl; 
@@ -2181,7 +2109,7 @@ void ClientCube::inputCube(){
                                                         
                                             data[j][k][l] = cubesausage[i];
                                             i++;
-                                            printCubeColor();
+                                            printCubeColor(data);
                                  }
                 }
             }
@@ -2213,8 +2141,7 @@ void ClientCube::mapForSolver(){
                     }
                 }
             }       
-      }
-     // printCubeColor(cube);            
+      }           
 
 }
 

@@ -1,12 +1,9 @@
 #include <iostream>
 #include <list>
 #include <iterator>
+#include "masterheader.hpp"
 
 using namespace std;
-
-struct corner;
-struct edge;
-struct middle;
 
 int findMiddle(int n);
 void sortAnswer(int answer[]);
@@ -20,24 +17,6 @@ bool containsMiddle(list<middle> &midComb, int a, int b);
 bool containsEdge(list<edge> &edgeComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
 void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[]);
-struct corner
-{
-	int field1;
-	int field2;
-	int field3;
-};
-
-struct edge
-{
-	int field1;
-	int field2;
-};
-
-struct middle
-{
-	int field1;
-	int field2;
-};
 
 void changeAnswer(string& strAnswer, int* arrAnswer)
 {
@@ -74,6 +53,8 @@ void changeAnswer(string& strAnswer, int* arrAnswer)
 int findMiddle(int foundColour[])
 {	
 	list<middle> midComb;
+	int field1 [3] = {0, 1, 1};
+	int field2 [3] = {0, 1, 1};
 	
 	for (int i=1; i<7; i+=2)
 	{
@@ -81,6 +62,8 @@ int findMiddle(int foundColour[])
 		
 		buildCombOfTwo(midComb);
 		eliminateFound(midComb, foundColour);
+		field1 [0] = i-1;
+		field2 [0] = i;
 
 		while(midComb.size()>1)
 		{
@@ -89,6 +72,7 @@ int findMiddle(int foundColour[])
 			cout << "\nFrage Feld" << i <<" :" << currentGuess[0] << "\nFrage Feld" << i+1 <<" :" << currentGuess[1] << endl;
 			
 			//Server Question in Loop 
+			askTwo(currentAnswer, currentGuess, field1, field2); //void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 
 			// server input
 			cin >> currentAnswer[0];

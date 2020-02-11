@@ -18,31 +18,72 @@ int getCorners(int array[8][3], int cubetofind[6][3][3]);
 int setCorners(int array[8][3], int cubetofind[6][3][3]);
 void getEdges(int array[12][2], int cubetofind[6][3][3]);
 void setEdges(int edge[12][2], int cube[6][3][3]);
-/*
-string printColor(int); //Ausgabe von Farbe
-void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
-void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen
+void printCubeColor(int cube_array[6][3][3]);
 
-void printCubeStd(int data[6][3][3])
+
+string printColor(int field)
 {
-	for(int i=0;i<3;i++)
-	{
-		cout<<"    "<<data[0][i][0]<<data[0][i][1]<<data[0][i][2]<<endl;
+		
+    string RESET = "\033[0m";
+	string WHITE = "\033[107m";         //  White 
+	string RED = "\033[101m";           // Red
+	string GREEN = "\033[102m";         // Green 
+	string BLUE = "\e[48;5;21m";        // Blue 
+	string ORANGE = "\e[48;5;208m";     // Magenta  
+	string YELLOW = "\033[103m";        // Yellow 
+    string BLACK = "\033[40m"; 
+				
+	string printcolor;
+	switch(field){
+        case 6:
+			printcolor = BLACK + "  " + RESET;		
+			break;
+		case 5: 
+			printcolor = WHITE + "  " + RESET;		
+			break;		
+		case 3:
+			printcolor = RED + "  " + RESET;					
+			break;
+		case 4: 
+			printcolor = GREEN + "  " + RESET;					
+			break;
+		case 2:
+			printcolor = BLUE + "  " + RESET;									
+			break;
+		case 1: 				
+			printcolor = ORANGE + "  " + RESET;					
+			break;			
+		case 0: 
+			printcolor = YELLOW + "  " + RESET;								
+			break;				
 	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<data[1][i][0]<<data[1][i][1]<<data[1][i][2]<<" ";
-		cout<<data[2][i][0]<<data[2][i][1]<<data[2][i][2]<<" ";
-		cout<<data[3][i][0]<<data[3][i][1]<<data[3][i][2]<<" ";
-		cout<<data[4][i][0]<<data[4][i][1]<<data[4][i][2]<<" "<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<"    "<<data[5][i][0]<<data[5][i][1]<<data[5][i][2]<<endl;
-	}	
-	cout<<endl<<endl;
+	return printcolor;
 }
-*/
+
+void printCubeColor(int cube_array[6][3][3])
+{ 
+
+    //cout<<"PRINTING CUSTOM CUBE"<<endl;
+	for(int i=0;i<3;i++)
+	{
+		cout<<"       "<<printColor(cube_array[0][i][0])<<printColor(cube_array[0][i][1])<<printColor(cube_array[0][i][2])<<endl;
+	}
+	for(int i=0;i<3;i++)
+	{
+		cout<<printColor(cube_array[1][i][0])<<printColor(cube_array[1][i][1])<<printColor(cube_array[1][i][2])<<" ";
+		cout<<printColor(cube_array[2][i][0])<<printColor(cube_array[2][i][1])<<printColor(cube_array[2][i][2])<<" ";
+		cout<<printColor(cube_array[3][i][0])<<printColor(cube_array[3][i][1])<<printColor(cube_array[3][i][2])<<" ";
+		cout<<printColor(cube_array[4][i][0])<<printColor(cube_array[4][i][1])<<printColor(cube_array[4][i][2])<<" "<<endl;
+	}
+	for(int i=0;i<3;i++)
+	{
+		cout<<"       "<<printColor(cube_array[5][i][0])<<printColor(cube_array[5][i][1])<<printColor(cube_array[5][i][2])<<endl;
+	}	
+	cout<<endl<<endl;	
+}
+
+
+
 
 void setEdges(int edge[12][2], int edge_cube[6][3][3]){
     edge_cube[0][1][0] = edge[0][0];  

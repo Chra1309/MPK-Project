@@ -12,14 +12,12 @@ int main()
 	ServerCube x(1),y;
 	
 	
-	
-	
-	
-	x.printCubeColor();
+	x.print();
 	
 	y.stringToCube("006660000116661111222266622366633333444444466556665555");
 	
-	y.printCubeColor();
+	
+	y.print();
 	
 	int a[3];
 	

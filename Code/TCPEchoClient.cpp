@@ -10,6 +10,7 @@
 #include <cstring> 
 #include "ClientCube.hpp"
 #include "QuestionCube.hpp"
+#include "mastermind.hpp"
 
 using namespace std;
 

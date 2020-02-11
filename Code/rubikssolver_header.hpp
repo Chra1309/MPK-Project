@@ -85,6 +85,8 @@ int old[6][3][3] = {
 	{ { 4, 4, 4 }, { 4, 4, 4 }, { 4, 4, 4 } }, //green side
 };
 
+int cube_customcolor[6][3][3];
+
 string moves = "";
 
 void r()
@@ -2286,19 +2288,17 @@ void print()
 		cout << endl;
 	}
 }
-
+/*
 string printColor(int field)
 {
-	
-	//			1 white			2 red			3 green			4 blue			5 orange			6 yellow	
-    // neuer farbenversuch		
+		
     string RESET = "\033[0m";
-	string WHITE = "\033[107m";      /* White */
-	string RED = "\033[101m";      /* Red */
-	string GREEN = "\033[102m";      /* Green */
-	string BLUE = "\e[48;5;21m";      /* Blue */
-	string ORANGE = "\e[48;5;208m";      /* Magenta */	 
-	string YELLOW = "\033[103m";      /* Yellow */
+	string WHITE = "\033[107m";      // White 
+	string RED = "\033[101m";      // Red 
+	string GREEN = "\033[102m";      // Green 
+	string BLUE = "\e[48;5;21m";      // Blue 
+	string ORANGE = "\e[48;5;208m";      /// Magenta 
+	string YELLOW = "\033[103m";      /// Yellow 
     string BLACK = "\033[40m"; 
 				
 	string printcolor;
@@ -2349,7 +2349,7 @@ void printCubeColor(int cube_array[6][3][3])
 	}	
 	cout<<endl<<endl;	
 }
-
+*/
 
 
 
