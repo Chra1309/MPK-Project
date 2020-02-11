@@ -382,7 +382,7 @@ void fillCenter(int center[6], int color[6]){
 
     for(int i = 0; i < 6; i++)
         cube[center[i]][1][1] = color[center[i]];
-
+    //printCubeColor(cube);
 }
 
 void CopyListEdges(list<edge> original[], list<edge> copy[]){
@@ -445,7 +445,7 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
         CopyListCorners(CornerCodes, CornerCodesCopy);
         CopyListEdges(EdgeCodes, EdgeCodesCopy);
         //clearEdgeList(EdgeCodes); 
-        system("clear");
+
         fillCenter(MiddleCode, MiddleColor);
 
         // befuelle cube mit random edges aus den listen  
@@ -469,7 +469,8 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
         //usleep(1000000*0.01);  
         //cin.get();
     }
-    cout << "tries:\t" << tries << endl; 
+    //system("clear");
+    //cout << "tries:\t" << tries << endl; 
 
 }
 

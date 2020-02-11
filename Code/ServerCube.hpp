@@ -139,6 +139,7 @@ void ServerCube::rotate(int side,int howOften)
 		default:
 			break;					
 	}
+    print();
 	//printCubeStd();
 }
 void ServerCube::shift8by2n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,int& h,int& n)

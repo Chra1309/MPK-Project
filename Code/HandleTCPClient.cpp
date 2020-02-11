@@ -39,7 +39,7 @@ void getActions(ServerCube& myCube){
 
 	int n = 0;
 	for (int i = 1; echoBuffer[i]!='\0';i+=2){
-		myCube.rotate(echoBuffer[1]-'0',echoBuffer[2]-'0');
+		myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
 		n++;
 	}
 	//ack schicken
