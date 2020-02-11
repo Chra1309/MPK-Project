@@ -5,15 +5,12 @@ using namespace std;
 
 struct corner
 {
-	int field1;
-	int field2;
-	int field3;
+	int field[3];
 };
 
 struct edge
 {
-	int field1;
-	int field2;
+	int field[2];
 };
 
 struct middle

@@ -20,6 +20,10 @@ bool containsMiddle(list<middle> &midComb, int a, int b);
 bool containsEdge(list<edge> &edgeComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
 void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[]);
+void findEdges(list <edge> EdgeCodes[], int middleColor[]);
+void getEdgeInfo(int fields[][3],int n, int orientation[]);
+
+
 void askTwo(int putAnswer [], int question [], int field1 [], int field2 []);
 
 void changeAnswer(string& strAnswer, int* arrAnswer)
@@ -105,6 +109,75 @@ int findMiddle(int foundColour[])
 	return 0;
 }
 
+void getEdgeInfo(int fields[][3],int n, int orientation[])
+{
+	int i=0;
+	
+	for(i =0; i<6; i++)
+	{
+		for(int j =0; j<3; j++)
+		{
+			for(int k =0; k<3; k++)
+			{
+				if( indexCube[i][j][k]==n && (j == 1 || k == 1))
+				{
+					fields[0][0]=i;
+					fields[0][1]=j;
+					fields[0][2]=k;
+					orientation[0]=orientationCube[i][j][k];
+					i++;
+					break;
+				}
+			}
+		}
+	}
+
+	for(i;i<6;i++)
+	{
+		for(int j = 0; j<3; j++)
+		{
+			for(int k = 0; k<3; k++)
+			{
+				if(indexCube[i][j][k] == n && (j == 1 || k == 1))
+				{
+					fields[1][0] = i;
+					fields[1][1] = j;
+					fields[1][2] = k;
+					orientation[1] = orientationCube[i][j][k];
+					break;
+				}
+			}
+		}
+	}
+
+}
+
+void findEdges(list <edge> EdgeCodes[], int middleColor[])
+{
+	int fields[2][3];
+	int orientation[2];
+	int i = 0;
+	for(i = 0; i<12; i++)
+	{
+		if(EdgeCodes[i].size()>1)
+		break;
+	}
+
+	if(i>11) return;
+
+	getEdgeInfo(fields,i,orientation)
+	int currentQuestion[2];
+	int currentAnswer[2];
+	int MiddleCode[2]={middleColor[fields[0][0]],middleColor[fields[1][0]]};
+
+	while(EdgeCodes[i].size()>1)
+	{
+		getNextEdgeQuestion(EdgeCodes[i], currentQuestion, MiddleCode, orientation)
+	}
+	
+	
+}
+
 void sortAnswer(int answer[])
 {
 	if (answer[0] > answer[1])
@@ -157,21 +230,21 @@ void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 								
 					corner tmp;
 	
-					tmp.field1 = cornerGeometrie[i].field1;
-					tmp.field2 = cornerGeometrie[i].field2;
-					tmp.field3 = cornerGeometrie[i].field3;
+					tmp.field[0] = cornerGeometrie[i].field[0];
+					tmp.field[1] = cornerGeometrie[i].field[1];
+					tmp.field[2] = cornerGeometrie[i].field[2];
 
 					CornerCodes[k].push_back(tmp);
 					
-					tmp.field1 = cornerGeometrie[i].field3;
-					tmp.field2 = cornerGeometrie[i].field1;
-					tmp.field3 = cornerGeometrie[i].field2;
+					tmp.field[0] = cornerGeometrie[i].field[2];
+					tmp.field[1] = cornerGeometrie[i].field[0];
+					tmp.field[2] = cornerGeometrie[i].field[1];
 
 					CornerCodes[k].push_back(tmp);
 
-					tmp.field1 = cornerGeometrie[i].field2;
-					tmp.field2 = cornerGeometrie[i].field3;
-					tmp.field3 = cornerGeometrie[i].field1;
+					tmp.field[0] = cornerGeometrie[i].field[1];
+					tmp.field[1]= cornerGeometrie[i].field[2];
+					tmp.field[2] = cornerGeometrie[i].field[0];
 
 					CornerCodes[k].push_back(tmp);				
 				
@@ -206,8 +279,8 @@ void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[])
 					
 				edge tmp;
 				
-				tmp.field1=i;
-				tmp.field2=j;
+				tmp.field[0]=i;
+				tmp.field[1]=j;
 				
 				EdgeCodes[k].push_back(tmp);
 			}
@@ -325,16 +398,16 @@ void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int Middle
 			{
 				while(it!=edgeComb.end())
 				{
-					if( it->field1 == i && i == MiddleCode[0] && it->field2 == j && j == MiddleCode[1] )
+					if( it->field[0] == i && i == MiddleCode[0] && it->field[1] == j && j == MiddleCode[1] )
 						case0++;
 
-					else if( (it->field1 != i && it->field2 == j && j  == MiddleCode[1]) || (it->field1 == i && i == MiddleCode[0] && it->field2 != j) )
+					else if( (it->field[0] != i && it->field[1] == j && j  == MiddleCode[1]) || (it->field[0] == i && i == MiddleCode[0] && it->field[1] != j) )
 						case1++;
-					else if( it->field1 == i && i != MiddleCode[0] && it->field2 == j && j != MiddleCode[1] )
+					else if( it->field[0] == i && i != MiddleCode[0] && it->field[1] == j && j != MiddleCode[1] )
 						case2++;
-					else if( (it->field1 == i && i != MiddleCode[0] && it->field2 != j) || (it->field1 != i && it->field2 == j && j!= MiddleCode[1]) )
+					else if( (it->field[0] == i && i != MiddleCode[0] && it->field[1] != j) || (it->field[0] != i && it->field[1] == j && j!= MiddleCode[1]) )
 						case3++;
-					else if(it->field1 != i && it->field2 != j)
+					else if(it->field[0] != i && it->field[1] != j)
 						case4++;
 
 					it++;
@@ -447,23 +520,23 @@ void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int curren
 
 	while(it != edgeComb.end())
 	{
-		if(currentguess[0] == it->field1 && currentguess[0] == MiddleCode[0])
+		if(currentguess[0] == it->field[0] && currentguess[0] == MiddleCode[0])
 			tempAnswer[0]=2;
-		else if(currentguess[0] == it ->field1 && currentguess[0] != MiddleCode[0])
+		else if(currentguess[0] == it ->field[0] && currentguess[0] != MiddleCode[0])
 			tempAnswer[0]=1;
 		else
 			tempAnswer[0]=0;
 
-		if(currentguess[1] == it->field2 && currentguess[1] == MiddleCode[1])
+		if(currentguess[1] == it->field[1] && currentguess[1] == MiddleCode[1])
                         tempAnswer[1]=2;
-                else if(currentguess[1] == it ->field2 && currentguess[1] != MiddleCode[1])
+                else if(currentguess[1] == it ->field[1] && currentguess[1] != MiddleCode[1])
                         tempAnswer[1]=1;
                 else
                         tempAnswer[1]=0;
 
 		if(tempAnswer[0]!= currentAnswer[0] || tempAnswer[1] != currentAnswer[1])
 		{
-			cout << "Combination: " << it->field1 << it->field2 << " sorted out!" << endl;
+			cout << "Combination: " << it->field[0] << it->field[1] << " sorted out!" << endl;
 			
 			it = edgeComb.erase(it);
 			if(it == edgeComb.end())
@@ -499,7 +572,7 @@ bool containsEdge(list<edge> &edgeComb, int a, int b)
 
         while(it != edgeComb.end())
         {
-                if (it->field1 == a && it->field2 == b)
+                if (it->field[0] == a && it->field[1] == b)
                         return true;
 
                 it++;

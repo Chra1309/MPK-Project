@@ -219,7 +219,8 @@ int main(int argc, char *argv[])
 	
 
 	findMiddle(MiddleCode);
-	
+	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
+
 	buildCombOfEdge(EdgeCodes, MiddleCode);
 
 	buildCombOfCorner(CornerCodes, MiddleCode);
