@@ -7,7 +7,7 @@
 #include <iterator>
 #include <unistd.h>
 #include <array>
-#include "rubikssolver_header.hpp"
+
 #include <algorithm>    // std::sort
 #include "solvability.hpp"
 

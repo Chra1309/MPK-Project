@@ -1,7 +1,9 @@
+#ifndef A_H
+
+#include "masterheader.hpp"
 #include <iostream>
 #include <list>
 #include <iterator>
-#include "masterheader.hpp"
 
 using namespace std;
 
@@ -17,6 +19,7 @@ bool containsMiddle(list<middle> &midComb, int a, int b);
 bool containsEdge(list<edge> &edgeComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
 void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[]);
+void askTwo(int putAnswer [], int question [], int field1 [], int field2 []);
 
 void changeAnswer(string& strAnswer, int* arrAnswer)
 {
@@ -506,25 +509,17 @@ bool containsEdge(list<edge> &edgeComb, int a, int b)
 }
 
 
-int main()
-{
-
-	int MiddleCode[6] = {6,6,6,6,6,6};
-	list <edge> EdgeCodes[12];
-	list <corner> CornerCodes[8];
+#endif
 
 
 
-	
-	findMiddle(MiddleCode);
-	
-	buildCombOfEdge(EdgeCodes, MiddleCode);
 
-	buildCombOfCorner(CornerCodes, MiddleCode);
 
-	
-	
 
-	return 0;
-}
+
+
+
+
+
+
 

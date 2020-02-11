@@ -6,7 +6,7 @@
 #include <iterator>
 #include "masterheader.hpp"
 //#include "solvability.hpp"
-//#include "rubikssolver_header.hpp"
+#include "rubikssolver_header.hpp"
 #include "fillcube.hpp"
 
 using namespace std;
@@ -399,6 +399,42 @@ int main()
 
     printCubeColor(cube);    
 	
+
+
+
+
+
+    //inputCube();
+    //mapforsolver();
+    //printCubeColor();
+    //print();
+	//scramble();
+	//cout << "scramble: " << moves << endl;
+	//clearMoves();
+    //printCubeColor();
+	solveTopCross();
+	cout << "cross: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	solveTopCorners();
+	cout << "corners: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	solveMiddleLayer();
+	cout << "middle layer: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	solveBottomLayer();
+	cout << "Bottom: " << moves << endl;
+	clearMoves();
+    mapforcustomcolor();
+    printCubeColor(cube_customcolor);
+	return 0;
+
+
 /*
 	for (int j=0; j<12; j++)
 	{
