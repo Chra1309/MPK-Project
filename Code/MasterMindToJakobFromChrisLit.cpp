@@ -1,172 +1,50 @@
+// structs gelöscht 
+// includes eingefügt
+
 #include <iostream>
 #include <list>
 #include <iterator>
-#include <unistd.h>
-#include <array>
-
 #include "masterheader.hpp"
-#include "rubikssolver_header.hpp"
-#include <algorithm>    // std::sort
-#include "solvability.hpp"
+//#include "solvability.hpp"
+//#include "rubikssolver_header.hpp"
 #include "fillcube.hpp"
 
-
 using namespace std;
-
+/*
 struct corner;
 struct edge;
 struct middle;
-
-#define useUI 0 
-
+*/
 int findMiddle(int n);
 void sortAnswer(int answer[]);
 void buildCombOfTwo(list<middle> &midComb);
 void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[]);
-void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[]);
+void buildCombOfConrer(list<corner> CornerCodes[], int MiddleCodes[]);
 void eliminateFound(list<middle> &midComb, int foundColours[]);
 void getNextQuestion(list<middle> &midComb, int currentQuestion[]);
 void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[]);
 bool contains (list<middle> &midComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
-
-
-int main()
+/*
+struct corner
 {
-    bool error = 0; 
-    srand(clock());
-
-	    int MiddleCode[6] = {0,5,1,3,2,4}; // index: 
-        int MiddleColor[6] = {0,1,2,3,4,5};
-
-	    list <edge> EdgeCodes[12];
-	    list <corner> CornerCodes[8];
-
-	    buildCombOfEdge(EdgeCodes, MiddleCode);
-	    buildCombOfCorner(CornerCodes, MiddleCode);    
-
-
-
-
-
-        fillrandomcube(MiddleCode, MiddleColor, EdgeCodes, CornerCodes);
-
-	    solveTopCross();
-	    cout << "cross: " << moves << endl;
-	    clearMoves();
-
-        printCubeColor(cube);
-	    solveTopCorners();
-	    cout << "corners: " << moves << endl;
-	    clearMoves();
-        if(checktop())
-            error = 1; 
-        printCubeColor(cube);  
-        cout << "error: " << error << endl;
-        if(!error)
-	        solveMiddleLayer();
-	    cout << "middle layer: " << moves << endl;
-	    clearMoves();
-
-        printCubeColor(cube);
-        if(!error)
-	        solveBottomLayer();
-	    cout << "Bottom: " << moves << endl;
-        printCubeColor(cube);
-	    clearMoves();
-
-
-
-    if(error)
-        cout << "\033[31mERROR ERROR ERROR\033[39m" << endl; 
-
-
-	return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	int field1;
+	int field2;
+	int field3;
+};
+
+struct edge
+{
+	int field1;
+	int field2;
+};
+
+struct middle
+{
+	int field1;
+	int field2;
+};
+*/
 void changeAnswer(string& strAnswer, int* arrAnswer)
 {
 	int intTemp[3];
@@ -287,15 +165,17 @@ void buildCombOfTwo(list<middle> &midComb)
 
 void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 {
-	//cout << "In funktion build Comb of Corner" << endl;
-	corner cornerGeometrie[8]={	{MiddleCodes[0],MiddleCodes[2],MiddleCodes[4]},
-					{MiddleCodes[0],MiddleCodes[4],MiddleCodes[3]},
-					{MiddleCodes[0],MiddleCodes[3],MiddleCodes[5]},
-					{MiddleCodes[0],MiddleCodes[5],MiddleCodes[2]},
-					{MiddleCodes[2],MiddleCodes[1],MiddleCodes[4]},
-					{MiddleCodes[4],MiddleCodes[1],MiddleCodes[3]},
-					{MiddleCodes[3],MiddleCodes[1],MiddleCodes[5]},
-					{MiddleCodes[2],MiddleCodes[5],MiddleCodes[1]}	};
+	cout << "In funktion build Comb of Corner" << endl;
+	corner cornerGeometrie[8]={	{0,1,2},
+					{0,2,3},
+					{0,3,4},
+					{0,4,1},
+					{1,2,5},
+					{1,4,5},
+					{2,5,3},
+					{3,5,4}	};
+	// jakobnode: reihenfolge so bebsichtigt? 
+    // wie kommen hier die farben der mittelpunkte ins spiel? 
 
 	for(int k=0; k<8; k++)
 	{	
@@ -385,16 +265,6 @@ void eliminateFound(list<middle> &midComb, int foundColour[])
 		it = midComb.begin();
 	}
 }
-
-
-void fillMiddle(int cubeMiddle[6][3][3], int Middle[])
-{
-
-    for(int i = 0; i < 6; i++)
-        cubeMiddle[i][1][1] = Middle[i];
-
-}
-
 
 void getNextQuestion(list<middle> &midComb, int currentQuestion[])
 {
@@ -510,3 +380,60 @@ bool contains (list<middle> &midComb, int a, int b)
 	
 	return false;
 }
+
+int main()
+{
+	int MiddleCode[6] = {0,5,1,3,2,4};
+	list <edge> EdgeCodes[12];
+	list <corner> CornerCodes[8];
+
+
+
+	
+	//findMiddle(MiddleCode);
+	buildCombOfEdge(EdgeCodes, MiddleCode);
+
+	buildCombOfCorner(CornerCodes, MiddleCode);
+
+    fillrandomcube(MiddleCode, MiddleColor, EdgeCodes, CornerCodes);
+
+    printCubeColor(cube);    
+	
+/*
+	for (int j=0; j<12; j++)
+	{
+		cout << endl  << "List number " << j << " ";
+		
+		list <edge>::iterator it = EdgeCodes[j].begin();
+		
+		while(it != EdgeCodes[j].end())
+		{
+			cout << it->field1 << it->field2 << " | ";
+			
+			it++;
+		}
+		
+		cout << endl;
+	}
+
+	for(int j=0;j<8;j++)
+	{
+		cout << endl  << "List number " << j << " ";
+
+		list<corner>::iterator it = CornerCodes[j].begin();
+
+		while(it != CornerCodes[j].end())
+		{
+			cout << it->field1 << it->field2 << it->field3 << " | ";
+			
+			it++;
+		}
+
+		cout << endl;
+
+	}
+*/
+
+	return 0;
+}
+

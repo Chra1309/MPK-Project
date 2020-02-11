@@ -15,7 +15,7 @@ ToDo:
 
 -[ ] Rubiks Würfel
 
--[ ] faces random erzeugen 
+-[x] faces random erzeugen 
 
 -[ ] 
 
@@ -35,10 +35,17 @@ Spuli:
 
 -Der server erstellt jetzt nur noch beim starten einen random cube und dieser lebt dann weiter über die ganze progreammlaufzeit.
 
-jakob:
-Solver kann Würfel aus jeder Orientierung lösen
-next steps: 
-Würfel lösen, der vom Server kommt und dann auch dem Server die Anweisugen zum lösen geben 
+jakob + kathi:
+FILLCUBE:
+Auffüllen eines Würfels aus der Liste:
+#include "masterheader.hpp"
+#include "fillcube.hpp"
+    fillrandomcube(MiddleCode, MiddleColor, EdgeCodes, CornerCodes);
+es wird ein cube[6][3][3] befüllt und kann an den Solver übergeben werden. 
+(ind fillrandomcube wird auch ein solvability-test ausgeführt - ist in solvability.hpp)
+
+
+
 
 The faces are displayed as if you are facing them in this order
 	
@@ -52,8 +59,8 @@ The faces are displayed as if you are facing them in this order
 	0   y   yellow
 	1   o   orange
 	2   b   blue    
-	3   r   red // falsch es ist green
-	4   g   green // falsch es ist red
+	3   r   red // falsch es ist green //richtig es ist red
+	4   g   green // falsch es ist red // richtig es rst green
 	5   w   white
 	6       black
 

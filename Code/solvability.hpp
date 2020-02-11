@@ -4,6 +4,7 @@
 // https://math.stackexchange.com/questions/127577/how-to-tell-if-a-rubiks-cube-is-solvable
 // online solver:   https://rubiks-cube-solver.com/
 // solver:          http://kociemba.org/cube.htm
+
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -11,34 +12,23 @@
 #include <time.h>
 #include <stdio.h>
 #include <ctime>
-
 #include <vector>
-//#include "rubikssolver_header.hpp"
-//#include "cubeoperations.hpp"
-
 #include <list>
 #include <iterator>
-//#include "QuestionCube.hpp"
+#include "cubeoperations.hpp"
 
 #define useUI 0
 
-
-
 using namespace std;
 
-
-int cube_customcolor[6][3][3];
-
-int solveable = 0;
-//int getCorners(int** array, int ***cubetofind);
-//void getCorners();
-
+int solvable = 0;
 
 //////////////////// PROTOTYPES ////////////////////
-int edgepartitytest();		    
-int cornerparitytest();
 void permutationparitytest(int permutationCube[6][3][3]);
-
+int permutationparitytestEdges(int permutationCube[6][3][3]);
+int cornerparitytest(int cornercube[6][3][3]);
+int edgepartitytest(int edgecube[6][3][3]);
+int checksolvability(int checkcube[6][3][3]);
 
 void permutationparitytestCorners(int permutationCube[6][3][3]){
 	int cnt=0;
@@ -147,13 +137,13 @@ void permutationparitytestCorners(int permutationCube[6][3][3]){
 	}
 	if(cnt%2||whileCnt>16)
 	{
-		solveable=0;
+		solvable=0;
         if(useUI)
 		    cout << "Permutation Partity C-Test \t\033[31mFAIL (Sum: " << cnt<< ")\033[39m" << endl;
 	}
 	else
 	{
-		solveable=solveable+1;
+		solvable=solvable+1;
         if(useUI)
 		    cout << "Permutation Partity C-Test \tPASS (Sum: " << cnt << ")" << endl;
 	}
@@ -221,13 +211,13 @@ int permutationparitytestEdges(int permutationCube[6][3][3]){
    }
 	if(counter%2 != 0)
 	{
-		solveable=0;
+		solvable=0;
         if(useUI)
 		    cout << "Permutation Partity E-Test \t\033[31mFAIL (Sum: " << counter<< ")\033[39m" << endl;
 	}
 	else
 	{
-		solveable=solveable+1;
+		solvable=solvable+1;
         if(useUI)
 		    cout << "Permutation Partity E-Test \tPASS (Sum: " << counter << ")" << endl;
 	}
@@ -248,7 +238,7 @@ int cornerparitytest(int cornercube[6][3][3]){
             corner[i][1] == corner[i][2] || 
             corner[i][2] == corner[i][0]){ 
             if(useUI)
-                cout << "\033[31munsolveable: multiple colors on corners \t\t(position: " << i << ")\033[39m" << endl;
+                cout << "\033[31munsolvable: multiple colors on corners \t\t(position: " << i << ")\033[39m" << endl;
             break;
         }
     }
@@ -271,9 +261,9 @@ int cornerparitytest(int cornercube[6][3][3]){
             }
         else{
                 if(useUI)
-                    cout << "\033[31munsolveable: Error at corner orientation\t(position: " << i << ")\033[39m" << endl;
-                solveable = 0; 
-                return solveable; 
+                    cout << "\033[31munsolvable: Error at corner orientation\t(position: " << i << ")\033[39m" << endl;
+                solvable = 0; 
+                return solvable; 
                 break;
             }
 
@@ -282,12 +272,12 @@ int cornerparitytest(int cornercube[6][3][3]){
     if(sum%3 == 0){
         if(useUI)
             cout << "Corner Partity Test \t\tPASS (Sum: " << sum << ")" << endl;
-        solveable += 1; 
+        solvable += 1; 
         }
     else{ 
         if(useUI)
             cout << "Corner Partity Test \t\t\033[31mFAIL (Sum: " << sum << ")\033[39m" << endl;
-        solveable = 0;
+        solvable = 0;
         }
 //t\033[31mFAIL (Sum: " << sum << ")\033[39m"
 }
@@ -321,9 +311,9 @@ int edgepartitytest(int edgecube[6][3][3]){
         sum += 0;
      else{
         if(useUI)
-            cout << "\033[31munsolveable: Error at Edge Partity Test \t(position: " << i << ")\033[39m" << endl;
-        solveable = 0; 
-        return solveable;
+            cout << "\033[31munsolvable: Error at Edge Partity Test \t(position: " << i << ")\033[39m" << endl;
+        solvable = 0; 
+        return solvable;
         }
 
     }
@@ -331,7 +321,7 @@ int edgepartitytest(int edgecube[6][3][3]){
     if(sum%2 == 0){
         if(useUI)        
             cout << "Edge Partity Test \t\tPASS (Sum: " << sum << ")" << endl;
-        solveable += 1;
+        solvable += 1;
     }
     else 
         if(useUI)
@@ -348,7 +338,7 @@ int checksolvability(int checkcube[6][3][3])
     int error = 0; 
     int counter = 0; 
 
-    solveable = 0; 
+    solvable = 0; 
 
     
     edgepartitytest(checkcube);
@@ -357,10 +347,10 @@ int checksolvability(int checkcube[6][3][3])
     permutationparitytestEdges(checkcube);
 
     counter ++;
-    if(solveable != 4){
+    if(solvable != 4){
         if(useUI){
             cout << "\033[31m___________________________"       <<      endl << endl; 
-            cout <<         "       unsolveable" << endl;
+            cout <<         "       unsolvable" << endl;
             cout <<         "___________________________\033[39m" << endl << endl;
         }
         error = 1; 
@@ -369,7 +359,7 @@ int checksolvability(int checkcube[6][3][3])
     else{
         if(useUI){
             cout << "\033[92m___________________________" << endl << endl; 
-            cout <<         "        solveable" << endl;
+            cout <<         "        solvable" << endl;
             cout <<         "___________________________\033[39m" << endl << endl;
         }
         return 1;
@@ -377,8 +367,6 @@ int checksolvability(int checkcube[6][3][3])
 
     //usleep(1000000*0.25);  
               
-
-
 }
 
 #endif
