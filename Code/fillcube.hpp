@@ -1,6 +1,7 @@
 #ifndef FILLCUBE_HPP
 #define FILLCUBE_HPP
 
+#include "masterheader.hpp"
 #include <iostream>
 #include <list>
 #include <iterator>
@@ -12,44 +13,17 @@
 
 
 using namespace std;
-
+/*
 struct corner;
 struct edge;
 struct middle;
-
+*/
 #define useUI 0 
 
 void fillMiddle(int cubeMiddle[6][3][3], int Middle[]);
 void clearEdgeList(list<edge> EdgeCodes[]);
 void fillCorners(list <corner> CornerCodes[]);
 
-int cube[6][3][3] = {
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //yellow side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //orange side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //blue side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //red side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } },   //green side
-	{ { 6, 6, 6 }, { 6, 6, 6 }, { 6, 6, 6 } } }; //white side
-
-
-struct corner
-{
-	int field1;
-	int field2;
-	int field3;
-};
-
-struct edge
-{
-	int field1;
-	int field2;
-};
-
-struct middle
-{
-	int field1;
-	int field2;
-};
 
 
 
