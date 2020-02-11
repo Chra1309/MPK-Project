@@ -1,4 +1,5 @@
 #include "ClientCube.hpp"
+#include "cubeoperations.hpp"
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -10,13 +11,17 @@ int main()
 {
 	srand(time(NULL));
 	ClientCube x(1);
+	array[6][3][3];
 	
+	x.cubeToArray(array);
 	
-	x.printCubeColor();
+	printCubeColor(array);
 	
 	x.testSolve();
 	
-	x.printCubeColor();
+	x.cubeToArray(array);
+	
+	printCubeColor(array);
 	
 	
 	return 0;

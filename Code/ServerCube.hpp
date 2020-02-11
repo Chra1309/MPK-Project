@@ -10,6 +10,7 @@
 #include <cmath>
 #include <time.h>
 #include <stdio.h>
+#include "cubeoperations.hpp"
 
 
 #define UP	 	0
@@ -39,12 +40,10 @@ class ServerCube{
 
 	public:
 		ServerCube(int);
-	    string printColor(int); //Ausgabe von Farbe
-	    void printCubeColor(); 	//Ausgabe des Cubes im Terminal in Farbe
-	    void printCubeStd();	//Ausgabe des Cubes im Terminal in Zahlen	
 		void rotate(int, int);	
-		void stringToCube(string);		//wandelt string in Cube um    
-		void compareToQuestion(ServerCube&,int*);	//
+		void stringToCube(string);		//wandelt string in Cube um   
+		string cubeToString();
+		void compareToQuestion(ServerCube&,int*);	
 	
 };
 ServerCube::ServerCube(int n=0)
@@ -71,83 +70,7 @@ ServerCube::ServerCube(int n=0)
 		randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
 	}
 }
-string ServerCube::printColor(int field)
-{
-		
-    string RESET = "\033[0m";
-	string WHITE = "\033[107m";      /* White */
-	string RED = "\033[101m";      /* Red */
-	string GREEN = "\033[102m";      /* Green */
-	string BLUE = "\e[48;5;21m";      /* Blue */
-	string ORANGE = "\e[48;5;208m";      /* Magenta */	 
-	string YELLOW = "\033[103m";      /* Yellow */
-    string BLACK = "\033[40m"; 
-				
-	string printcolor;
-	switch(field){
-        case 6:
-			printcolor = BLACK + "  " + RESET;		
-			break;
-		case 5: 
-			printcolor = WHITE + "  " + RESET;		
-			break;		
-		case 3:
-			printcolor = RED + "  " + RESET;					
-			break;
-		case 4: 
-			printcolor = GREEN + "  " + RESET;					
-			break;
-		case 2:
-			printcolor = BLUE + "  " + RESET;									
-			break;
-		case 1: 				
-			printcolor = ORANGE + "  " + RESET;					
-			break;			
-		case 0: 
-			printcolor = YELLOW + "  " + RESET;								
-			break;				
-	}
-	return printcolor;
-}
 
-void ServerCube::printCubeColor()
-{ 
-	for(int i=0;i<3;i++)
-	{
-		cout<<"       "<<printColor(data[0][i][0])<<printColor(data[0][i][1])<<printColor(data[0][i][2])<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<printColor(data[1][i][0])<<printColor(data[1][i][1])<<printColor(data[1][i][2])<<" ";
-		cout<<printColor(data[2][i][0])<<printColor(data[2][i][1])<<printColor(data[2][i][2])<<" ";
-		cout<<printColor(data[3][i][0])<<printColor(data[3][i][1])<<printColor(data[3][i][2])<<" ";
-		cout<<printColor(data[4][i][0])<<printColor(data[4][i][1])<<printColor(data[4][i][2])<<" "<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<"       "<<printColor(data[5][i][0])<<printColor(data[5][i][1])<<printColor(data[5][i][2])<<endl;
-	}	
-	cout<<endl<<endl;	
-}
-void ServerCube::printCubeStd()
-{
-	for(int i=0;i<3;i++)
-	{
-		cout<<"    "<<data[0][i][0]<<data[0][i][1]<<data[0][i][2]<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<data[1][i][0]<<data[1][i][1]<<data[1][i][2]<<" ";
-		cout<<data[2][i][0]<<data[2][i][1]<<data[2][i][2]<<" ";
-		cout<<data[3][i][0]<<data[3][i][1]<<data[3][i][2]<<" ";
-		cout<<data[4][i][0]<<data[4][i][1]<<data[4][i][2]<<" "<<endl;
-	}
-	for(int i=0;i<3;i++)
-	{
-		cout<<"    "<<data[5][i][0]<<data[5][i][1]<<data[5][i][2]<<endl;
-	}	
-	cout<<endl<<endl;
-}
 void ServerCube::randomize()
 {
 	int x=(rand()%6)+1;
@@ -259,6 +182,24 @@ void ServerCube::shift12by3n(int& a,int& b,int& c,int& d, int& e,int& f,int& g,i
 		default:
 			break;
 	}		
+}
+
+
+string ServerCube::cubeToString()
+{ 
+	string returnString="";	
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{				
+				returnString+=data[i][j][k]+'0';
+			}
+		}	
+	}
+	return returnString;
+	
 }
 
 void ServerCube::stringToCube(string s)
