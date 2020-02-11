@@ -11,17 +11,17 @@ int main()
 {
 	srand(time(NULL));
 	ClientCube x(1);
-	array[6][3][3];
+	int array[6][3][3];
 	
 	x.cubeToArray(array);
 	
-	printCubeColor(array);
+	x.print();
 	
-	x.testSolve();
-	
-	x.cubeToArray(array);
-	
-	printCubeColor(array);
+//	x.testSolve();
+//	
+//	x.cubeToArray(array);
+//	
+//	printCubeColor(array);
 	
 	
 	return 0;

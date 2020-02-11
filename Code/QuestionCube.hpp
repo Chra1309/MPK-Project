@@ -41,9 +41,11 @@ class QuestionCube{
 		QuestionCube();	
 		void stringToCube(string&);	
 		string cubeToString();
+		void cubeToArray(int array[6][3][3]);
 		void accessData(int, int, int, int);
 		void rotate(int, int);	//Methode zum Rotieren des Cubes 1. Param: Seite (1-6), 2. Param: beliebig (wird zu 1-3 umgewandelt
 		int getColor(int, int, int);
+		void print();
 	
 	
 		string makeQuestion();			//wandelt einen Cube in einen String um
@@ -59,6 +61,11 @@ QuestionCube::QuestionCube()
 				data[i][j][k]=6;
 	
 }
+void QuestionCube::print()
+{
+	printCubeColor(data);
+}
+
 
 void QuestionCube::accessData(int i, int j, int k, int value)
 {
@@ -113,6 +120,20 @@ void QuestionCube::stringToCube(string& s)
 			{				
 				data[i][j][k]=a[x];
 				x++;
+			}
+		}	
+	}
+}
+
+void QuestionCube::cubeToArray(int array[6][3][3])
+{
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{				
+				array[i][j][k]=data[i][j][k];
 			}
 		}	
 	}

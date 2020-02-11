@@ -43,7 +43,9 @@ class ServerCube{
 		void rotate(int, int);	
 		void stringToCube(string);		//wandelt string in Cube um   
 		string cubeToString();
+		void cubeToArray(int array[6][3][3]);
 		void compareToQuestion(ServerCube&,int*);	
+		void print();
 	
 };
 ServerCube::ServerCube(int n=0)
@@ -69,6 +71,11 @@ ServerCube::ServerCube(int n=0)
 				}
 		randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
 	}
+}
+
+void ServerCube::print()
+{
+	printCubeColor(data);
 }
 
 void ServerCube::randomize()
@@ -216,6 +223,20 @@ void ServerCube::stringToCube(string s)
 			{				
 				data[i][j][k]=a[x];
 				x++;
+			}
+		}	
+	}
+}
+
+void ServerCube::cubeToArray(int array[6][3][3])
+{
+	for(int i=0;i<6;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			for(int k=0;k<3;k++)
+			{				
+				array[i][j][k]=data[i][j][k];
 			}
 		}	
 	}

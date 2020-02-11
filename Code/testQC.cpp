@@ -21,11 +21,11 @@ int main()
 	
 	x.accessData(0,0,0,0);
 	x.accessData(0,2,2,2);
-	x.printCubeColor();
+	x.print();
 	
 	x.rotate(side,numberTurns);
 	
-	x.printCubeColor();
+	x.print();
 	
 	cout<<x.makeQuestion()<<endl<<x.getColor(0,0,0)<<endl;
 	

@@ -1,4 +1,4 @@
-s#ifndef CC
+#ifndef CC
 #define CC
 #include <iostream>
 #include <ctime>
@@ -119,6 +119,7 @@ class ClientCube{
 		string cubeToString();		//wandelt einen Cube in einen String um
 		void cubeToArray(int array[6][3][3]);
 		void stringToCube(string&);		//wandelt string in Cube um
+		void print();
 			
 };
 ClientCube::ClientCube(int n=0)
@@ -162,6 +163,10 @@ ClientCube::ClientCube(int n=0)
 		numberTurns=0;
 		cout<<endl<<endl<<endl<<endl;
 	}
+}
+void ClientCube::print()
+{
+	printCubeColor(data);
 }
 
 void ClientCube::randomize()
