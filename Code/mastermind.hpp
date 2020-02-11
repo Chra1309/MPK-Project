@@ -166,14 +166,14 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 
 	if(i>11) return;
 
-	getEdgeInfo(fields,i,orientation)
+	getEdgeInfo(fields,i,orientation);
 	int currentQuestion[2];
 	int currentAnswer[2];
 	int MiddleCode[2]={middleColor[fields[0][0]],middleColor[fields[1][0]]};
 
 	while(EdgeCodes[i].size()>1)
 	{
-		getNextEdgeQuestion(EdgeCodes[i], currentQuestion, MiddleCode, orientation)
+		getNextEdgeQuestion(EdgeCodes[i], currentQuestion, MiddleCode, orientation);
 	}
 	
 	
