@@ -36,7 +36,8 @@ Spuli:
 -Der server erstellt jetzt nur noch beim starten einen random cube und dieser lebt dann weiter über die ganze progreammlaufzeit.
 
 jakob + kathi:
-FILLCUBE:
+
+-FILLCUBE:
 Auffüllen eines Würfels aus der Liste:
 #include "masterheader.hpp"
 #include "fillcube.hpp"
