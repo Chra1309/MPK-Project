@@ -19,7 +19,8 @@ void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int curre
 bool containsMiddle(list<middle> &midComb, int a, int b);
 bool containsEdge(list<edge> &edgeComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
-void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[]);
+void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[], int orienataion[]);
+void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[], int orientation[]);
 void findEdges(list <edge> EdgeCodes[], int middleColor[]);
 void getEdgeInfo(int fields[][3],int n, int orientation[]);
 
@@ -383,7 +384,7 @@ void getNextQuestion(list<middle> &midComb, int currentQuestion[])
 }
 
 
-void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int MiddleCode[])
+void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int MiddleCode[], int orientation[])
 {
 	int case0=0, case1=0, case2=0, case3=0, case4=0; // case0 = {2,2} case1 = {0,2} case2 = {1,1} case3 = {0,1} case4 = {0,0}
 	int nextQuestionMax = 39439;
@@ -398,14 +399,13 @@ void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int Middle
 			{
 				while(it!=edgeComb.end())
 				{
-					if( it->field[0] == i && i == MiddleCode[0] && it->field[1] == j && j == MiddleCode[1] )
+					if( it->field[0] == i && i == MiddleCode[orientation[0]] && it->field[1] == j && j == MiddleCode[orientation[1]] )
 						case0++;
-
-					else if( (it->field[0] != i && it->field[1] == j && j  == MiddleCode[1]) || (it->field[0] == i && i == MiddleCode[0] && it->field[1] != j) )
+					else if( (it->field[0] != i && it->field[1] == j && j  == MiddleCode[orientation[1]]) || (it->field[0] == i && i == MiddleCode[orientation[0]] && it->field[1] != j) )
 						case1++;
-					else if( it->field[0] == i && i != MiddleCode[0] && it->field[1] == j && j != MiddleCode[1] )
+					else if( it->field[0] == i && i != MiddleCode[orientation[0]] && it->field[1] == j && j != MiddleCode[orientation[1]])
 						case2++;
-					else if( (it->field[0] == i && i != MiddleCode[0] && it->field[1] != j) || (it->field[0] != i && it->field[1] == j && j!= MiddleCode[1]) )
+					else if( (it->field[0] == i && i != MiddleCode[orientation[0]] && it->field[1] != j) || (it->field[0] != i && it->field[1] == j && j!= MiddleCode[orientation[1]]) )
 						case3++;
 					else if(it->field[0] != i && it->field[1] != j)
 						case4++;
@@ -511,7 +511,7 @@ void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int curre
 	}
 }
 
-void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[])
+void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[], int orientation[])
 {
 	list<edge>::iterator it;
 	it = edgeComb.begin();
