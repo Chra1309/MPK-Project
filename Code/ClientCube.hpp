@@ -1,4 +1,4 @@
-s#ifndef CC
+#ifndef CC
 #define CC
 #include <iostream>
 #include <ctime>
