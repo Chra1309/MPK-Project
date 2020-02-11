@@ -16,40 +16,52 @@ using namespace std;
 ////lookup
 int lookup[6] = {0,0,0,0,0,0};
 
-void r();
-void ri();
+void r(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void rRotate(int rRotateCube[6][3][3]);
+void ri(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void riRotate(int riRotateCube[6][3][3]);
 
-void l();
-void li();
+void l(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void lRotate(int lRotateCube[6][3][3]);
+void li(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void liRotate(int liRotateCube[6][3][3]);
 
-void u();
-void ui();
+void u(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void uRotate(int uRotateCube[6][3][3]);
+void ui(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void uRotate(int uiRotateCube[6][3][3]);
 
-void d();
-void di();
+void d(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void dRotate(int dRotateCube[6][3][3]);
+void di(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void diRotate(int diRotateCube[6][3][3]);
 
-void f();
-void fi();
+void f(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void fRotate(int fRotateCube[6][3][3]);
+void fi(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void fiRotate(int fiRotateCube[6][3][3]);
 
-void b();
-void bi();
+void b(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void bRotate(int bRotateCube[6][3][3]);
+void bi(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void biRotate(int biRotateCube[6][3][3]);
 
-void copyCube();
-void print();
+void copyCube(int copyofcube[6][3][3]);
+void print(int printcube[6][3][3]);
 
-void solveTopCross();
+void solveTopCross(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 void findNextTopEdge(int & s, int & p);
-void moveTopEdges();
+void moveTopEdges(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 
-void solveTopCorners();
+void solveTopCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 void findNextTopCorner(int & s, int & p);
-void moveTopCorners();
+void moveTopCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 
 void scramble();
-void solveMiddleLayer();
+void solveMiddleLayer(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 int findBottomMatch(int color);
-void placeMiddleEdge(int color, int edgeSide);
-void middleAlgorithm(int color, int direction);
+void placeMiddleEdge(int color, int eSide, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void middleAlgorithm(int color, int direction, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 
 string last(); //gets the last move performed
 void removeLast(); //removes the last move performed
@@ -58,24 +70,25 @@ void clearMoves(); //clears all moves
 
 void mapforcustomcolor();
 void printCubeColor();
-void solveBottomLayer();
-void positionBottomCorners();
+void solveBottomLayer(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void positionBottomCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 int numCorrectCorners();
 void getCorner(int num, int corners[]);
-void swapCorners(int face);
-void positionBottomEdges();
+void swapCorners(int face, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void positionBottomEdges(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 int numEdgesInCorrectPos();
-void rotateEdges(int face, bool rotClockwise);
-void correctBottomCorners();
+void rotateEdges(int face, bool rotClockwise, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void correctBottomCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 int cornerOrientation();
 int findBestFace(int cornerNum);
-void twoCornerRotate(int face, bool goForward);
-void correctBottomEdges();
-void twoEdgeRotate(int face, bool isNextTo);
+void twoCornerRotate(int face, bool goForward, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void correctBottomEdges(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
+void twoEdgeRotate(int face, bool isNextTo, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 
-extern int cube[6][3][3];
-extern int cube_customcolor[6][3][3];
+//extern int cube[6][3][3];
+//extern int cube_customcolor[6][3][3];
 int checktop();
+int solvercube[6][3][3];
 
 int old[6][3][3] = {
 	{ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }, //yellow side
@@ -89,7 +102,30 @@ int cube_customcolor[6][3][3];
 
 string moves = "";
 
-void r()
+void rRotate(int rRotateCube[6][3][3]){
+
+	copyCube(rRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		rRotateCube[2][i][2] = old[5][i][2];
+		rRotateCube[0][i][2] = old[2][i][2];
+		rRotateCube[4][i][0] = old[0][2 - i][2];
+		rRotateCube[5][i][2] = old[4][2 - i][0];
+	}
+	rRotateCube[3][0][2] = old[3][0][0];
+	rRotateCube[3][2][2] = old[3][0][2];
+	rRotateCube[3][2][0] = old[3][2][2];
+	rRotateCube[3][0][0] = old[3][2][0];
+    
+	rRotateCube[3][1][2] = old[3][0][1];
+	rRotateCube[3][2][1] = old[3][1][2];
+	rRotateCube[3][1][0] = old[3][2][1];
+	rRotateCube[3][0][1] = old[3][1][0];
+
+}
+
+
+void r(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "r  ")
 	{
@@ -110,26 +146,36 @@ void r()
 		moves += "r  ";
 	}
     
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[2][i][2] = old[5][i][2];
-		cube[0][i][2] = old[2][i][2];
-		cube[4][i][0] = old[0][2 - i][2];
-		cube[5][i][2] = old[4][2 - i][0];
-	}
-	cube[3][0][2] = old[3][0][0];
-	cube[3][2][2] = old[3][0][2];
-	cube[3][2][0] = old[3][2][2];
-	cube[3][0][0] = old[3][2][0];
-    
-	cube[3][1][2] = old[3][0][1];
-	cube[3][2][1] = old[3][1][2];
-	cube[3][1][0] = old[3][2][1];
-	cube[3][0][1] = old[3][1][0];
+    rRotate(cube);
+    rRotate(oCube);
+    rRotate(iCube);
+    rRotate(solvercube);
+
 }
 
-void ri()
+void riRotate(int riRotateCube[6][3][3]){
+
+	copyCube(riRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		riRotateCube[5][i][2] = old[2][i][2];
+		riRotateCube[2][i][2] = old[0][i][2];
+		riRotateCube[0][2 - i][2] = old[4][i][0];
+		riRotateCube[4][2 - i][0] = old[5][i][2];
+	}
+	riRotateCube[3][0][0] = old[3][0][2];
+	riRotateCube[3][0][2] = old[3][2][2];
+	riRotateCube[3][2][2] = old[3][2][0];
+	riRotateCube[3][2][0] = old[3][0][0];
+    
+	riRotateCube[3][0][1] = old[3][1][2];
+	riRotateCube[3][1][2] = old[3][2][1];
+	riRotateCube[3][2][1] = old[3][1][0];
+	riRotateCube[3][1][0] = old[3][0][1];
+
+}
+
+void ri(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "ri ")
 	{
@@ -149,26 +195,37 @@ void ri()
 	{
 		moves += "ri ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[5][i][2] = old[2][i][2];
-		cube[2][i][2] = old[0][i][2];
-		cube[0][2 - i][2] = old[4][i][0];
-		cube[4][2 - i][0] = old[5][i][2];
-	}
-	cube[3][0][0] = old[3][0][2];
-	cube[3][0][2] = old[3][2][2];
-	cube[3][2][2] = old[3][2][0];
-	cube[3][2][0] = old[3][0][0];
-    
-	cube[3][0][1] = old[3][1][2];
-	cube[3][1][2] = old[3][2][1];
-	cube[3][2][1] = old[3][1][0];
-	cube[3][1][0] = old[3][0][1];
+
+    riRotate(cube);
+    riRotate(oCube);
+    riRotate(iCube);
+    riRotate(solvercube);
+
 }
 
-void l()
+void lRotate(int lRotateCube[6][3][3]){
+
+	copyCube(lRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		lRotateCube[5][i][0] = old[2][i][0];
+		lRotateCube[2][i][0] = old[0][i][0];
+		lRotateCube[0][i][0] = old[4][2 - i][2];
+		lRotateCube[4][2 - i][2] = old[5][i][0];
+	}
+	lRotateCube[1][0][2] = old[1][0][0];
+	lRotateCube[1][2][2] = old[1][0][2];
+	lRotateCube[1][2][0] = old[1][2][2];
+	lRotateCube[1][0][0] = old[1][2][0];
+    
+	lRotateCube[1][1][2] = old[1][0][1];
+	lRotateCube[1][2][1] = old[1][1][2];
+	lRotateCube[1][1][0] = old[1][2][1];
+	lRotateCube[1][0][1] = old[1][1][0];
+
+}
+
+void l(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "l  ")
 	{
@@ -188,26 +245,39 @@ void l()
 	{
 		moves += "l  ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[5][i][0] = old[2][i][0];
-		cube[2][i][0] = old[0][i][0];
-		cube[0][i][0] = old[4][2 - i][2];
-		cube[4][2 - i][2] = old[5][i][0];
-	}
-	cube[1][0][2] = old[1][0][0];
-	cube[1][2][2] = old[1][0][2];
-	cube[1][2][0] = old[1][2][2];
-	cube[1][0][0] = old[1][2][0];
-    
-	cube[1][1][2] = old[1][0][1];
-	cube[1][2][1] = old[1][1][2];
-	cube[1][1][0] = old[1][2][1];
-	cube[1][0][1] = old[1][1][0];
+
+    lRotate(cube);
+    lRotate(oCube);
+    lRotate(iCube);
+    lRotate(solvercube);
+
 }
 
-void li()
+
+
+void liRotate(int liRotateCube[6][3][3]){
+
+	copyCube(liRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		liRotateCube[2][i][0] = old[5][i][0];
+		liRotateCube[0][i][0] = old[2][i][0];
+		liRotateCube[4][i][2] = old[0][2 - i][0];
+		liRotateCube[5][i][0] = old[4][2 - i][2];
+	}
+	liRotateCube[1][0][0] = old[1][0][2];
+	liRotateCube[1][0][2] = old[1][2][2];
+	liRotateCube[1][2][2] = old[1][2][0];
+	liRotateCube[1][2][0] = old[1][0][0];
+    
+	liRotateCube[1][0][1] = old[1][1][2];
+	liRotateCube[1][1][2] = old[1][2][1];
+	liRotateCube[1][2][1] = old[1][1][0];
+	liRotateCube[1][1][0] = old[1][0][1];
+
+}
+
+void li(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "li ")
 	{
@@ -227,26 +297,36 @@ void li()
 	{
 		moves += "li ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[2][i][0] = old[5][i][0];
-		cube[0][i][0] = old[2][i][0];
-		cube[4][i][2] = old[0][2 - i][0];
-		cube[5][i][0] = old[4][2 - i][2];
-	}
-	cube[1][0][0] = old[1][0][2];
-	cube[1][0][2] = old[1][2][2];
-	cube[1][2][2] = old[1][2][0];
-	cube[1][2][0] = old[1][0][0];
-    
-	cube[1][0][1] = old[1][1][2];
-	cube[1][1][2] = old[1][2][1];
-	cube[1][2][1] = old[1][1][0];
-	cube[1][1][0] = old[1][0][1];
+
+    liRotate(cube);
+    liRotate(oCube);
+    liRotate(iCube);
+    liRotate(solvercube);
+
+
 }
 
-void u()
+void uRotate(int uRotateCube[6][3][3]){
+	copyCube(uRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		uRotateCube[1][0][i] = old[2][0][i];
+		uRotateCube[4][0][i] = old[1][0][i];
+		uRotateCube[3][0][i] = old[4][0][i];
+		uRotateCube[2][0][i] = old[3][0][i];
+	}
+	uRotateCube[0][0][0] = old[0][2][0];
+	uRotateCube[0][0][2] = old[0][0][0];
+	uRotateCube[0][2][2] = old[0][0][2];
+	uRotateCube[0][2][0] = old[0][2][2];
+    
+	uRotateCube[0][0][1] = old[0][1][0];
+	uRotateCube[0][1][2] = old[0][0][1];
+	uRotateCube[0][2][1] = old[0][1][2];
+	uRotateCube[0][1][0] = old[0][2][1];
+}
+
+void u(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "u  ")
 	{
@@ -267,26 +347,34 @@ void u()
 		moves += "u  ";
 	}
     
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[1][0][i] = old[2][0][i];
-		cube[4][0][i] = old[1][0][i];
-		cube[3][0][i] = old[4][0][i];
-		cube[2][0][i] = old[3][0][i];
-	}
-	cube[0][0][0] = old[0][2][0];
-	cube[0][0][2] = old[0][0][0];
-	cube[0][2][2] = old[0][0][2];
-	cube[0][2][0] = old[0][2][2];
-    
-	cube[0][0][1] = old[0][1][0];
-	cube[0][1][2] = old[0][0][1];
-	cube[0][2][1] = old[0][1][2];
-	cube[0][1][0] = old[0][2][1];
+    uRotate(cube);
+    uRotate(oCube);
+    uRotate(iCube);
+    uRotate(solvercube);
 }
 
-void ui()
+void uiRotate(int uiRotateCube[6][3][3]){
+	copyCube(uiRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		uiRotateCube[2][0][i] = old[1][0][i];
+		uiRotateCube[1][0][i] = old[4][0][i];
+		uiRotateCube[4][0][i] = old[3][0][i];
+		uiRotateCube[3][0][i] = old[2][0][i];
+	}
+	uiRotateCube[0][2][0] = old[0][0][0];
+	uiRotateCube[0][0][0] = old[0][0][2];
+	uiRotateCube[0][0][2] = old[0][2][2];
+	uiRotateCube[0][2][2] = old[0][2][0];
+    
+	uiRotateCube[0][1][0] = old[0][0][1];
+	uiRotateCube[0][0][1] = old[0][1][2];
+	uiRotateCube[0][1][2] = old[0][2][1];
+	uiRotateCube[0][2][1] = old[0][1][0];
+
+}
+
+void ui(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "ui ")
 	{
@@ -306,26 +394,34 @@ void ui()
 	{
 		moves += "ui ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[2][0][i] = old[1][0][i];
-		cube[1][0][i] = old[4][0][i];
-		cube[4][0][i] = old[3][0][i];
-		cube[3][0][i] = old[2][0][i];
-	}
-	cube[0][2][0] = old[0][0][0];
-	cube[0][0][0] = old[0][0][2];
-	cube[0][0][2] = old[0][2][2];
-	cube[0][2][2] = old[0][2][0];
-    
-	cube[0][1][0] = old[0][0][1];
-	cube[0][0][1] = old[0][1][2];
-	cube[0][1][2] = old[0][2][1];
-	cube[0][2][1] = old[0][1][0];
+
+    uiRotate(cube);
+    uiRotate(oCube);
+    uiRotate(iCube);
+    uiRotate(solvercube);
 }
 
-void d()
+void dRotate(int dRotateCube[6][3][3]){
+	copyCube(dRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		dRotateCube[2][2][i] = old[1][2][i];
+		dRotateCube[1][2][i] = old[4][2][i];
+		dRotateCube[4][2][i] = old[3][2][i];
+		dRotateCube[3][2][i] = old[2][2][i];
+	}
+	dRotateCube[5][0][0] = old[5][2][0];
+	dRotateCube[5][0][2] = old[5][0][0];
+	dRotateCube[5][2][2] = old[5][0][2];
+	dRotateCube[5][2][0] = old[5][2][2];
+    
+	dRotateCube[5][0][1] = old[5][1][0];
+	dRotateCube[5][1][2] = old[5][0][1];
+	dRotateCube[5][2][1] = old[5][1][2];
+	dRotateCube[5][1][0] = old[5][2][1];
+}
+
+void d(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "d  ")
 	{
@@ -345,26 +441,34 @@ void d()
 	{
 		moves += "d  ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[2][2][i] = old[1][2][i];
-		cube[1][2][i] = old[4][2][i];
-		cube[4][2][i] = old[3][2][i];
-		cube[3][2][i] = old[2][2][i];
-	}
-	cube[5][0][0] = old[5][2][0];
-	cube[5][0][2] = old[5][0][0];
-	cube[5][2][2] = old[5][0][2];
-	cube[5][2][0] = old[5][2][2];
-    
-	cube[5][0][1] = old[5][1][0];
-	cube[5][1][2] = old[5][0][1];
-	cube[5][2][1] = old[5][1][2];
-	cube[5][1][0] = old[5][2][1];
+    dRotate(cube);
+    dRotate(oCube);
+    dRotate(iCube);
+    dRotate(solvercube);
+
 }
 
-void di()
+void diRotate(int diRotateCube[6][3][3]){
+	copyCube(diRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		diRotateCube[1][2][i] = old[2][2][i];
+		diRotateCube[4][2][i] = old[1][2][i];
+		diRotateCube[3][2][i] = old[4][2][i];
+		diRotateCube[2][2][i] = old[3][2][i];
+	}
+	diRotateCube[5][2][0] = old[5][0][0];
+	diRotateCube[5][0][0] = old[5][0][2];
+	diRotateCube[5][0][2] = old[5][2][2];
+	diRotateCube[5][2][2] = old[5][2][0];
+    
+	diRotateCube[5][1][0] = old[5][0][1];
+	diRotateCube[5][0][1] = old[5][1][2];
+	diRotateCube[5][1][2] = old[5][2][1];
+	diRotateCube[5][2][1] = old[5][1][0];
+}
+
+void di(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "di ")
 	{
@@ -384,26 +488,35 @@ void di()
 	{
 		moves += "di ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[1][2][i] = old[2][2][i];
-		cube[4][2][i] = old[1][2][i];
-		cube[3][2][i] = old[4][2][i];
-		cube[2][2][i] = old[3][2][i];
-	}
-	cube[5][2][0] = old[5][0][0];
-	cube[5][0][0] = old[5][0][2];
-	cube[5][0][2] = old[5][2][2];
-	cube[5][2][2] = old[5][2][0];
-    
-	cube[5][1][0] = old[5][0][1];
-	cube[5][0][1] = old[5][1][2];
-	cube[5][1][2] = old[5][2][1];
-	cube[5][2][1] = old[5][1][0];
+
+    diRotate(cube);
+    diRotate(oCube);
+    diRotate(iCube);
+    diRotate(solvercube);
+
 }
 
-void f()
+void fRotate(int fRotateCube[6][3][3]){
+	copyCube(fRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		fRotateCube[0][2][i] = old[1][2 - i][2];
+		fRotateCube[3][i][0] = old[0][2][i];
+		fRotateCube[5][0][2 - i] = old[3][i][0];
+		fRotateCube[1][2 - i][2] = old[5][0][2 - i];
+	}
+	fRotateCube[2][0][2] = old[2][0][0];
+	fRotateCube[2][2][2] = old[2][0][2];
+	fRotateCube[2][2][0] = old[2][2][2];
+	fRotateCube[2][0][0] = old[2][2][0];
+    
+	fRotateCube[2][1][2] = old[2][0][1];
+	fRotateCube[2][2][1] = old[2][1][2];
+	fRotateCube[2][1][0] = old[2][2][1];
+	fRotateCube[2][0][1] = old[2][1][0];
+}
+
+void f(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "f  ")
 	{
@@ -423,26 +536,34 @@ void f()
 	{
 		moves += "f  ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[0][2][i] = old[1][2 - i][2];
-		cube[3][i][0] = old[0][2][i];
-		cube[5][0][2 - i] = old[3][i][0];
-		cube[1][2 - i][2] = old[5][0][2 - i];
-	}
-	cube[2][0][2] = old[2][0][0];
-	cube[2][2][2] = old[2][0][2];
-	cube[2][2][0] = old[2][2][2];
-	cube[2][0][0] = old[2][2][0];
-    
-	cube[2][1][2] = old[2][0][1];
-	cube[2][2][1] = old[2][1][2];
-	cube[2][1][0] = old[2][2][1];
-	cube[2][0][1] = old[2][1][0];
+    fRotate(cube);
+    fRotate(oCube);
+    fRotate(iCube);
+    fRotate(solvercube);
+
 }
 
-void fi()
+void fiRotate(int fiRotateCube[6][3][3]){
+	copyCube(fiRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		fiRotateCube[1][i][2] = old[0][2][2 - i];
+		fiRotateCube[0][2][2 - i] = old[3][2 - i][0];
+		fiRotateCube[3][2 - i][0] = old[5][0][i];
+		fiRotateCube[5][0][i] = old[1][i][2];
+	}
+	fiRotateCube[2][0][0] = old[2][0][2];
+	fiRotateCube[2][0][2] = old[2][2][2];
+	fiRotateCube[2][2][2] = old[2][2][0];
+	fiRotateCube[2][2][0] = old[2][0][0];
+    
+	fiRotateCube[2][0][1] = old[2][1][2];
+	fiRotateCube[2][1][2] = old[2][2][1];
+	fiRotateCube[2][2][1] = old[2][1][0];
+	fiRotateCube[2][1][0] = old[2][0][1];
+}
+
+void fi(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "fi ")
 	{
@@ -462,26 +583,37 @@ void fi()
 	{
 		moves += "fi ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[1][i][2] = old[0][2][2 - i];
-		cube[0][2][2 - i] = old[3][2 - i][0];
-		cube[3][2 - i][0] = old[5][0][i];
-		cube[5][0][i] = old[1][i][2];
-	}
-	cube[2][0][0] = old[2][0][2];
-	cube[2][0][2] = old[2][2][2];
-	cube[2][2][2] = old[2][2][0];
-	cube[2][2][0] = old[2][0][0];
-    
-	cube[2][0][1] = old[2][1][2];
-	cube[2][1][2] = old[2][2][1];
-	cube[2][2][1] = old[2][1][0];
-	cube[2][1][0] = old[2][0][1];
+
+    fiRotate(cube);
+    fiRotate(oCube);
+    fiRotate(iCube);
+    fiRotate(solvercube);
+
 }
 
-void b()
+void bRotate(int bRotateCube[6][3][3]){
+	copyCube(bRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		bRotateCube[1][2 - i][0] = old[0][0][i];
+		bRotateCube[0][0][i] = old[3][i][2];
+		bRotateCube[3][i][2] = old[5][2][2 - i];
+		bRotateCube[5][2][2 - i] = old[1][2 - i][0];
+	}
+	bRotateCube[4][0][2] = old[4][0][0];
+	bRotateCube[4][2][2] = old[4][0][2];
+	bRotateCube[4][2][0] = old[4][2][2];
+	bRotateCube[4][0][0] = old[4][2][0];
+    
+	bRotateCube[4][1][2] = old[4][0][1];
+	bRotateCube[4][2][1] = old[4][1][2];
+	bRotateCube[4][1][0] = old[4][2][1];
+	bRotateCube[4][0][1] = old[4][1][0];
+
+
+}
+
+void b(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "b  ")
 	{
@@ -501,26 +633,35 @@ void b()
 	{
 		moves += "b  ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[1][2 - i][0] = old[0][0][i];
-		cube[0][0][i] = old[3][i][2];
-		cube[3][i][2] = old[5][2][2 - i];
-		cube[5][2][2 - i] = old[1][2 - i][0];
-	}
-	cube[4][0][2] = old[4][0][0];
-	cube[4][2][2] = old[4][0][2];
-	cube[4][2][0] = old[4][2][2];
-	cube[4][0][0] = old[4][2][0];
-    
-	cube[4][1][2] = old[4][0][1];
-	cube[4][2][1] = old[4][1][2];
-	cube[4][1][0] = old[4][2][1];
-	cube[4][0][1] = old[4][1][0];
+
+    bRotate(cube);
+    bRotate(oCube);
+    bRotate(iCube);
+    bRotate(solvercube);
+
 }
 
-void bi()
+void biRotate(int biRotateCube[6][3][3]){
+	copyCube(biRotateCube);
+	for (int i = 0; i < 3; i++)
+	{
+		biRotateCube[0][0][i] = old[1][2 - i][0];
+		biRotateCube[3][i][2] = old[0][0][i];
+		biRotateCube[5][2][2 - i] = old[3][i][2];
+		biRotateCube[1][2 - i][0] = old[5][2][2 - i];
+	}
+	biRotateCube[4][0][0] = old[4][0][2];
+	biRotateCube[4][0][2] = old[4][2][2];
+	biRotateCube[4][2][2] = old[4][2][0];
+	biRotateCube[4][2][0] = old[4][0][0];
+    
+	biRotateCube[4][0][1] = old[4][1][2];
+	biRotateCube[4][1][2] = old[4][2][1];
+	biRotateCube[4][2][1] = old[4][1][0];
+	biRotateCube[4][1][0] = old[4][0][1];
+}
+
+void bi(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (last() == "bi ")
 	{
@@ -540,30 +681,18 @@ void bi()
 	{
 		moves += "bi ";
 	}
-	copyCube();
-	for (int i = 0; i < 3; i++)
-	{
-		cube[0][0][i] = old[1][2 - i][0];
-		cube[3][i][2] = old[0][0][i];
-		cube[5][2][2 - i] = old[3][i][2];
-		cube[1][2 - i][0] = old[5][2][2 - i];
-	}
-	cube[4][0][0] = old[4][0][2];
-	cube[4][0][2] = old[4][2][2];
-	cube[4][2][2] = old[4][2][0];
-	cube[4][2][0] = old[4][0][0];
-    
-	cube[4][0][1] = old[4][1][2];
-	cube[4][1][2] = old[4][2][1];
-	cube[4][2][1] = old[4][1][0];
-	cube[4][1][0] = old[4][0][1];
+    biRotate(cube);
+    biRotate(oCube);
+    biRotate(iCube);
+    biRotate(solvercube);
+
 }
 
-void solveTopCross()
+void solveTopCross(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 
     //cout << "checkpoint1" << endl;
-	moveTopEdges();
+	moveTopEdges(cube, oCube, iCube);
     //cout << "checkpoint2" << endl;
 	//look for the 4 yellow edges
 	for (int i = 1; i < 5; i++)
@@ -574,171 +703,171 @@ void solveTopCross()
 		int numTurns = 0; //keeps track of how many times we turn the cube to put pieces on the bottom layer so we can undo the turns
 		if (side == 1)
 		{
-			while (cube[5][1][0] == 0)
+			while (solvercube[5][1][0] == 0)
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
-			while (cube[0][1][0] == 0)
+			while (solvercube[0][1][0] == 0)
 			{
-				u();
+				u(cube, oCube, iCube);
 				numTurns++;
 			}
 			if (pos == 1)
 			{
-				l();
-				l();
+				l(cube, oCube, iCube);
+				l(cube, oCube, iCube);
 			}
 			else if (pos == 2)
 			{
-				l();
+				l(cube, oCube, iCube);
 			}
 			else if (pos == 4)
 			{
-				li();
+				li(cube, oCube, iCube);
 			}
 		}
 		else if (side == 2)
 		{
-			while (cube[5][0][1] == 0)
+			while (solvercube[5][0][1] == 0)
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
-			while (cube[0][2][1] == 0)
+			while (solvercube[0][2][1] == 0)
 			{
-				u();
+				u(cube, oCube, iCube);
 				numTurns++;
 			}
 			if (pos == 1)
 			{
-				f();
-				f();
+				f(cube, oCube, iCube);
+				f(cube, oCube, iCube);
 			}
 			else if (pos == 2)
 			{
-				f();
+				f(cube, oCube, iCube);
 			}
 			else if (pos == 4)
 			{
-				fi();
+				fi(cube, oCube, iCube);
 			}
-			di();
+			di(cube, oCube, iCube);
 		}
 		else if (side == 3)
 		{
-			while (cube[5][1][2] == 0)
+			while (solvercube[5][1][2] == 0)
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
-			while (cube[0][1][2] == 0)
+			while (solvercube[0][1][2] == 0)
 			{
-				u();
+				u(cube, oCube, iCube);
 				numTurns++;
 			}
 			if (pos == 1)
 			{
-				r();
-				r();
+				r(cube, oCube, iCube);
+				r(cube, oCube, iCube);
 			}
 			else if (pos == 2)
 			{
-				r();
+				r(cube, oCube, iCube);
 			}
 			else if (pos == 4)
 			{
-				ri();
+				ri(cube, oCube, iCube);
 			}
-			d();
-			d();
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
 		}
 		else if (side == 4)
 		{
-			while (cube[5][2][1] == 0)
+			while (solvercube[5][2][1] == 0)
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
-			while (cube[0][0][1] == 0)
+			while (solvercube[0][0][1] == 0)
 			{
-				u();
+				u(cube, oCube, iCube);
 				numTurns++;
 			}
 			if (pos == 1)
 			{
-				b();
-				b();
+				b(cube, oCube, iCube);
+				b(cube, oCube, iCube);
 			}
 			else if (pos == 2)
 			{
-				b();
+				b(cube, oCube, iCube);
 			}
 			else if (pos == 4)
 			{
-				bi();
+				bi(cube, oCube, iCube);
 			}
-			d();
+			d(cube, oCube, iCube);
 		}
 		else if (side == 5)
 		{
 			for (int j = 0; j < 4 - pos; j++)
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
 		}
 		for (int j = 0; j < numTurns; j++)
 		{
-			ui();
+			ui(cube, oCube, iCube);
 		}
 		if (side == 5) //algorithm for when the sticker is on the bottom
 		{
-			int color = cube[1][2][1];
+			int color = solvercube[1][2][1];
 			for (int a = 1; a < color; a++) //set-up so that the edge goes into the right spot
 			{
-				u();
+				u(cube, oCube, iCube);
 			}
-			l();
-			l();
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
 			for (int a = 1; a < color; a++) //undo set-up
 			{
-				ui();
+				ui(cube, oCube, iCube);
 			}
 		}
 		else //algorithm for when th esticker is not on the bottom
 		{
-			int color = cube[5][1][0];
+			int color = solvercube[5][1][0];
 			if (color < 4) //set-up so that the sticker goes into the right spot
 			{
 				for (int a = 1; a < color + 1; a++)
 				{
-					u();
+					u(cube, oCube, iCube);
 				}
 			}
-			l();
-			bi();
-			li();
+			l(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			li(cube, oCube, iCube);
 			if (color < 4) //undo set-up
 			{
 				for (int a = 1; a < color + 1; a++)
 				{
-					ui();
+					ui(cube, oCube, iCube);
 				}
 			}
 		}
 	}
 }
 
-void moveTopEdges() //move all yellow edge stickers on top to the bottom
+void moveTopEdges(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]) //move all yellow edge stickers on top to the bottom
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (cube[0][2][1] == 0)
+		if (solvercube[0][2][1] == 0)
 		{
-			while (cube[5][0][1] == 0)
+			while (solvercube[5][0][1] == 0)
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
-			f();
-			f();
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
 		}
-		u();
+		u(cube, oCube, iCube);
 	}
 }
 
@@ -746,22 +875,22 @@ void findNextTopEdge(int & s, int & p)
 {
 	for (s = 1; s < 6; s++)
 	{
-		if (cube[s][0][1] == 0)
+		if (solvercube[s][0][1] == 0)
 		{
 			p = 1;
 			break;
 		}
-		else if (cube[s][1][2] == 0)
+		else if (solvercube[s][1][2] == 0)
 		{
 			p = 2;
 			break;
 		}
-		else if (cube[s][2][1] == 0)
+		else if (solvercube[s][2][1] == 0)
 		{
 			p = 3;
 			break;
 		}
-		else if (cube[s][1][0] == 0)
+		else if (solvercube[s][1][0] == 0)
 		{
 			p = 4;
 			break;
@@ -770,20 +899,20 @@ void findNextTopEdge(int & s, int & p)
 }
 
 int checktop(){
-    int col = cube[0][1][1];
+    int col = solvercube[0][1][1];
 
     for(int j = 0; j < 3; j++)
         for(int k = 0; k < 3; k++)
-            if(col != cube[0][j][k])
+            if(col != solvercube[0][j][k])
                 return 1;
     return 0;
 }
 
 
 
-void solveTopCorners()
+void solveTopCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
-	moveTopCorners();
+	moveTopCorners(cube, oCube, iCube);
 	for (int i = 1; i < 5; i++)
 	{
 		bool bottom = false; //holds whether the yellow sticker is on the bottom face
@@ -799,7 +928,7 @@ void solveTopCorners()
 			}
 			for (int t = 0; t < side + pos - 1; t++)
 			{
-				di();
+				di(cube, oCube, iCube);
 			}
 		}
 		else //puts the corner in the back bottom right corner
@@ -807,95 +936,95 @@ void solveTopCorners()
 			bottom = true;
 			for (int t = 0; t < pos; t++)
 			{
-				di();
+				di(cube, oCube, iCube);
 			}
 		}
 		if (rig) //algorithm for when yellow is on the right
 		{
-			int color = cube[4][2][0];
+			int color = solvercube[4][2][0];
 			if (color < 4) //move the top so that the corner goes into the correct position
 			{
 				for (int t = 0; t < color; t++)
 				{
-					u();
+					u(cube, oCube, iCube);
 				}
 			}
-			r();
-			d();
-			ri();
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
 			if (color < 4) //undo the setup moves to put the corner in the right position
 			{
 				for (int t = 0; t < color; t++)
 				{
-					ui();
+					ui(cube, oCube, iCube);
 				}
 			}
 		}
 		else if (bottom) //algorithm for when yellow is on bottom
 		{
-			int color = cube[3][2][2];
+			int color = solvercube[3][2][2];
 			if (color < 4) //move the top so that the corner goes into the correct position
 			{
 				for (int t = 0; t < color; t++)
 				{
-					u();
+					u(cube, oCube, iCube);
 				}
 			}
-			r();
-			d();
-			d();
-			ri();
-			di();
-			r();
-			d();
-			ri();
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
 			if (color < 4) //undo the setup moves to put the corner in the right position
 			{
 				for (int t = 0; t < color; t++)
 				{
-					ui();
+					ui(cube, oCube, iCube);
 				}
 			}
 		}
 		else //algorithm for when yellow is on back
 		{
-			int color = cube[5][2][2];
+			int color = solvercube[5][2][2];
 			if (color < 4) //move the top so that the corner goes into the correct position
 			{
 				for (int t = 0; t < color; t++)
 				{
-					u();
+					u(cube, oCube, iCube);
 				}
 			}
-			bi();
-			di();
-			b();
+			bi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			b(cube, oCube, iCube);
 			if (color < 4) //undo the setup moves to put the corner in the right position
 			{
 				for (int t = 0; t < color; t++)
 				{
-					ui();
+					ui(cube, oCube, iCube);
 				}
 			}
 		}
 	}
 }
 
-void moveTopCorners() //moves all yellow corners on the top to the bottom face
+void moveTopCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]) //moves all yellow corners on the top to the bottom face
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (cube[0][2][2] == 0 || cube[2][0][2] == 0 || cube[3][0][0] == 0)
+		if (solvercube[0][2][2] == 0 || solvercube[2][0][2] == 0 || solvercube[3][0][0] == 0)
 		{
-			while (cube[1][2][2] == 0 || cube[2][2][0] == 0 || cube[5][0][0] == 0) //make sure not to push a different yellow corner back to the top
+			while (solvercube[1][2][2] == 0 || solvercube[2][2][0] == 0 || solvercube[5][0][0] == 0) //make sure not to push a different yellow corner back to the top
 			{
-				d();
+				d(cube, oCube, iCube);
 			}
-			ri();
-			d();
-			r();
+			ri(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
 		}
-		u();
+		u(cube, oCube, iCube);
 	}
 }
 
@@ -904,26 +1033,26 @@ void findNextTopCorner(int & s, int & p) //locates the next corner that is not i
 {
 	for (s = 1; s < 5; s++)
 	{
-		if (cube[s][2][0] == 0)
+		if (solvercube[s][2][0] == 0)
 		{
 			p = 1;
 			return;
 		}
-		else if (cube[s][2][2] == 0)
+		else if (solvercube[s][2][2] == 0)
 		{
 			p = 2;
 			return;
 		}
 	}
-	if (cube[5][0][0] == 0)
+	if (solvercube[5][0][0] == 0)
 	{
 		p = 2;
 	}
-	else if (cube[5][0][2] == 0)
+	else if (solvercube[5][0][2] == 0)
 	{
 		p = 3;
 	}
-	else if (cube[5][2][2] == 0)
+	else if (solvercube[5][2][2] == 0)
 	{
 		p = 0;
 	}
@@ -933,7 +1062,7 @@ void findNextTopCorner(int & s, int & p) //locates the next corner that is not i
 	}
 }
 
-void solveMiddleLayer()
+void solveMiddleLayer(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	int side = -1;
 	int color = -1;
@@ -942,7 +1071,7 @@ void solveMiddleLayer()
 beginning:
 	if (side != -1)
 	{
-		placeMiddleEdge(color, side);
+		placeMiddleEdge(color, side, cube, oCube, iCube);
 		//print();
 		count++;
 		side = -1;
@@ -963,25 +1092,25 @@ beginning:
     
 	for (int i = 1; i <= 4; i++)
 	{
-		if (cube[i][1][0] != (i))
+		if (solvercube[i][1][0] != (i))
 		{
-			middleAlgorithm(i, 1);
+			middleAlgorithm(i, 1, cube, oCube, iCube);
 			if(count >= 15)
 			{
-				solveTopCross();
-				solveTopCorners();
+				solveTopCross(cube, oCube, iCube);
+				solveTopCorners(cube, oCube, iCube);
 			}
             
 			goto beginning;
 		}
-		else if (cube[i][1][2] != i)
+		else if (solvercube[i][1][2] != i)
 		{
-			middleAlgorithm(i, 2);
+			middleAlgorithm(i, 2, cube, oCube, iCube);
             
 			if(count >= 10)
 			{
-				solveTopCross();
-				solveTopCorners();
+				solveTopCross(cube, oCube, iCube);
+				solveTopCorners(cube, oCube, iCube);
 			}
             
 			goto beginning;
@@ -995,18 +1124,18 @@ int findBottomMatch(int color)
 {
 	for (int i = 1; i <= 4; i++)
 	{
-		if (cube[i][2][1] == color)
+		if (solvercube[i][2][1] == color)
 		{
 			if (i % 2 == 0)
 			{
-				if (cube[5][abs(2 - i)][1] != 5)
+				if (solvercube[5][abs(2 - i)][1] != 5)
 				{
 					return i;
 				}
 			}
 			else
 			{
-				if (cube[5][abs(2 - i)][i - 1] != 5)
+				if (solvercube[5][abs(2 - i)][i - 1] != 5)
 				{
 					return i;
 				}
@@ -1017,164 +1146,164 @@ int findBottomMatch(int color)
 	return -1;
 }
 
-void placeMiddleEdge(int color, int edgeSide)
+void placeMiddleEdge(int color, int eSide, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
-	if (edgeSide - color == 0)
+	if (eSide - color == 0)
 	{
-		middleAlgorithm(color, -1);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
-	else if (edgeSide - color == 1)
+	else if (eSide - color == 1)
 	{
-		di();
-		middleAlgorithm(color, -1);
+		di(cube, oCube, iCube);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
-	else if (edgeSide - color == 2)
+	else if (eSide - color == 2)
 	{
-		di();
-		di();
-		middleAlgorithm(color, -1);
+		di(cube, oCube, iCube);
+		di(cube, oCube, iCube);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
-	else if (edgeSide - color == 3)
+	else if (eSide - color == 3)
 	{
-		d();
-		middleAlgorithm(color, -1);
+		d(cube, oCube, iCube);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
-	else if (edgeSide - color == -1)
+	else if (eSide - color == -1)
 	{
-		d();
-		middleAlgorithm(color, -1);
+		d(cube, oCube, iCube);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
-	else if (edgeSide - color == -2)
+	else if (eSide - color == -2)
 	{
-		d();
-		d();
-		middleAlgorithm(color, -1);
+		d(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
-	else if (edgeSide - color == -3)
+	else if (eSide - color == -3)
 	{
-		di();
+		di(cube, oCube, iCube);
 		//print();
-		middleAlgorithm(color, -1);
+		middleAlgorithm(color, -1, cube, oCube, iCube);
 	}
 }
 
-void middleAlgorithm(int color, int direction) //1 - L 2 - R -1 for nothing
+void middleAlgorithm(int color, int direction, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]) //1 - L 2 - R -1 for nothing
 {
 	if (color == 1)
 	{
-		if (cube[5][1][0] == 4 || direction == 1)
+		if (solvercube[5][1][0] == 4 || direction == 1)
 		{
-			d();
-			b();
-			di();
-			bi();
-			di();
-			li();
-			d();
-			l();
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
 		}
-		else if (cube[5][1][0] == 2 || direction == 2)
+		else if (solvercube[5][1][0] == 2 || direction == 2)
 		{
-			di();
-			fi();
-			d();
-			f();
-			d();
-			l();
-			di();
-			li();
+			di(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			li(cube, oCube, iCube);
 		}
 	}
 	else if (color == 2)
 	{
-		if (cube[5][0][1] == 1 || direction == 1)
+		if (solvercube[5][0][1] == 1 || direction == 1)
 		{
-			d();
-			l();
-			di();
-			li();
-			di();
-			fi();
-			d();
-			f();
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
 		}
-		else if (cube[5][0][1] == 3 || direction == 2)
+		else if (solvercube[5][0][1] == 3 || direction == 2)
 		{
-			di();
-			ri();
-			d();
-			r();
-			d();
-			f();
-			di();
-			fi();
+			di(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
 		}
 	}
 	else if (color == 3)
 	{
-		if (cube[5][1][2] == 2 || direction == 1)
+		if (solvercube[5][1][2] == 2 || direction == 1)
 		{
-			d();
-			f();
-			di();
-			fi();
-			di();
-			ri();
-			d();
-			r();
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
 		}
-		else if (cube[5][1][2] == 4 || direction == 2)
+		else if (solvercube[5][1][2] == 4 || direction == 2)
 		{
-			di();
-			bi();
-			d();
-			b();
-			d();
-			r();
-			di();
-			ri();
+			di(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
 		}
 	}
 	else if (color == 4)
 	{
-		if (cube[5][2][1] == 3 || direction == 1)
+		if (solvercube[5][2][1] == 3 || direction == 1)
 		{
-			d();
-			r();
-			di();
-			ri();
-			di();
-			bi();
-			d();
-			b();
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
 		}
-		else if (cube[5][2][1] == 1 || direction == 2)
+		else if (solvercube[5][2][1] == 1 || direction == 2)
 		{
-			di();
-			li();
-			d();
-			l();
-			d();
-			b();
-			di();
-			bi();
+			di(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
 		}
 	}
 }
 
-void solveBottomLayer()
+void solveBottomLayer(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
-	positionBottomCorners();
+	positionBottomCorners(cube, oCube, iCube);
 	//print();
-	positionBottomEdges();
+	positionBottomEdges(cube, oCube, iCube);
 	//print();
-	correctBottomCorners();
+	correctBottomCorners(cube, oCube, iCube);
 	//print();
-	correctBottomEdges();
+	correctBottomEdges(cube, oCube, iCube);
     //	print();
 }
 
-void positionBottomCorners()
+void positionBottomCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	int dTurns[4];
     
@@ -1220,13 +1349,13 @@ void positionBottomCorners()
 			}
 		}
         
-		d();
+		d(cube, oCube, iCube);
 		//print();
 	}
     
 	for (int i = 0; i < bestNumDTurns && pos1 != 4; i++)
 	{
-		d();
+		d(cube, oCube, iCube);
 	}
     
 
@@ -1247,8 +1376,8 @@ void positionBottomCorners()
 			oppFace = oppFace - 4;
 		}
         
-		swapCorners(oppFace);
-		positionBottomCorners();
+		swapCorners(oppFace, cube, oCube, iCube);
+		positionBottomCorners(cube, oCube, iCube);
 		return;
 	}
 	else if (pos2 != -1)
@@ -1267,10 +1396,10 @@ void positionBottomCorners()
 			face2 = face2 - 4;
 		}
         
-		swapCorners(face);
-		swapCorners(face2);
-		swapCorners(face);
-		positionBottomCorners();
+		swapCorners(face, cube, oCube, iCube);
+		swapCorners(face2, cube, oCube, iCube);
+		swapCorners(face, cube, oCube, iCube);
+		positionBottomCorners(cube, oCube, iCube);
 		return;
 	}
 	else
@@ -1284,62 +1413,62 @@ void positionBottomCorners()
 			face = face - 4;
 		}
         
-		swapCorners(face); //Eventually One of the previous situations above will occur :D
-		positionBottomCorners();
+		swapCorners(face, cube, oCube, iCube); //Eventually One of the previous situations above will occur :D
+		positionBottomCorners(cube, oCube, iCube);
 		return;
 	}
     
 }
 
-void swapCorners(int face)
+void swapCorners(int face, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (face == 1)
 	{
-		di();
-		fi();
-		d();
-		b();
-		di();
-		f();
-		d();
-		bi();
-		di();
+		di(cube, oCube, iCube);
+		fi(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		b(cube, oCube, iCube);
+		di(cube, oCube, iCube);
+		f(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		bi(cube, oCube, iCube);
+		di(cube, oCube, iCube);
 	}
 	else if (face == 2)
 	{
-		di();
-		ri();
-		d();
-		l();
-		di();
-		r();
-		d();
-		li();
-		di();
+		di(cube, oCube, iCube);
+		ri(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		l(cube, oCube, iCube);
+		di(cube, oCube, iCube);
+		r(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		li(cube, oCube, iCube);
+		di(cube, oCube, iCube);
 	}
 	else if (face == 3)
 	{
-		di();
-		bi();
-		d();
-		f();
-		di();
-		b();
-		d();
-		fi();
-		di();
+		di(cube, oCube, iCube);
+		bi(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		f(cube, oCube, iCube);
+		di(cube, oCube, iCube);
+		b(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		fi(cube, oCube, iCube);
+		di(cube, oCube, iCube);
 	}
 	else if (face == 4)
 	{
-		di();
-		li();
-		d();
-		r();
-		di();
-		l();
-		d();
-		ri();
-		di();
+		di(cube, oCube, iCube);
+		li(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		r(cube, oCube, iCube);
+		di(cube, oCube, iCube);
+		l(cube, oCube, iCube);
+		d(cube, oCube, iCube);
+		ri(cube, oCube, iCube);
+		di(cube, oCube, iCube);
 	}
 }
 
@@ -1417,38 +1546,38 @@ void getCorner(int num, int corners[])
 {
 	if (num == 0)
 	{
-		corners[0] = cube[1][2][2];
-		corners[1] = cube[2][2][0];
-		corners[2] = cube[5][0][0];
+		corners[0] = solvercube[1][2][2];
+		corners[1] = solvercube[2][2][0];
+		corners[2] = solvercube[5][0][0];
 	}
 	else if (num == 1)
 	{
-		corners[0] = cube[2][2][2];
-		corners[1] = cube[3][2][0];
-		corners[2] = cube[5][0][2];
+		corners[0] = solvercube[2][2][2];
+		corners[1] = solvercube[3][2][0];
+		corners[2] = solvercube[5][0][2];
 	}
 	else if (num == 2)
 	{
-		corners[0] = cube[3][2][2];
-		corners[1] = cube[4][2][0];
-		corners[2] = cube[5][2][2];
+		corners[0] = solvercube[3][2][2];
+		corners[1] = solvercube[4][2][0];
+		corners[2] = solvercube[5][2][2];
 	}
 	else if (num == 3)
 	{
-		corners[0] = cube[4][2][2];
-		corners[1] = cube[1][2][0];
-		corners[2] = cube[5][2][0];
+		corners[0] = solvercube[4][2][2];
+		corners[1] = solvercube[1][2][0];
+		corners[2] = solvercube[5][2][0];
 	}
 }
 
-void positionBottomEdges()
+void positionBottomEdges(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	int pos = numEdgesInCorrectPos();
     
 	if (pos == 0)
 	{
-		rotateEdges(2, true);
-		positionBottomEdges();
+		rotateEdges(2, true, cube, oCube, iCube);
+		positionBottomEdges(cube, oCube, iCube);
 		return;
 	}
 	else if (pos == 5)
@@ -1466,7 +1595,7 @@ void positionBottomEdges()
 			face = face - 4;
 		}
         
-		rotateEdges(face, clockwise);
+		rotateEdges(face, clockwise, cube, oCube, iCube);
 		return;
 	}
 }
@@ -1479,7 +1608,7 @@ int numEdgesInCorrectPos()
 	//Note positions are determined by what side they match with, 1 - 4
 	//Return 5 if all are in position
     
-	int edges[4][2] = { { cube[5][1][0], cube[1][2][1] }, { cube[5][0][1], cube[2][2][1] }, { cube[5][1][2], cube[3][2][1] }, { cube[5][2][1], cube[4][2][1] } };
+	int edges[4][2] = { { solvercube[5][1][0], solvercube[1][2][1] }, { solvercube[5][0][1], solvercube[2][2][1] }, { solvercube[5][1][2], solvercube[3][2][1] }, { solvercube[5][2][1], solvercube[4][2][1] } };
     
 	int correctPos = -1;
 	int numCorrect = 0;
@@ -1582,149 +1711,149 @@ int numEdgesInCorrectPos()
 	return correctPos;
 }
 
-void rotateEdges(int face, bool rotClockwise)
+void rotateEdges(int face, bool rotClockwise, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (face == 1)
 	{
 		if (rotClockwise == true)
 		{
-			f();
-			f();
-			d();
-			li();
-			r();
-			f();
-			f();
-			l();
-			ri();
-			d();
-			f();
-			f();
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
 		}
 		else
 		{
-			f();
-			f();
-			di();
-			li();
-			r();
-			f();
-			f();
-			l();
-			ri();
-			di();
-			f();
-			f();
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
 		}
 	}
 	else if (face == 2)
 	{
 		if (rotClockwise == true)
 		{
-			r();
-			r();
-			d();
-			fi();
-			b();
-			r();
-			r();
-			f();
-			bi();
-			d();
-			r();
-			r();
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
 		}
 		else
 		{
-			r();
-			r();
-			di();
-			fi();
-			b();
-			r();
-			r();
-			f();
-			bi();
-			di();
-			r();
-			r();
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
 		}
 	}
 	else if (face == 3)
 	{
 		if (rotClockwise == true)
 		{
-			b();
-			b();
-			d();
-			ri();
-			l();
-			b();
-			b();
-			r();
-			li();
-			d();
-			b();
-			b();
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
 		}
 		else
 		{
-			b();
-			b();
-			di();
-			ri();
-			l();
-			b();
-			b();
-			r();
-			li();
-			di();
-			b();
-			b();
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
 		}
 	}
 	else if (face == 4)
 	{
 		if (rotClockwise == true)
 		{
-			l();
-			l();
-			d();
-			bi();
-			f();
-			l();
-			l();
-			b();
-			fi();
-			d();
-			l();
-			l();
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
 		}
 		else
 		{
-			l();
-			l();
-			di();
-			bi();
-			f();
-			l();
-			l();
-			b();
-			fi();
-			di();
-			l();
-			l();
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
 		}
 	}
 }
 
-void correctBottomCorners()
+void correctBottomCorners(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	int result = cornerOrientation();
     
 	while (result != 5)
 	{
-		twoCornerRotate(abs(findBestFace(result)), *findBestFace > 0);
+		twoCornerRotate(abs(findBestFace(result)), *findBestFace > 0, cube, oCube, iCube);
         
 		result = cornerOrientation();
 	}
@@ -1735,7 +1864,7 @@ int cornerOrientation()
 	int numCorrect = 0;
 	int wrongPosition = 0;
     
-	int corners[4] = { cube[5][0][0], cube[5][0][2], cube[5][2][2], cube[5][2][0] };
+	int corners[4] = { solvercube[5][0][0], solvercube[5][0][2], solvercube[5][2][2], solvercube[5][2][0] };
     
 	for (int i = 0; i < 4; i++)
 	{
@@ -1759,7 +1888,7 @@ int cornerOrientation()
 
 int findBestFace(int cornerNum)
 {
-	int corners[4] = { cube[5][0][0], cube[5][0][2], cube[5][2][2], cube[5][2][0] };
+	int corners[4] = { solvercube[5][0][0], solvercube[5][0][2], solvercube[5][2][2], solvercube[5][2][0] };
     
 	int corner1 = cornerNum + 1;
 	int corner2 = cornerNum - 1;
@@ -1823,161 +1952,161 @@ int findBestFace(int cornerNum)
 	}
 }
 
-void twoCornerRotate(int face, bool goForward)
+void twoCornerRotate(int face, bool goForward, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (face == 1)
 	{
 		if (goForward == true)
 		{
-			bi();
-			u();
-			b();
-			l();
-			u();
-			li();
-			d();
-			l();
-			ui();
-			li();
-			bi();
-			ui();
-			b();
-			di();
+			bi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			d();
-			bi();
-			u();
-			b();
-			l();
-			u();
-			li();
-			di();
-			l();
-			ui();
-			li();
-			bi();
-			ui();
-			b();
+			d(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			b(cube, oCube, iCube);
 		}
 	}
 	else if (face == 2)
 	{
 		if (goForward == true)
 		{
-			li();
-			u();
-			l();
-			f();
-			u();
-			fi();
-			d();
-			f();
-			ui();
-			fi();
-			li();
-			ui();
-			l();
-			di();
+			li(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			d();
-			li();
-			u();
-			l();
-			f();
-			u();
-			fi();
-			di();
-			f();
-			ui();
-			fi();
-			li();
-			ui();
-			l();
+			d(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			l(cube, oCube, iCube);
 		}
 	}
 	else if (face == 3)
 	{
 		if (goForward == true)
 		{
-			fi();
-			u();
-			f();
-			r();
-			u();
-			ri();
-			d();
-			r();
-			ui();
-			ri();
-			fi();
-			ui();
-			f();
-			di();
+			fi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			d();
-			fi();
-			u();
-			f();
-			r();
-			u();
-			ri();
-			di();
-			r();
-			ui();
-			ri();
-			fi();
-			ui();
-			f();
+			d(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			f(cube, oCube, iCube);
 		}
 	}
 	else if (face == 4)
 	{
 		if (goForward == true)
 		{
-			ri();
-			u();
-			r();
-			b();
-			u();
-			bi();
-			d();
-			b();
-			ui();
-			bi();
-			ri();
-			ui();
-			r();
-			di();
+			ri(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			d();
-			ri();
-			u();
-			r();
-			b();
-			u();
-			bi();
-			di();
-			b();
-			ui();
-			bi();
-			ri();
-			ui();
-			r();
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			r(cube, oCube, iCube);
 		}
 	}
 }
 
-void correctBottomEdges()
+void correctBottomEdges(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
-	int edges[4] = { cube[5][1][0], cube[5][0][1], cube[5][1][2], cube[5][2][1] };
+	int edges[4] = { solvercube[5][1][0], solvercube[5][0][1], solvercube[5][1][2], solvercube[5][2][1] };
     
 	bool isTogether = false;
 	bool isStart = false;
@@ -2017,249 +2146,249 @@ void correctBottomEdges()
     
 	if (numWrong >= 4)
 	{
-		twoEdgeRotate(1, false);
-		twoEdgeRotate(2, false);
+		twoEdgeRotate(1, false, cube, oCube, iCube);
+		twoEdgeRotate(2, false, cube, oCube, iCube);
 		return;
 	}
 	else
 	{
 		if(pos2 != -1)
 		{
-			twoEdgeRotate(pos2 + 1, isTogether);
+			twoEdgeRotate(pos2 + 1, isTogether, cube, oCube, iCube);
 		}
 		else
 		{
-			twoEdgeRotate(pos1 + 1, isTogether);
+			twoEdgeRotate(pos1 + 1, isTogether, cube, oCube, iCube);
 		}
 		return;
 	}
 }
 
-void twoEdgeRotate(int face, bool isNextTo)
+void twoEdgeRotate(int face, bool isNextTo, int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3])
 {
 	if (face == 1)
 	{
 		if (isNextTo == true)
 		{
-			l();
-			ui();
-			d();
-			f();
-			f();
-			d();
-			d();
-			u();
-			u();
-			b();
-			d();
-			bi();
-			u();
-			u();
-			d();
-			d();
-			f();
-			f();
-			di();
-			u();
-			li();
-			di();
+			l(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			l();
-			ui();
-			d();
-			f();
-			f();
-			d();
-			d();
-			u();
-			u();
-			b();
-			d();
-			d();
-			bi();
-			u();
-			u();
-			d();
-			d();
-			f();
-			f();
-			di();
-			u();
-			li();
-			di();
-			di();
+			l(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 	}
 	else if (face == 2)
 	{
 		if (isNextTo == true)
 		{
-			f();
-			ui();
-			d();
-			r();
-			r();
-			d();
-			d();
-			u();
-			u();
-			l();
-			d();
-			li();
-			u();
-			u();
-			d();
-			d();
-			r();
-			r();
-			di();
-			u();
-			fi();
-			di();
+			f(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			f();
-			ui();
-			d();
-			r();
-			r();
-			d();
-			d();
-			u();
-			u();
-			l();
-			d();
-			d();
-			li();
-			u();
-			u();
-			d();
-			d();
-			r();
-			r();
-			di();
-			u();
-			fi();
-			di();
-			di();
+			f(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			li(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 	}
 	else if (face == 3)
 	{
 		if (isNextTo == true)
 		{
-			r();
-			ui();
-			d();
-			b();
-			b();
-			d();
-			d();
-			u();
-			u();
-			f();
-			d();
-			fi();
-			u();
-			u();
-			d();
-			d();
-			b();
-			b();
-			di();
-			u();
-			ri();
-			di();
+			r(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			r();
-			ui();
-			d();
-			b();
-			b();
-			d();
-			d();
-			u();
-			u();
-			f();
-			d();
-			d();
-			fi();
-			u();
-			u();
-			d();
-			d();
-			b();
-			b();
-			di();
-			u();
-			ri();
-			di();
-			di();
+			r(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			f(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			fi(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			b(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 	}
 	else if (face == 4)
 	{
 		if (isNextTo == true)
 		{
-			b();
-			ui();
-			d();
-			l();
-			l();
-			d();
-			d();
-			u();
-			u();
-			r();
-			d();
-			ri();
-			u();
-			u();
-			d();
-			d();
-			l();
-			l();
-			di();
-			u();
-			bi();
-			di();
+			b(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 		else
 		{
-			b();
-			ui();
-			d();
-			l();
-			l();
-			d();
-			d();
-			u();
-			u();
-			r();
-			d();
-			d();
-			ri();
-			u();
-			u();
-			d();
-			d();
-			l();
-			l();
-			di();
-			u();
-			bi();
-			di();
-			di();
+			b(cube, oCube, iCube);
+			ui(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			r(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			ri(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			d(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			l(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			u(cube, oCube, iCube);
+			bi(cube, oCube, iCube);
+			di(cube, oCube, iCube);
+			di(cube, oCube, iCube);
 		}
 	}
 }
 
-void copyCube()
+void copyCube(int copyofcube[6][3][3])
 {
 	for (int i = 0; i < 6; i++)
 	{
@@ -2267,26 +2396,47 @@ void copyCube()
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				old[i][j][k] = cube[i][j][k];
+				old[i][j][k] = copyofcube[i][j][k];
 			}
 		}
 	}
 }
 
-void print()
+void print(int printcube[6][3][3])
 {
+
+	for(int i=0;i<3;i++)
+	{
+		cout<<"       "<<printcube[0][i][0]<<" "<<printcube[0][i][1]<<" "<<printcube[0][i][2]<<endl;
+	}
+	for(int i=0;i<3;i++)
+	{
+		cout<<printcube[1][i][0]<<" "<<printcube[1][i][1]<<" "<<printcube[1][i][2]<<"  ";
+		cout<<printcube[2][i][0]<<" "<<printcube[2][i][1]<<" "<<printcube[2][i][2]<<"  ";
+		cout<<printcube[3][i][0]<<" "<<printcube[3][i][1]<<" "<<printcube[3][i][2]<<"  ";
+		cout<<printcube[4][i][0]<<" "<<printcube[4][i][1]<<" "<<printcube[4][i][2]<<"  "<<endl;
+	}
+	for(int i=0;i<3;i++)
+	{
+		cout<<"       "<<printcube[5][i][0]<<" "<<printcube[5][i][1]<<" "<<printcube[5][i][2]<<endl;
+	}	
+	cout<<endl<<endl;
+
+/*
 	for (int i = 0; i < 6; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				cout << cube[i][j][k];
+				cout << printcube[i][j][k];
 			}
 			cout << endl;
 		}
 		cout << endl;
 	}
+*/
+
 }
 /*
 string printColor(int field)
@@ -2387,46 +2537,48 @@ void clearMoves()
 {
 	moves = "";
 }
+/*
 void scramble()
 {
 /*
 cout << "r " ;
-r();
+r(cube, oCube, iCube);
 cout << "u " ;
-u();
+u(cube, oCube, iCube);
 cout << "l " ;
-l();
+l(cube, oCube, iCube);
 cout << "r " ;
-r();
+r(cube, oCube, iCube);
 cout << "ri " ;
-ri();
+ri(cube, oCube, iCube);
 cout << "d " ;
-d();
+d(cube, oCube, iCube);
 */
-
+/*
 	srand(time(NULL));
 	for (int i = 0; i < 30; i++)
 	{
-		int num = rand() % 12 + 1;
+		int num = rand(cube, oCube, iCube) % 12 + 1;
 		switch (num)
 		{
-            case 1: r(); break;
-            case 2: ri(); break;
-            case 3: u(); break;
-            case 4: ui(); break;
-            case 5: f(); break;
-            case 6: fi(); break;
-            case 7: l(); break;
-            case 8: li(); break;
-            case 9: b(); break;
-            case 10: bi(); break;
-            case 11: d(); break;
-            case 12: di(); break;
+            case 1: r(cube, oCube, iCube); break;
+            case 2: ri(cube, oCube, iCube); break;
+            case 3: u(cube, oCube, iCube); break;
+            case 4: ui(cube, oCube, iCube); break;
+            case 5: f(cube, oCube, iCube); break;
+            case 6: fi(cube, oCube, iCube); break;
+            case 7: l(cube, oCube, iCube); break;
+            case 8: li(cube, oCube, iCube); break;
+            case 9: b(cube, oCube, iCube); break;
+            case 10: bi(cube, oCube, iCube); break;
+            case 11: d(cube, oCube, iCube); break;
+            case 12: di(cube, oCube, iCube); break;
 		}
 	}
 
 }
 
+/*
 void inputCube(){
     
     // generate black cube 
@@ -2435,13 +2587,13 @@ void inputCube(){
             for(int j = 0; j < 6; j++){    
                 for(int k = 0; k < 3; k++){
                     for(int l = 0; l <3; l++){
-                            cube[j][k][l] = 6;
-                            //cout << cube[j][k][l]; 
+                            solvercube[j][k][l] = 6;
+                            //cout << solvercube[j][k][l]; 
                     }
                 }
             }
     }
-         printCubeColor(cube);   
+         printCubeColor(solvercube);   
 
     int cubesausage[54];
     cout << endl << "INPUT CUBE" << endl; 
@@ -2488,9 +2640,9 @@ void inputCube(){
                                             //cout << cubesausage[i] << endl; 
                                             cin.get();
                                                         
-                                            cube[j][k][l] = cubesausage[i];
+                                            solvercube[j][k][l] = cubesausage[i];
                                             i++;
-                                            printCubeColor(cube);
+                                            printCubeColor(solvercube);
                                  }
                 }
             }
@@ -2500,24 +2652,25 @@ void inputCube(){
     //}
 
 }
-
-void mapforsolver(){
+*/
+void mapforsolver(int cube[6][3][3]){
 
             for(int j = 0; j < 6; j++){    
                 for(int k = 0; k < 3; k++){
                     for(int l = 0; l <3; l++){
-                            cube[j][k][l] += 10;
+                            solvercube[j][k][l] = cube[j][k][l];
+                            solvercube[j][k][l] += 10;
                     }
                 }
             }
     
     for(int i = 0; i <6; i++){
-    int changer = cube[i][1][1];
+    int changer = solvercube[i][1][1];
              for(int j = 0; j < 6; j++){    
                 for(int k = 0; k < 3; k++){
                     for(int l = 0; l <3; l++){
-                            if(cube[j][k][l] == changer)
-                                cube[j][k][l]=i;
+                            if(solvercube[j][k][l] == changer)
+                                solvercube[j][k][l]=i;
                                 lookup[i]=changer-10;
                     }
                 }
@@ -2528,18 +2681,20 @@ void mapforsolver(){
 }
 
 //// mapt die Farben des cubes für den solver auf die Farben des tatsächlichen Wüfel für die Ausgabe
-void mapforcustomcolor(){
+/*
+void mapforcustomcolor(cube, oCube, iCube){
     
             for(int j = 0; j < 6; j++){    
                 for(int k = 0; k < 3; k++){
                     for(int l = 0; l <3; l++){
-                            cube_customcolor[j][k][l] = lookup[cube[j][k][l]];
+                            cube[j][k][l] = lookup[solvercube[j][k][l]];
                     }
                 }
             }
 
 }
-
+*/
+/*
 void cubestring2cube(int stringarray[54]){
 
 int i = 0; 
@@ -2554,7 +2709,7 @@ int i = 0;
 
 
 }
-
+*/
 
 
 #endif

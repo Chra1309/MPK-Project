@@ -45,6 +45,9 @@ struct middle
 	int field2;
 };
 */
+
+
+
 void changeAnswer(string& strAnswer, int* arrAnswer)
 {
 	int intTemp[3];
@@ -165,15 +168,15 @@ void buildCombOfTwo(list<middle> &midComb)
 
 void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 {
-	cout << "In funktion build Comb of Corner" << endl;
-	corner cornerGeometrie[8]={	{0,1,2},
-					{0,2,3},
-					{0,3,4},
-					{0,4,1},
-					{1,2,5},
-					{1,4,5},
-					{2,5,3},
-					{3,5,4}	};
+	//cout << "In funktion build Comb of Corner" << endl;
+	corner cornerGeometrie[8]={	{MiddleCodes[0],MiddleCodes[2],MiddleCodes[4]},
+					{MiddleCodes[0],MiddleCodes[4],MiddleCodes[3]},
+					{MiddleCodes[0],MiddleCodes[3],MiddleCodes[5]},
+					{MiddleCodes[0],MiddleCodes[5],MiddleCodes[2]},
+					{MiddleCodes[2],MiddleCodes[1],MiddleCodes[4]},
+					{MiddleCodes[4],MiddleCodes[1],MiddleCodes[3]},
+					{MiddleCodes[3],MiddleCodes[1],MiddleCodes[5]},
+					{MiddleCodes[2],MiddleCodes[5],MiddleCodes[1]}	};
 	// jakobnode: reihenfolge so bebsichtigt? 
     // wie kommen hier die farben der mittelpunkte ins spiel? 
 
@@ -383,11 +386,15 @@ bool contains (list<middle> &midComb, int a, int b)
 
 int main()
 {
+
+int counter = 0; 
+
+do{
 	int MiddleCode[6] = {0,5,1,3,2,4};
 	list <edge> EdgeCodes[12];
 	list <corner> CornerCodes[8];
 
-
+    int error = 0; 
 
 	
 	//findMiddle(MiddleCode);
@@ -396,79 +403,53 @@ int main()
 	buildCombOfCorner(CornerCodes, MiddleCode);
 
     fillrandomcube(MiddleCode, MiddleColor, EdgeCodes, CornerCodes);
+   
+    mapforsolver(cube);
 
-    printCubeColor(cube);    
-	
+    //printCubeColor(cube);  
+   // print(orientationCube);
+   // print(indexCube);     
 
 
-
-
-
-    //inputCube();
-    //mapforsolver();
-    //printCubeColor();
-    //print();
-	//scramble();
-	//cout << "scramble: " << moves << endl;
-	//clearMoves();
-    //printCubeColor();
-	solveTopCross();
-	cout << "cross: " << moves << endl;
+    SOLVETOP:
+	solveTopCross(cube, orientationCube, indexCube);
+	//cout << "cross: " << moves << endl;
 	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveTopCorners();
-	cout << "corners: " << moves << endl;
+    //printCubeColor(cube);  
+ //   mapforcustomcolor();
+  //  printCubeColor(cube_customcolor);
+	solveTopCorners(cube, orientationCube, indexCube);
+	//cout << "corners: " << moves << endl;
 	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveMiddleLayer();
-	cout << "middle layer: " << moves << endl;
+    error = checktop();
+    if(error)
+        goto SOLVETOP;
+        
+
+    //printCubeColor(cube);  
+  //  mapforcustomcolor();
+    //printCubeColor(cube_customcolor);
+	solveMiddleLayer(cube, orientationCube, indexCube);
+	//cout << "middle layer: " << moves << endl;
 	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	solveBottomLayer();
-	cout << "Bottom: " << moves << endl;
+    //printCubeColor(cube);  
+    //mapforcustomcolor();
+    //printCubeColor(cube_customcolor);
+	solveBottomLayer(cube, orientationCube, indexCube);
+	//cout << "Bottom: " << moves << endl;
 	clearMoves();
-    mapforcustomcolor();
-    printCubeColor(cube_customcolor);
-	return 0;
+    //printCubeColor(cube);  
+    //mapforcustomcolor();
+   // printCubeColor(cube);
+    //print(indexCube);
 
 
-/*
-	for (int j=0; j<12; j++)
-	{
-		cout << endl  << "List number " << j << " ";
-		
-		list <edge>::iterator it = EdgeCodes[j].begin();
-		
-		while(it != EdgeCodes[j].end())
-		{
-			cout << it->field1 << it->field2 << " | ";
-			
-			it++;
-		}
-		
-		cout << endl;
-	}
 
-	for(int j=0;j<8;j++)
-	{
-		cout << endl  << "List number " << j << " ";
-
-		list<corner>::iterator it = CornerCodes[j].begin();
-
-		while(it != CornerCodes[j].end())
-		{
-			cout << it->field1 << it->field2 << it->field3 << " | ";
-			
-			it++;
-		}
-
-		cout << endl;
-
-	}
-*/
+    counter++;
+    cout << "counter: " << counter << endl;
+    usleep(1000000*0.01);
+}
+while(1);
 
 	return 0;
 }
