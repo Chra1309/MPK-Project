@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
 
 	buildCombOfCorner(CornerCodes, MiddleCode);
 	
-	
+	//doTheClient("r011321");
 
 	/////END//////
 	
