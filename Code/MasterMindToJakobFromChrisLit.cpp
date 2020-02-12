@@ -187,21 +187,21 @@ void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 								
 					corner tmp;
 	
-					tmp.field1 = cornerGeometrie[i].field1;
-					tmp.field2 = cornerGeometrie[i].field2;
-					tmp.field3 = cornerGeometrie[i].field3;
+					tmp.field[0] = cornerGeometrie[i].field[0];
+					tmp.field[1] = cornerGeometrie[i].field[1];
+					tmp.field[2] = cornerGeometrie[i].field[2];
 
 					CornerCodes[k].push_back(tmp);
 					
-					tmp.field1 = cornerGeometrie[i].field3;
-					tmp.field2 = cornerGeometrie[i].field1;
-					tmp.field3 = cornerGeometrie[i].field2;
+					tmp.field[0] = cornerGeometrie[i].field[2];
+					tmp.field[1] = cornerGeometrie[i].field[0];
+					tmp.field[2] = cornerGeometrie[i].field[1];
 
 					CornerCodes[k].push_back(tmp);
 
-					tmp.field1 = cornerGeometrie[i].field2;
-					tmp.field2 = cornerGeometrie[i].field3;
-					tmp.field3 = cornerGeometrie[i].field1;
+					tmp.field[0] = cornerGeometrie[i].field[1];
+					tmp.field[1] = cornerGeometrie[i].field[2];
+					tmp.field[2] = cornerGeometrie[i].field[0];
 
 					CornerCodes[k].push_back(tmp);				
 				
@@ -236,8 +236,8 @@ void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[])
 					
 				edge tmp;
 				
-				tmp.field1=i;
-				tmp.field2=j;
+				tmp.field[0]=i;
+				tmp.field[1]=j;
 				
 				EdgeCodes[k].push_back(tmp);
 			}

@@ -55,7 +55,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
         if(useUI){
             cout << "used: \t\t"; 
             for(int j = 0; j < UsedEdges.size(); j++){
-                cout << itUsed->field1 << itUsed->field2 << " | "; itUsed++;}
+                cout << itUsed->field[0] << itUsed->field[1] << " | "; itUsed++;}
             cout << endl;
             itUsed= UsedEdges.begin();
         }       
@@ -75,8 +75,8 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
             // finding matching with already used
             itPossible = EdgeCodes[edgeorder[i]].begin();
             while(itPossible != EdgeCodes[edgeorder[i]].end()){
-                if(((itPossible->field1 == itUsed->field1) && (itPossible->field2 == itUsed->field2)) || 
-                   ((itPossible->field1 == itUsed->field2) && (itPossible->field2 == itUsed->field1)))
+                if(((itPossible->field[0] == itUsed->field[0]) && (itPossible->field[1] == itUsed->field[1])) || 
+                   ((itPossible->field[0] == itUsed->field[1]) && (itPossible->field[1] == itUsed->field[0])))
                 {
                     deletelist.push_back(deleter);
                 }
@@ -101,7 +101,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
                     list <edge>::iterator itrem = EdgeCodes[edgeorder[i]].begin();		                    
                     while(itrem != EdgeCodes[edgeorder[i]].end())
                     {
-	                    cout << itrem->field1 << itrem->field2 << " | ";			                    
+	                    cout << itrem->field[0] << itrem->field[1] << " | ";			                    
 	                    itrem++;
                     }		                    
                     cout << endl;
@@ -123,16 +123,16 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
         for(int j = 0; j < random; j++)
             it++;
 
-        edge2fill[edgeorder[i]][0] = it->field1;
-        edge2fill[edgeorder[i]][1] = it->field2;  
+        edge2fill[edgeorder[i]][0] = it->field[0];
+        edge2fill[edgeorder[i]][1] = it->field[1];  
 
         // adding currently used combinations to used-list
-        tmp.field1 = it->field1; 
-        tmp.field2 = it->field2;
+        tmp.field[0] = it->field[0]; 
+        tmp.field[1] = it->field[1];
         UsedEdges.push_back(tmp);
 
         if(useUI){
-            cout << "set to: " << it->field1 << "." << it->field2 << endl;
+            cout << "set to: " << it->field[0] << "." << it->field[1] << endl;
         }
     }
 
@@ -257,17 +257,17 @@ void fillCorners(list<corner> CornerCodes[]){ //einträge mit wenigsten zu erst,
 				itCo++;
 			}
 			
-			if(itCo->field1!=-1)
+			if(itCo->field[0]!=-1)
 			{
-				arCorner[i][0]=itCo->field1;
-				arCorner[i][1]=itCo->field2;
-				arCorner[i][2]=itCo->field3;
+				arCorner[i][0]=itCo->field[0];
+				arCorner[i][1]=itCo->field[1];
+				arCorner[i][2]=itCo->field[2];
 				
-				//cout<<i<<" Corners "<< itCo->field1<<itCo->field2<<itCo->field3<<endl;//Testzweck
+				//cout<<i<<" Corners "<< itCo->field[0]<<itCo->field[1]<<itCo->field[2]<<endl;//Testzweck
 		//*******************************************setting visited coners and permutations to -1
-				arAdress[0]=itCo->field1;
-				arAdress[1]=itCo->field2;
-				arAdress[2]=itCo->field3;
+				arAdress[0]=itCo->field[0];
+				arAdress[1]=itCo->field[1];
+				arAdress[2]=itCo->field[2];
 				sort(arAdress,arAdress+3);
 				tmpCorner1=100*arAdress[0]+10*arAdress[1]+1*arAdress[2]; //sortierte adresse ist automatisch alle permutationen
 				
@@ -276,15 +276,15 @@ void fillCorners(list<corner> CornerCodes[]){ //einträge mit wenigsten zu erst,
 					list <corner>::iterator itCo= CornerCodes[j].begin();
 					while(itCo!=CornerCodes[j].end())
 					{
-						arAdress[0]=itCo->field1;
-						arAdress[1]=itCo->field2;
-						arAdress[2]=itCo->field3;
+						arAdress[0]=itCo->field[0];
+						arAdress[1]=itCo->field[1];
+						arAdress[2]=itCo->field[2];
 				        sort(arAdress,arAdress+3);
 				        tmpCorner2=100*arAdress[0]+10*arAdress[1]+1*arAdress[2];//sortierte adresse ist automatisch alle permutationen
 				        
 				        if(tmpCorner1==tmpCorner2)
 				        {
-							itCo->field1=-1;
+							itCo->field[0]=-1;
 						}
 						itCo++;
 					}
@@ -367,7 +367,7 @@ void clearEdgeList(list<edge> EdgeCodes[]){
 		    
 		    while(it != EdgeCodes[j].end())
 		    {
-			    cout << it->field1 << it->field2 << " | ";
+			    cout << it->field[0] << it->field[1] << " | ";
 			    
 			    it++;
 		    }
@@ -394,8 +394,8 @@ void CopyListEdges(list<edge> original[], list<edge> copy[]){
 		list<edge>::iterator it= original[i].begin();
 		while(it != original[i].end())
 		{
-			temp.field1=it->field1;
-			temp.field2=it->field2;
+			temp.field[0]=it->field[0];
+			temp.field[1]=it->field[1];
 			copy[i].push_back(temp);
 			it++;
 		}
@@ -414,9 +414,9 @@ void CopyListCorners(list<corner> original[], list<corner> copy[]){
 		list<corner>::iterator it= original[i].begin();
 		while(it != original[i].end())
 		{
-			temp.field1=it->field1;
-			temp.field2=it->field2;
-			temp.field3=it->field3;
+			temp.field[0]=it->field[0];
+			temp.field[1]=it->field[1];
+			temp.field[2]=it->field[2];
 			copy[i].push_back(temp);
 			it++;
 		}
