@@ -242,10 +242,10 @@ int main(int argc, char *argv[])
 	for(int cnt=0;cnt<12;cnt++)
 		findEdges(EdgeCodes,middleColor);
     	
-    /*
+    
     for(int cnt=0;cnt<8;cnt++)
 		findCorners(CornerCodes,middleColor);
-    */
+    
 
 /*
     fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);	

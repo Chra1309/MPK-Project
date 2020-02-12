@@ -171,7 +171,7 @@ void getCornerInfo(int fields[][3],int n)
 		{
 			for(int k =0; k<3; k++)
 			{
-				if( indexCube[i][j][k]==n && (j == 1 || k == 1) && j!=k)
+				if( indexCube[i][j][k]==n && j != 1 &&  k != 1)
 				{
 					fields[orientationCube[i][j][k]][0]=i;
 					fields[orientationCube[i][j][k]][1]=j;
@@ -227,7 +227,7 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 
 void findCorners(list <corner> CornerCodes[], int middleColor[])
 {
-	int fields[2][3]={{0,0,0},{0,0,0}};
+	int fields[3][3]={{0,0,0},{0,0,0}};
 	int i = 0;
 	for(i = 0; i<8; i++)
 	{
@@ -242,7 +242,7 @@ void findCorners(list <corner> CornerCodes[], int middleColor[])
 	getCornerInfo(fields,i);
 	int currentGuess[2];
 	int currentAnswer[2];
-	int MiddleCode[2]={middleColor[fields[0][0]],middleColor[fields[1][0]]};
+	int MiddleCode[3]={middleColor[fields[0][0]],middleColor[fields[1][0]], middleColor[fields[2][0]]};
 
 	while(CornerCodes[i].size()>1)
 	{
