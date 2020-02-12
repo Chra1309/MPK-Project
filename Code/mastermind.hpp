@@ -18,12 +18,42 @@ void getNextQuestion(list<middle> &midComb, int currentQuestion[]);
 void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[]);
 bool containsMiddle(list<middle> &midComb, int a, int b);
 bool containsEdge(list<edge> &edgeComb, int a, int b);
+bool containsCorner(list<corner> &cornerComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
 void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[], int orienataion[]);
+void getNextCornerQuestion(list<corner> &cornerComg, int currentQuestion[], int MiddleCode[]);
 void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[], int orientation[]);
+void sortOutImpossibleCorners(int currentguess[], list<corner> &cornerComb, int currentAnswer[], int MiddleCode[]);
 void findEdges(list <edge> EdgeCodes[], int middleColor[]);
 void getEdgeInfo(int fields[][3],int n, int orientation[]);
+void getCornerInfo(int fields[][3],int n);
+void findCorners(list <corner> CornerCodes[], int middleColor[]);
+void numberToGerman(int col);
 
+void numberToGerman(int col)
+{
+	switch (col)
+	{
+		case 0:
+			cout << "Gelb";
+			break;
+		case 1:
+			cout << "Orange";
+			break;
+		case 2:
+			cout << "Blau";
+			break;
+		case 3:
+			cout << "Rot";
+			break;
+		case 4:
+			cout << "Gruen";
+			break;
+		case 5:
+			cout << "Weiss";
+			break;
+	}
+}
 
 void askTwo(int putAnswer [], int question [], int field1 [], int field2 []);
 
@@ -103,8 +133,8 @@ int findMiddle(int foundColour[])
 	
 	for(int i=0; i<6; i++)
 	{
-		 cout << foundColour[i] << endl;
-
+		 numberToGerman(foundColour[i]);
+		cout << endl;
 	}
 
 	return 0;
@@ -129,7 +159,27 @@ void getEdgeInfo(int fields[][3],int n, int orientation[])
 			}
 		}
 	}
-	
+}
+
+void getCornerInfo(int fields[][3],int n)
+{
+	int i=0;
+	int l=0;	
+	for(i =0; i<6; i++)
+	{
+		for(int j =0; j<3; j++)
+		{
+			for(int k =0; k<3; k++)
+			{
+				if( indexCube[i][j][k]==n && (j == 1 || k == 1) && j!=k)
+				{
+					fields[orientationCube[i][j][k]][0]=i;
+					fields[orientationCube[i][j][k]][1]=j;
+					fields[orientationCube[i][j][k]][2]=k;
+				}
+			}
+		}
+	}
 }
 
 void findEdges(list <edge> EdgeCodes[], int middleColor[])
@@ -165,9 +215,59 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 
 		sortOutImpossibleEdges(currentGuess, EdgeCodes[i],currentAnswer,MiddleCode, orientation);
 	}
-	
-	cout << endl << "Edge Number: " << i << " is " << EdgeCodes[i].begin()->field[0] << " " << EdgeCodes[i].begin()->field[1]<< endl;
 
+	cout << endl << "Edge Number: " << i << " is" << endl;
+
+	numberToGerman(EdgeCodes[i].begin()->field[0]);
+	cout << endl;
+	numberToGerman(EdgeCodes[i].begin()->field[1]);
+	cout << endl;
+
+}
+
+void findCorners(list <corner> CornerCodes[], int middleColor[])
+{
+	int fields[2][3]={{0,0,0},{0,0,0}};
+	int i = 0;
+	for(i = 0; i<8; i++)
+	{
+		if(CornerCodes[i].size()>1)
+		break;
+	}
+	
+	if(i>7) return;
+	
+	//cout << endl << "Liste Nr.: " << i << " wird bearbeitet" << endl; 
+
+	getCornerInfo(fields,i);
+	int currentGuess[2];
+	int currentAnswer[2];
+	int MiddleCode[2]={middleColor[fields[0][0]],middleColor[fields[1][0]]};
+
+	while(CornerCodes[i].size()>1)
+	{
+		getNextCornerQuestion(CornerCodes[i], currentGuess, MiddleCode); // besser machen
+		
+		//cout << endl << "Next Question is Field "<< fields[0][0] << fields[0][1] << fields[0][2]<< " = " << currentGuess[0] << " Field  " 
+   		//					 << fields[1][0] << fields[1][1] << fields[1][2]<< " = "  << currentGuess[1] << endl;
+		
+		askTwo(currentAnswer, currentGuess, fields[0], fields[1]);
+
+		//cout << endl << "Anwser is " << currentAnswer[0] << currentAnswer[1] << endl;
+
+		//cout << "hilfe";
+
+		sortOutImpossibleCorners(currentGuess, CornerCodes[i], currentAnswer, MiddleCode); // anlegen
+	}
+	
+	cout << endl << "Corner Number: " << i << " is" << endl;
+
+	numberToGerman(CornerCodes[i].begin()->field[0]);
+	cout << endl;
+	numberToGerman(CornerCodes[i].begin()->field[1]);
+	cout << endl;
+	numberToGerman(CornerCodes[i].begin()->field[2]);
+	cout << endl;
 }
 
 void sortAnswer(int answer[])
@@ -463,7 +563,94 @@ void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int Middle
 
 }
 
+void getNextCornerQuestion(list<corner> &cornerComb, int currentQuestion[], int MiddleCode[])
+{
+	int case0=0, case1=0, case2=0, case3=0, case4=0; // case0 = {2,2} case1 = {0,2} case2 = {1,1} case3 = {0,1} case4 = {0,0}
+	int nextQuestionMax = 39439;
+	bool changeQuestionFlag = false;
+	list<corner>::iterator it = cornerComb.begin();
 
+	for(int i = 0; i<6 ; i++)
+	{
+		for(int j = 0; j<6; j++)
+		{
+			if(j!=i)
+			{
+				while(it!=cornerComb.end())
+				{
+					if( it->field[0] == i && i == MiddleCode[0] && it->field[1] == j && j == MiddleCode[1] )
+						case0++;
+					else if( (it->field[0] != i && it->field[1] == j && j  == MiddleCode[1]) || (it->field[0] == i && i == MiddleCode[0] && it->field[1] != j) )
+						case1++;
+					else if( it->field[0] == i && i != MiddleCode[0] && it->field[1] == j && j != MiddleCode[1])
+						case2++;
+					else if( (it->field[0] == i && i != MiddleCode[0] && it->field[1] != j) || (it->field[0] != i && it->field[1] == j && j!= MiddleCode[1]) )
+						case3++;
+					else if(it->field[0] != i && it->field[1] != j)
+						case4++;
+
+					it++;
+				}
+				
+				it = cornerComb.begin();
+			
+				// neue funktionen
+				if(case4>=case3 && case4>=case2 && case4>=case1 && case4>=case0 && case4<=nextQuestionMax)
+				{
+					if( (containsCorner(cornerComb, i,j) && case4 == nextQuestionMax) || case4 < nextQuestionMax)
+					{
+						nextQuestionMax = case4;
+						changeQuestionFlag = true;
+					}
+				}
+				else if(case3>=case4 && case3>=case2 && case3>=case1 && case3>=case0 && case3<=nextQuestionMax)
+				{
+					if( (containsCorner(cornerComb, i,j) && case3 == nextQuestionMax) || case3 < nextQuestionMax)
+					{
+						nextQuestionMax = case3;
+						changeQuestionFlag = true;
+					}
+				}
+				else if(case2>=case3 && case2>=case4 && case2>=case1 && case2>=case0 && case2<=nextQuestionMax)
+				{
+					if( (containsCorner(cornerComb, i,j) && case2 == nextQuestionMax) || case2 < nextQuestionMax)
+					{
+						nextQuestionMax = case2;
+						changeQuestionFlag = true;
+					}
+				}
+				else if(case1>=case3 && case1>=case2 && case1>=case4 && case1>=case0 && case1<=nextQuestionMax)
+				{
+					if( (containsCorner(cornerComb, i,j) && case1 == nextQuestionMax) || case1 < nextQuestionMax)
+					{
+						nextQuestionMax = case1;
+						changeQuestionFlag = true;
+					}	
+				}
+				else if(case0>=case3 && case0>=case2 && case0>=case1 && case0>=case4 && case0<=nextQuestionMax)
+				{
+					if( (containsCorner(cornerComb, i,j) && case0 == nextQuestionMax) || case0 < nextQuestionMax)
+					{
+						nextQuestionMax = case0;
+						changeQuestionFlag = true;
+					}
+				}
+				
+				if(changeQuestionFlag)
+				{
+					currentQuestion[0]=i;
+					currentQuestion[1]=j;
+					changeQuestionFlag = false;
+				}
+
+				case4 = case3 = case2 = case1 = case0 = 0;
+			}
+							
+		}
+
+	}
+
+}
 
 void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int currentAnswer[])
 {
@@ -549,7 +736,51 @@ void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int curren
 
 }
 
+void sortOutImpossibleCorners(int currentguess[], list<corner> &cornerComb, int currentAnswer[], int MiddleCode[])
+{
+	list<corner>::iterator it;
+	it = cornerComb.begin();
 
+	int tempAnswer[2] = {0,0};
+
+	while(it != cornerComb.end())
+	{
+		if(currentguess[0] == it->field[0] && it->field[0] == MiddleCode[0] && it->field[1] == MiddleCode[1])
+			tempAnswer[0]=2;
+
+		else if(currentguess[0] != it->field[0])
+			tempAnswer[0]=0;
+
+		else
+			tempAnswer[0]=1;
+
+		if(currentguess[1] == it->field[1] && it->field[1] == MiddleCode[1] && it->field[0] == MiddleCode[0])
+                        tempAnswer[1]=2;
+
+                else if(currentguess[1] != it->field[1])
+                        tempAnswer[1]=0;
+
+                else
+                        tempAnswer[1]=1;
+
+		sortAnswer(tempAnswer);
+		sortAnswer(currentAnswer);
+
+		if(tempAnswer[0]!= currentAnswer[0] || tempAnswer[1] != currentAnswer[1])
+		{
+		//	cout << endl << "Guess " << currentguess[0] << currentguess[1] << "Muster" << MiddleCode[0] << it->field[0] << it->field[1]<< MiddleCode[1] <<"   ";
+		//	cout << "TempAnswer" << tempAnswer[0] << tempAnswer[1] << " RealAnswer"<< currentAnswer[0] << currentAnswer [1] << " Combination: " << it->field[0] << it->field[1] << " sorted out!" << endl;
+			
+						
+			it = cornerComb.erase(it);
+			if(it == cornerComb.end())
+				return;
+			continue;
+
+		}
+		it++;
+	}
+}
 
 bool containsMiddle(list<middle> &midComb, int a, int b)
 {
@@ -581,6 +812,20 @@ bool containsEdge(list<edge> &edgeComb, int a, int b)
         return false;
 }
 
+bool containsCorner(list<corner> &cornerComb, int a, int b)
+{
+	list<corner>::iterator it = cornerComb.begin();
+
+        while(it != cornerComb.end())
+        {
+                if (it->field[0] == a && it->field[1] == b)
+                        return true;
+
+                it++;
+        }
+
+        return false;
+}
 
 #endif
 

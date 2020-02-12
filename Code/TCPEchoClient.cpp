@@ -220,15 +220,19 @@ int main(int argc, char *argv[])
 
 	findMiddle(MiddleCode);
 
+	buildCombOfEdge(EdgeCodes, MiddleCode);
+	buildCombOfCorner(CornerCodes, MiddleCode);
+
 	//Convertiert die Farben in einen Array bei dem die Farben dem Jeweiligen Index zugeordnet sind
 	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
-
-	buildCombOfEdge(EdgeCodes, MiddleCode);
-
-	buildCombOfCorner(CornerCodes, MiddleCode);
 	
 	for(int cnt=0;cnt<12;cnt++)
-	findEdges(EdgeCodes,middleColor);
+		findEdges(EdgeCodes,middleColor);
+
+	for(int cnt=0;cnt<8;cnt++)
+		findCorners(CornerCodes,middleColor);
+
+	
 
 	//doTheClient("r011321");
 
