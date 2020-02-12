@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
 	for(int cnt=0;cnt<12;cnt++)
 	findEdges(EdgeCodes,middleColor);
 
-	//doTheClient("r011321");
+	doTheClient("r011321");
 
 	/////END//////
 	

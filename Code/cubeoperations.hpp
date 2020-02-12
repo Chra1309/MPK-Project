@@ -15,9 +15,9 @@
 using namespace std;
 
 int getCorners(int array[8][3], int cubetofind[6][3][3]);
-int setCorners(int array[8][3], int cubetofind[6][3][3]);
+int setCorners(int array[8][3], int cubetofind[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 void getEdges(int array[12][2], int cubetofind[6][3][3]);
-void setEdges(int edge[12][2], int cube[6][3][3]);
+void setEdges(int edge[12][2], int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 void printCubeColor(int cube_array[6][3][3]);
 
 
@@ -85,7 +85,50 @@ void printCubeColor(int cube_array[6][3][3])
 
 
 
-void setEdges(int edge[12][2], int edge_cube[6][3][3]){
+void setEdges(int edge[12][2], int edge_cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]){
+
+
+    edge_cube[0][1][0] = edge[iCube[0][1][0]][oCube[0][1][0]];  
+    edge_cube[1][0][1] = edge[iCube[1][0][1]][oCube[1][0][1]];  
+
+    edge_cube[0][0][1] = edge[iCube[0][0][1]][oCube[0][0][1]];  
+    edge_cube[4][0][1] = edge[iCube[4][0][1]][oCube[4][0][1]];  
+
+    edge_cube[0][1][2] = edge[iCube[0][1][2]][oCube[0][1][2]];  
+    edge_cube[3][0][1] = edge[iCube[3][0][1]][oCube[3][0][1]];  
+
+    edge_cube[0][2][1] = edge[iCube[0][2][1]][oCube[0][2][1]];  
+    edge_cube[2][0][1] = edge[iCube[2][0][1]][oCube[2][0][1]];  
+
+////////////////////////////
+
+    edge_cube[1][1][2] = edge[iCube[1][1][2]][oCube[1][1][2]];  
+    edge_cube[2][1][0] = edge[iCube[2][1][0]][oCube[2][1][0]];  
+
+    edge_cube[1][1][0] = edge[iCube[1][1][0]][oCube[1][1][0]];  
+    edge_cube[4][1][2] = edge[iCube[4][1][2]][oCube[4][1][2]];  
+
+    edge_cube[3][1][2] = edge[iCube[3][1][2]][oCube[3][1][2]];  
+    edge_cube[4][1][0] = edge[iCube[4][1][0]][oCube[4][1][0]];  
+
+    edge_cube[2][1][2] = edge[iCube[2][1][2]][oCube[2][1][2]];  
+    edge_cube[3][1][0] = edge[iCube[3][1][0]][oCube[3][1][0]];  
+
+////////////////////////////
+
+    edge_cube[1][2][1] = edge[iCube[1][2][1]][oCube[1][2][1]];  
+    edge_cube[5][1][0] = edge[iCube[5][1][0]][oCube[5][1][0]];  
+
+    edge_cube[4][2][1] = edge[iCube[4][2][1]][oCube[4][2][1]];  
+    edge_cube[5][2][1] = edge[iCube[5][2][1]][oCube[5][2][1]];  
+
+    edge_cube[3][2][1] = edge[iCube[3][2][1]][oCube[3][2][1]];  
+    edge_cube[5][1][2] = edge[iCube[5][1][2]][oCube[5][1][2]];  
+
+    edge_cube[2][2][1] = edge[iCube[2][2][1]][oCube[2][2][1]];  
+    edge_cube[5][0][1] = edge[iCube[5][0][1]][oCube[5][0][1]];  
+
+/*
     edge_cube[0][1][0] = edge[0][0];  
     edge_cube[1][0][1] = edge[0][1];
 
@@ -125,6 +168,7 @@ void setEdges(int edge[12][2], int edge_cube[6][3][3]){
 
     edge_cube[2][2][1] = edge[11][0];
     edge_cube[5][0][1] = edge[11][1];
+*/
 }
 
 void getEdges(int edge[12][2], int cube[6][3][3]){
@@ -226,9 +270,46 @@ int getCorners(int array[8][3], int cubetofind[6][3][3]){
 
 }
 
-int setCorners(int array[8][3], int cubetofind[6][3][3]){
+int setCorners(int array[8][3], int cubetofind[6][3][3], int oCube[6][3][3], int iCube[6][3][3]){
 
 
+
+    //cubetofind[0][2][0] = array[iCube[0][1][0]][oCube[0][1][0]];  
+
+
+    cubetofind[0][2][0] = array[iCube[0][2][0]][oCube[0][2][0]];  
+    cubetofind[1][0][2] = array[iCube[1][0][2]][oCube[1][0][2]];  
+    cubetofind[2][0][0] = array[iCube[2][0][0]][oCube[2][0][0]];  
+
+    cubetofind[0][0][0] = array[iCube[0][0][0]][oCube[0][0][0]];  
+    cubetofind[4][0][2] = array[iCube[4][0][2]][oCube[4][0][2]];  
+    cubetofind[1][0][0] = array[iCube[1][0][0]][oCube[1][0][0]];  
+
+    cubetofind[0][0][2] = array[iCube[0][0][2]][oCube[0][0][2]];  
+    cubetofind[3][0][2] = array[iCube[3][0][2]][oCube[3][0][2]];  
+    cubetofind[4][0][0] = array[iCube[4][0][0]][oCube[4][0][0]];  
+
+    cubetofind[0][2][2] = array[iCube[0][2][2]][oCube[0][2][2]];  
+    cubetofind[2][0][2] = array[iCube[2][0][2]][oCube[2][0][2]];  
+    cubetofind[3][0][0] = array[iCube[3][0][0]][oCube[3][0][0]];  
+
+    cubetofind[1][2][2] = array[iCube[1][2][2]][oCube[1][2][2]];  
+    cubetofind[5][0][0] = array[iCube[5][0][0]][oCube[5][0][0]];  
+    cubetofind[2][2][0] = array[iCube[2][2][0]][oCube[2][2][0]];  
+
+    cubetofind[1][2][0] = array[iCube[1][2][0]][oCube[1][2][0]];  
+    cubetofind[4][2][2] = array[iCube[4][2][2]][oCube[4][2][2]];  
+    cubetofind[5][2][0] = array[iCube[5][2][0]][oCube[5][2][0]];  
+
+    cubetofind[3][2][2] = array[iCube[3][2][2]][oCube[3][2][2]];  
+    cubetofind[5][2][2] = array[iCube[5][2][2]][oCube[5][2][2]];  
+    cubetofind[4][2][0] = array[iCube[4][2][0]][oCube[4][2][0]];  
+
+    cubetofind[2][2][2] = array[iCube[2][2][2]][oCube[2][2][2]];  
+    cubetofind[5][0][2] = array[iCube[5][0][2]][oCube[5][0][2]];  
+    cubetofind[3][2][0] = array[iCube[3][2][0]][oCube[3][2][0]];  
+
+/*
     cubetofind[0][2][0] = array[0][0];
     cubetofind[1][0][2] = array[0][1];
     cubetofind[2][0][0] = array[0][2];
@@ -259,24 +340,9 @@ int setCorners(int array[8][3], int cubetofind[6][3][3]){
 
     cubetofind[2][2][2] = array[7][0];
     cubetofind[5][0][2] = array[7][1];
-    cubetofind[3][2][0] = array[7][2];
-/*
-    cubetofind[1][2][2] = array[4][2];
-    cubetofind[5][0][0] = array[4][0];
-    cubetofind[2][2][0] = array[4][1];
-
-    cubetofind[1][2][0] = array[5][1];
-    cubetofind[4][2][2] = array[5][2];
-    cubetofind[5][2][0] = array[5][0];
-
-    cubetofind[3][2][2] = array[6][2];
-    cubetofind[5][2][2] = array[6][0];
-    cubetofind[4][2][0] = array[6][1];
-
-    cubetofind[2][2][2] = array[7][2];
-    cubetofind[5][0][2] = array[7][0];
-    cubetofind[3][2][0] = array[7][1];
+    cubetofind[3][2][0] = array[7][2]
 */
+
 }
 
 void PlaceToBeEdges(int array[12][2], int cubetofind[6][3][3]){
