@@ -9,7 +9,13 @@ using namespace std;
 int main()
 {
 	srand(time(NULL));
-	ServerCube x(1),y;
+	ServerCube x(1),y,z,w;
+	
+	z.stringToCube("000000000111111111222222222333333333444444444555555555");
+	
+	z.print();
+	
+	
 	
 	
 	x.print();
@@ -27,6 +33,43 @@ int main()
 		cout<<a[i]<<" ";
 	}
 	cout<<endl;
+	
+	if(!x.checkDone())
+		cout<<"x: false"<<endl;
+	else 
+		cout<<"x: true"<<endl;
+	
+	if(!y.checkDone())
+		cout<<"y: false"<<endl;
+	else 
+		cout<<"y: true"<<endl;
+	
+	if(!z.checkDone())
+		cout<<"z: false"<<endl;
+	else 
+		cout<<"z: true"<<endl;
+	
+	if(!w.checkDone())
+		cout<<"w: false"<<endl;
+	else 
+		cout<<"w: true"<<endl;
+	
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

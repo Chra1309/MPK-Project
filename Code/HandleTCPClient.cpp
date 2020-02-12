@@ -42,11 +42,10 @@ void getActions(ServerCube& myCube){
 		myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
 		n++;
 	}
-	//ack schicken
-	toSend[0] = 'A';
-	toSend[1] = (n/100)+'0';
-	toSend[2] = ((n/10)%10)+'0';
-	toSend[3] = (n%10)+'0';
+	if(myCube.checkDone())
+		toSend[0]=1+'0';
+	else
+		toSend[0]=0+'0';
 }	
 void makeAnswer(ServerCube myCube)
 {	
