@@ -45,6 +45,8 @@ class ServerCube{
 		string cubeToString();
 		void cubeToArray(int array[6][3][3]);
 		void compareToQuestion(ServerCube&,int*);	
+		bool checkDone();
+		bool checkSide(int);
 		void print();
 	
 };
@@ -73,6 +75,42 @@ ServerCube::ServerCube(int n=0)
 		randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
 	}
 }
+
+bool ServerCube::checkDone()
+{
+	bool check=true;
+	
+	for(int i=0;i<6;i++)
+	{
+		if(!checkSide(i))
+		{
+			check=false;
+			break;
+		}
+	}
+	return check;
+}
+
+bool ServerCube::checkSide(int side)
+{
+	bool check=true;
+	
+	for(int i=0;i<3;i++)
+	{
+		for(int j=0;j<3;j++)
+		{
+			if(data[side][1][1]!=data[side][i][j])
+			{
+				check=false;
+			}
+			if(!check) break;
+		}
+		if(!check) break;
+	}
+	return check;
+
+}
+	
 
 void ServerCube::print()
 {
