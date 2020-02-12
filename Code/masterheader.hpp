@@ -46,4 +46,6 @@ int indexCube[6][3][3] = {
 
 int MiddleColor[6] = {0,1,2,3,4,5};
 
+string movesTranslated="";
+
 #endif

@@ -402,10 +402,10 @@ do{
 
 	buildCombOfCorner(CornerCodes, MiddleCode);
 
-    fillrandomcube(MiddleCode, MiddleColor, EdgeCodes, CornerCodes);
-   
+    fillrandomcube(MiddleCode, MiddleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);
+   // cout << "filled" << endl;
     mapforsolver(cube);
-
+    
     //printCubeColor(cube);  
    // print(orientationCube);
    // print(indexCube);     
@@ -419,7 +419,9 @@ do{
  //   mapforcustomcolor();
   //  printCubeColor(cube_customcolor);
 	solveTopCorners(cube, orientationCube, indexCube);
-	//cout << "corners: " << moves << endl;
+	cout << "corners: " << moves << endl;
+    translateMove();
+    cout << movesTranslated << endl;
 	clearMoves();
     error = checktop();
     if(error)
@@ -438,7 +440,7 @@ do{
 	solveBottomLayer(cube, orientationCube, indexCube);
 	//cout << "Bottom: " << moves << endl;
 	clearMoves();
-    //printCubeColor(cube);  
+    printCubeColor(cube);  
     //mapforcustomcolor();
    // printCubeColor(cube);
     //print(indexCube);

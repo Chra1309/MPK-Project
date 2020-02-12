@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
 
 	
 
-	//doTheClient("r011321");
+	doTheClient("r011321");
 
 	/////END//////
 	

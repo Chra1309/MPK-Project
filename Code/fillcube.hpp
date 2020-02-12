@@ -18,7 +18,7 @@ struct corner;
 struct edge;
 struct middle;
 */
-#define useUI 0 
+#define useUIfillcube 0 
 
 void fillMiddle(int cubeMiddle[6][3][3], int Middle[]);
 void clearEdgeList(list<edge> EdgeCodes[]);
@@ -27,7 +27,7 @@ void fillCorners(list <corner> CornerCodes[]);
 
 
 
-void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
+void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], int orientationCube[6][3][3], int indexCube[6][3][3])
 {
     int edge2fill[12][2]; 
 
@@ -42,7 +42,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
 
         edge tmp;
         // UI begin
-        if(useUI){
+        if(useUIfillcube){
             cout << "________________________________________________" << endl;
             cout << "fill edge: " << edgeorder[i] << endl;
         }        
@@ -52,7 +52,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
         list <edge>::iterator itUsed = UsedEdges.begin(); 
 
         // UI begin
-        if(useUI){
+        if(useUIfillcube){
             cout << "used: \t\t"; 
             for(int j = 0; j < UsedEdges.size(); j++){
                 cout << itUsed->field[0] << itUsed->field[1] << " | "; itUsed++;}
@@ -94,7 +94,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
             }
 
             //UI begin
-            if(useUI){
+            if(useUIfillcube){
                 {
                 cout << "possible: \t";
 
@@ -131,12 +131,12 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[])
         tmp.field[1] = it->field[1];
         UsedEdges.push_back(tmp);
 
-        if(useUI){
+        if(useUIfillcube){
             cout << "set to: " << it->field[0] << "." << it->field[1] << endl;
         }
     }
 
-    setEdges(edge2fill, cube);
+    setEdges(edge2fill, cube, orientationCube, indexCube);
 
 }
 
@@ -167,7 +167,7 @@ void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
     while(!done);
 
     // UI begin
-    if(useUI){
+    if(useUIfillcube){
         cout << "sorted lists:" << endl;
         for(int k = 0; k < size; k++){
             cout << "list " << order[k] << ": \t";
@@ -181,7 +181,7 @@ void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
 
 }
 
-void fillCorners(list<corner> CornerCodes[]){ //einträge mit wenigsten zu erst, permutationen raus, nicht immer gleichen index löschen der 8 listen sondern extra suchen
+void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int indexCube[6][3][3]){ //einträge mit wenigsten zu erst, permutationen raus, nicht immer gleichen index löschen der 8 listen sondern extra suchen
 	int arCorner[8][3];
 	int cnt1=0;
 	int cnt2=0;
@@ -295,7 +295,7 @@ void fillCorners(list<corner> CornerCodes[]){ //einträge mit wenigsten zu erst,
 	
 	}
 
-    setCorners(arCorner, cube);
+    setCorners(arCorner, cube, orientationCube, indexCube);
 /*
 	cube[0][2][0] = arCorner[0][0] ;
 	cube[1][0][2] = arCorner[0][1] ;	
@@ -358,7 +358,7 @@ void clearEdgeList(list<edge> EdgeCodes[]){
         }
 
 	}  
-    if(useUI){
+    if(useUIfillcube){
 	    for (int j=0; j<12; j++)
 	    {
 		    cout << "List number " << j << " " << endl;
@@ -428,7 +428,7 @@ void CopyListCorners(list<corner> original[], list<corner> copy[]){
 
 
 
-void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes[12], list <corner> CornerCodes[8]){
+void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes[12], list <corner> CornerCodes[8], int oCube[6][3][3], int iCube[6][3][3]){
 
     srand(clock());
     bool solvable = 0; 
@@ -450,11 +450,11 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
 
         // befuelle cube mit random edges aus den listen  
         SortEdgesList(EdgeCodesCopy, edgeorder, 12);
-        fillEdges(EdgeCodesCopy, cube, edgeorder); 
+        fillEdges(EdgeCodesCopy, cube, edgeorder, oCube, iCube); 
 
 
-        fillCorners(CornerCodesCopy);
-        //printCubeColor(cube);
+        fillCorners(CornerCodesCopy, oCube, iCube);
+
 
         solvable = checksolvability(cube);
         //solved += checksolvability(cube);

@@ -16,6 +16,7 @@ using namespace std;
 ////lookup
 int lookup[6] = {0,0,0,0,0,0};
 
+void translateMove();
 void r(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
 void rRotate(int rRotateCube[6][3][3]);
 void ri(int cube[6][3][3], int oCube[6][3][3], int iCube[6][3][3]);
@@ -2678,6 +2679,52 @@ void mapforsolver(int cube[6][3][3]){
       }
      // printCubeColor(cube);            
 
+}
+
+
+void translateMove() //in TPCEchoClient aufrufen
+{
+	int cnt=1;
+    movesTranslated = "r";	
+
+	/*for(int i =0; i<moves.size();i++)
+		cout<<moves[i];
+	
+	cout<<endl;*///Test
+	
+	for(int i =0; i<moves.size();i++)
+	{
+		if(cnt!=3 && moves[i]==' ')
+		{
+			movesTranslated+='1';
+		}
+		
+		else
+		{
+			switch(moves[i]){
+					case 'u': movesTranslated+='0'; break;
+					case 'l': movesTranslated+='1'; break;
+					case 'f': movesTranslated+='2'; break;
+					case 'r': movesTranslated+='3'; break;
+					case 'b': movesTranslated+='4'; break;
+					case 'd': movesTranslated+='5'; break;
+					case '2': movesTranslated+='2'; break;
+					case 'i': movesTranslated+='3'; break;
+					
+					default: break;
+				}
+		}
+		if(cnt==3)
+			cnt=1;
+
+		else
+			cnt++;
+		
+	}
+		/*for(int i =0; i<movesTranslated.size();i++)
+			cout<<movesTranslated[i];
+
+	cout<<endl; *///test
 }
 
 //// mapt die Farben des cubes für den solver auf die Farben des tatsächlichen Wüfel für die Ausgabe
