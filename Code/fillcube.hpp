@@ -381,9 +381,18 @@ void clearEdgeList(list<edge> EdgeCodes[]){
 void fillCenter(int center[6], int color[6]){
 
     for(int i = 0; i < 6; i++)
+        cube[i][1][1] = color[i];
+    //printCubeColor(cube);
+}
+
+/*
+void fillCenter(int center[6], int color[6]){
+
+    for(int i = 0; i < 6; i++)
         cube[center[i]][1][1] = color[center[i]];
     //printCubeColor(cube);
 }
+*/
 
 void CopyListEdges(list<edge> original[], list<edge> copy[]){
 
@@ -436,8 +445,8 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
     int tries = 0; 
     int edgeorder[12] ={0,1,2,3,4,5,6,7,8,9,10,11};
 
-    while(!solvable){
-
+    while(!solvable)
+    {
 
         list <edge> EdgeCodesCopy[12];
 	    list <corner> CornerCodesCopy[8];
@@ -452,25 +461,27 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
         SortEdgesList(EdgeCodesCopy, edgeorder, 12);
         fillEdges(EdgeCodesCopy, cube, edgeorder, oCube, iCube); 
 
-
+        
         fillCorners(CornerCodesCopy, oCube, iCube);
 
 
         solvable = checksolvability(cube);
-        //solved += checksolvability(cube);
-        //if(solvable)
-        //    solved ++;
 
-        //cout << "check: " << solved << endl;
+        // ausgabe statistik ueber loesbare cubes
+        /*
+        if(solvable)
+            solved ++;
+
+        system("clear");    
+        cout << "check: " << solved << endl;
         tries++;
-        //cout << "tries: " << tries << endl;
-        //float verh = (float)solved/(float)tries;
-        //cout << "soll:\t1/12 = 0,0833  ist:\t" << verh << endl;
-        //usleep(1000000*0.01);  
+        cout << "tries: " << tries << endl;
+        float verh = (float)solved/(float)tries;
+        cout << "soll:\t1/12 = 0,0833  ist:\t" << verh << endl;
+        usleep(1000000*0.01);  
         //cin.get();
+        */
     }
-    //system("clear");
-    //cout << "tries:\t" << tries << endl; 
 
 }
 

@@ -22,6 +22,8 @@
 using namespace std;
 
 int solvable = 0;
+int counterPerm = 0; 
+
 
 //////////////////// PROTOTYPES ////////////////////
 void permutationparitytest(int permutationCube[6][3][3]);
@@ -135,17 +137,89 @@ void permutationparitytestCorners(int permutationCube[6][3][3]){
 			break;
 
 	}
+// von hier
+
+   // int cnt = 0; 
+    int PlaceToBe[12][2]; 
+    int NextEdge = 0;
+    PlaceToBeEdges(PlaceToBe, permutationCube);
+
+    int EdgeVisits[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+
+    int EdgesToCheck[12][2];
+    getEdges(EdgesToCheck, permutationCube);
+
+    for(int i = 0; i < 12; i++){
+            if( ((EdgesToCheck[i][0] == PlaceToBe[i][0]) && (EdgesToCheck[i][1] == PlaceToBe[i][1])) ||        
+                ((EdgesToCheck[i][0] == PlaceToBe[i][1]) && (EdgesToCheck[i][1] == PlaceToBe[i][0]))){
+                EdgeVisits[i]=1;    
+                cnt += 2;  
+           //     cout << "edge" << i << " at correct position" << endl;   
+            }
+    }
+      //          cout << "cnt: " << cnt << endl;    
+    
+    for(int i = 0; i < 12; i++){
+  //  cout << "EdgeVisits: "; 
+  //  for(int j = 0; j < 12; j++)
+  //      cout << EdgeVisits[j] << " | "; 
+  //  cout << endl;
+
+
+        if(EdgeVisits[i]==0){
+        NextEdge = i;
+            while(1){
+
+                cnt ++;
+                //cout << "cnt: " << cnt << endl;
+
+                if(EdgeVisits[NextEdge]!=0){
+               //     cout << "break - Edge"<<NextEdge<<"\tvisits: "<< EdgeVisits[NextEdge]<<endl;
+                    break;
+                }
+                EdgeVisits[NextEdge] = 1;
+               // cout << "NextEdge:  " << NextEdge << "\tvisits: " << EdgeVisits[NextEdge] << "\tcnt: " << cnt << endl;
+                for(int j = 0; j < 12; j++){
+
+                    if( ((EdgesToCheck[NextEdge][0] == PlaceToBe[j][0]) && (EdgesToCheck[NextEdge][1] == PlaceToBe[j][1])) ||        
+                        ((EdgesToCheck[NextEdge][0] == PlaceToBe[j][1]) && (EdgesToCheck[NextEdge][1] == PlaceToBe[j][0]))){ 
+                        //cout << "nexedgecol: " << PlaceToBe[j][0] << PlaceToBe[j][1] << endl;   
+                        NextEdge = j;  
+                        break;                  
+                    }
+                   
+                }            
+
+            }
+            //cout << "cnt: " << cnt << endl;
+        }
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// bis hier
 	if(cnt%2||whileCnt>16)
 	{
 		solvable=0;
         if(useUIsolvability)
-		    cout << "Permutation Partity C-Test \t\033[31mFAIL (Sum: " << cnt<< ")\033[39m" << endl;
+		    cout << "Permutation Partity JK.Test \t\033[31mFAIL (Sum: " << cnt<< ")\033[39m" << endl;
 	}
 	else
 	{
 		solvable=solvable+1;
         if(useUIsolvability)
-		    cout << "Permutation Partity C-Test \tPASS (Sum: " << cnt << ")" << endl;
+		    cout << "Permutation Partity JK.Test \tPASS (Sum: " << cnt << ")" << endl;
 	}
 	//cout<<"Cycle Summe="<<cnt<<endl;
 	return;
@@ -344,10 +418,10 @@ int checksolvability(int checkcube[6][3][3])
     edgepartitytest(checkcube);
     cornerparitytest(checkcube);
     permutationparitytestCorners(checkcube);
-    permutationparitytestEdges(checkcube);
+  //  permutationparitytestEdges(checkcube);  // wird jetzt im Corners gefragt
 
     counter ++;
-    if(solvable != 4){
+    if(solvable !=3){
         if(useUIsolvability){
             cout << "\033[31m___________________________"       <<      endl << endl; 
             cout <<         "       unsolvable" << endl;

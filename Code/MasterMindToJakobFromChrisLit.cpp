@@ -386,7 +386,7 @@ bool contains (list<middle> &midComb, int a, int b)
 
 int main()
 {
-
+int error = 0; 
 int counter = 0; 
 
 do{
@@ -394,7 +394,6 @@ do{
 	list <edge> EdgeCodes[12];
 	list <corner> CornerCodes[8];
 
-    int error = 0; 
 
 	
 	//findMiddle(MiddleCode);
