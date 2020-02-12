@@ -79,7 +79,7 @@ string doTheClient(string toSend)
 	recv(sock, echoBuffer, 64, 0);
 
 	//debug msg:
-	cout <<echoBuffer << endl;
+	//cout <<echoBuffer << endl;
 
 	close(sock);	
 
@@ -213,18 +213,23 @@ int main(int argc, char *argv[])
 	exit(1);
 	}
 
-	int MiddleCode[6] = {6,6,6,6,6,6};
+	int MiddleCode[6] = {6,6,6,6,6,6}; //Vorsicht dieser Array ist nur für das erstellen der Listen zu verwenden 
 	list <edge> EdgeCodes[12];
 	list <corner> CornerCodes[8];
 	
 
 	findMiddle(MiddleCode);
+
+	//Convertiert die Farben in einen Array bei dem die Farben dem Jeweiligen Index zugeordnet sind
 	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
 
 	buildCombOfEdge(EdgeCodes, MiddleCode);
 
 	buildCombOfCorner(CornerCodes, MiddleCode);
 	
+	for(int cnt=0;cnt<12;cnt++)
+	findEdges(EdgeCodes,middleColor);
+
 	//doTheClient("r011321");
 
 	/////END//////
