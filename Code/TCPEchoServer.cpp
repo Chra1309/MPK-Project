@@ -46,6 +46,14 @@ int main(int argc, char* argv[])
     echoServAddr.sin_addr.s_addr = htonl(INADDR_ANY); /* Any incoming interface */
     echoServAddr.sin_port = htons(echoServPort);      /* Local port */
 
+	int tr=1;
+
+	// kill "Address already in use" error message
+	if (setsockopt(servSock,SOL_SOCKET,SO_REUSEADDR,&tr,sizeof(int)) == -1) {
+    perror("Failed Setting Socket");
+    exit(1);
+	}
+	
     /* Bind to the local address */
     if (bind(servSock, (struct sockaddr *) &echoServAddr, sizeof(echoServAddr)) < 0)
         DieWithError("bind() failed");
@@ -66,17 +74,12 @@ int main(int argc, char* argv[])
 
         /* clntSock is connected to a client! */
 
-		//printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-		//printf("Creating and sending random Cube: \n");
-		
-	
 		if(HandleTCPClient(clntSock)==1){
 			
 			close(servSock);
 			kill(getpid(),SIGINT);
             break;
 		}
-		
     }
     /* NOT REACHED */
 }
