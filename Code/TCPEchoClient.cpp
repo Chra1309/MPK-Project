@@ -44,14 +44,10 @@ int bytesRcvd, totalBytesRcvd;   		// Bytes read in single recv() and total byte
 		   argv[0]);
    exit(1);
 }
-
-servIP = argv[1];              //First arg: server IP address (dotted quad)
-
 if (argc == 4)
 	echoServPort = atoi(argv[3]);  //Use given port, if any
 else
 	echoServPort = 7;   //7 is the well-known port for the echo service */
-
 
 string doTheClient(string toSend)
 {
@@ -214,11 +210,15 @@ void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 
 int main(int argc, char *argv[])
 {
-    int error = 0; // vom solver
+ 
+	int error = 0; // vom solver
 
-    if (argc != 1){
-	cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
-	exit(1);
+    if (argc != 2){
+		cout << "give me a number of queries as argument (n)" << endl;	
+		exit(1);
+	}else{
+		
+		n = atoi(argv[1]);              //number of ns given by user
 	}
 
 	int MiddleCode[6] = {6,6,6,6,6,6}; //Vorsicht dieser Array ist nur für das erstellen der Listen zu verwenden 
