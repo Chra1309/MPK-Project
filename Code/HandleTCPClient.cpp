@@ -123,9 +123,6 @@ void HandleTCPClient(int clntSocket)
             DieWithError("recv() failed");
     }
 	
-	
-	
-	
-	
+
     close(clntSocket);    /* Close client socket */
 }
