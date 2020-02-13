@@ -88,7 +88,7 @@ void twoEdgeRotate(int face, bool isNextTo, int cube[6][3][3], int oCube[6][3][3
 
 //extern int cube[6][3][3];
 //extern int cube_customcolor[6][3][3];
-int checktop();
+int checkface(int face2check);
 int solvercube[6][3][3];
 
 int old[6][3][3] = {
@@ -899,12 +899,12 @@ void findNextTopEdge(int & s, int & p)
 	}
 }
 
-int checktop(){
-    int col = solvercube[0][1][1];
+int checkface(int face2check){
+    int col = solvercube[face2check][1][1];
 
     for(int j = 0; j < 3; j++)
         for(int k = 0; k < 3; k++)
-            if(col != solvercube[0][j][k])
+            if(col != solvercube[face2check][j][k])
                 return 1;
     return 0;
 }

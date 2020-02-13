@@ -261,29 +261,55 @@ int main(int argc, char *argv[])
     SOLVETOP:
 	solveTopCross(cube, orientationCube, indexCube);
     sendmoves();
-  
+    cout << "___________________________" << endl;
+    cout << "TopCross" << endl;
+    printCubeColor(cube);    
 	solveTopCorners(cube, orientationCube, indexCube);
     sendmoves();
-
-    error = checktop();
+    cout << "___________________________" << endl;
+    cout << "TopCorners" << endl;
+    printCubeColor(cube);  
+    error = checkface(0);
     if(error)
         goto SOLVETOP;
 
 	solveMiddleLayer(cube, orientationCube, indexCube);
     sendmoves();
-
-	solveBottomLayer(cube, orientationCube, indexCube);
-    sendmoves();
-
+    cout << "___________________________" << endl;
+    cout << "MiddleLayer" << endl;
     printCubeColor(cube);  
 
+/*
+    positionBottomEdges(cube, orientationCube, indexCube);
+    correctBottomEdges(cube, orientationCube, indexCube);
+    sendmoves();
+    cout << "___________________________" << endl;
+    cout << "BottomEdges" << endl;
+    printCubeColor(cube);  
+*/    
+    
+	solveBottomLayer(cube, orientationCube, indexCube);
+    sendmoves();
+    cout << "___________________________" << endl;
+    cout << "Solved Cube" << endl;
+    printCubeColor(cube);  
+
+
     {
-        cout << "\033[92m___________________________" << endl << endl; 
-        cout <<         "         solved!" << endl;
-        cout <<         "___________________________\033[39m" << endl << endl; 
+        int solvedfaces = 6; 
+        for(int i = 0; i < 6; i ++){
+            solvedfaces -= checkface(i);    
+            
+        }
+        if(solvedfaces == 6)  
+        {
+            cout << "\033[92m___________________________" << endl << endl; 
+            cout <<         "         solved!" << endl;
+            cout <<         "___________________________\033[39m" << endl << endl; 
+        }
     }
 
-	/////END//////
+	//// THE END ////
 	
     exit(0);
 }
