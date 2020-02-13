@@ -210,18 +210,64 @@ void sendmoves(){
     translateMove();
     doTheClient(movesTranslated);
 
-	//cout << "moves: " << moves << endl;
-    //cout << "translate for server:\t" << movesTranslated << endl;
+	cout << "moves: " << moves << endl;
+    cout << "translate for server:\t" << movesTranslated << endl;
 
 	clearMoves();
 
 }
 
+void solve(bool *error){
+    SOLVETOPFUNCTION:
+    solveTopCross(cube, orientationCube, indexCube);
+    sendmoves();
+    cout << "___________________________" << endl;
+    cout << "TopCross" << endl;
+    printCubeColor(cube);  
+  
+    solveTopCorners(cube, orientationCube, indexCube);
+    sendmoves();
+    cout << "___________________________" << endl;
+    cout << "TopCorners" << endl;
+    printCubeColor(cube);  
+    *error = checkface(0);
+    if(*error)
+        goto SOLVETOPFUNCTION;
+
+	solveMiddleLayer(cube, orientationCube, indexCube);
+    sendmoves();
+    cout << "___________________________" << endl;
+    cout << "MiddleLayer" << endl;
+    printCubeColor(cube); 
+
+	solveBottomLayer(cube, orientationCube, indexCube);
+    sendmoves();
+    cout << "___________________________" << endl;
+    cout << "Solved Cube" << endl;
+    printCubeColor(cube); 
+}
+
+
+
+
 int main(int argc, char *argv[])
 {
- 
-	int error = 0; // vom solver
+    bool solved = 0;  
+	bool error = 0; // vom solver
 	int solvingState = 0;
+    /*
+    solvingState:
+    0 ... solveTopCross
+    1 ... solveTopCorners
+    2 ... solveMiddleLayer
+    3 ... solveBottomEdges
+    4 ... solveBottomCorners
+
+
+
+    */
+	clearMoves();
+
     if (argc != 2){
 		cout << "give me a number of queries as argument (n)" << endl;	
 		exit(1);
@@ -243,65 +289,193 @@ int main(int argc, char *argv[])
 	//Convertiert die Farben in einen Array bei dem die Farben dem Jeweiligen Index zugeordnet sind
 	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
 
+/*
+l(cube, orientationCube, indexCube);
+doTheClient("r11");
+r(cube, orientationCube, indexCube);
+doTheClient("r31");
+	clearMoves();
+*/
+
+
+//print(orientationCube);
+//print(indexCube);
+//f(cube, orientationCube, indexCube);
+/*
+    for(int cnt=0;cnt<12;cnt++)
+		findEdges(EdgeCodes,middleColor, cnt);
+
+
+    for(int cnt=0;cnt<8;cnt++)
+		findCorners(CornerCodes,middleColor, cnt);
+*/
+
+
+
+/*
+while(solvingState!=5){
    	solvingState = planAction(solvingState,EdgeCodes,CornerCodes,middleColor);
-	
-	
+}
+*/
+    
+ //   doTheClient("r00");
+  //  fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);	
+   // printCubeColor(cube); 
 
 
+
+
+
+do
+{  
+   	solvingState = planAction(solvingState,EdgeCodes,CornerCodes,middleColor);
+    cout << "done planAction " << solvingState << endl;
+
+for (int j=0; j<12; j++)
+	{
+		cout << endl  << "List number " << j << " ";
+		
+		list <edge>::iterator it = EdgeCodes[j].begin();
+		
+		while(it != EdgeCodes[j].end())
+		{
+			cout << it->field[0] << it->field[1] << " | ";
+			
+			it++;
+		}
+		
+		cout << endl;
+	}
+
+	for(int j=0;j<8;j++)
+	{
+		cout << endl  << "List number " << j << " ";
+
+		list<corner>::iterator it = CornerCodes[j].begin();
+
+		while(it != CornerCodes[j].end())
+		{
+			cout << it->field[0] << it->field[1] << it->field[2] << " | ";
+			
+			it++;
+		}
+
+		cout << endl;
+
+	}
+   print(indexCube);
+
+
+
+
+    fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);
+    cout << "done fillrandomcube " << endl;	
+    printCubeColor(cube);  
+    mapforsolver(cube);
+
+	switch(solvingState)
+    {
+	    case 0:     
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            SOLVETOPFOUR:
+            solveTopCross(cube, orientationCube, indexCube);
+            sendmoves();
+            cout << "___________________________" << endl;
+            cout << "TopCross" << endl;
+            printCubeColor(cube);  
+          
+            solveTopCorners(cube, orientationCube, indexCube);
+            sendmoves();
+            cout << "___________________________" << endl;
+            cout << "TopCorners" << endl;
+            printCubeColor(cube);  
+            error = checkface(0);
+            if(error)
+                goto SOLVETOPFOUR;
+
+	        solveMiddleLayer(cube, orientationCube, indexCube);
+            sendmoves();
+            cout << "___________________________" << endl;
+            cout << "MiddleLayer" << endl;
+            printCubeColor(cube); 
+
+	        solveBottomLayer(cube, orientationCube, indexCube);
+            sendmoves();
+            cout << "___________________________" << endl;
+            cout << "Solved Cube" << endl;
+            printCubeColor(cube); 
+            break;
+    case 5: 
+        break;
+    }
+    cout << "state: " << solvingState << endl;  
+    usleep(1000000*0.25);   
+     
+}
+while(solvingState!=5);
+cout << "finalstate: " << solvingState << endl;  
+
+if(solvingState == 5)
+{
+    cout << "GRANDE FINALE" << endl;
     fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);	
     printCubeColor(cube);  
     mapforsolver(cube);
 
-    SOLVETOP:
-	solveTopCross(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "TopCross" << endl;
-    printCubeColor(cube);    
-	solveTopCorners(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "TopCorners" << endl;
-    printCubeColor(cube);  
-    error = checkface(0);
-    if(error)
-        goto SOLVETOP;
+            SOLVETOPFIVE:
+            solveTopCross(cube, orientationCube, indexCube);
 
-	solveMiddleLayer(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "MiddleLayer" << endl;
-    printCubeColor(cube);  
+            cout << "___________________________" << endl;
+            cout << "TopCross" << endl;
+            sendmoves();
+            printCubeColor(cube);  
+          
+            solveTopCorners(cube, orientationCube, indexCube);
+
+            cout << "___________________________" << endl;
+            cout << "TopCorners" << endl;
+            sendmoves();
+            printCubeColor(cube);  
+            error = checkface(0);
+            if(error)
+                goto SOLVETOPFIVE;
+
+	        solveMiddleLayer(cube, orientationCube, indexCube);
+
+            cout << "___________________________" << endl;
+            cout << "MiddleLayer" << endl;
+            sendmoves();
+            printCubeColor(cube); 
+
+	        solveBottomLayer(cube, orientationCube, indexCube);
+
+            cout << "___________________________" << endl;
+            cout << "Solved Cube" << endl;
+            sendmoves();
+            printCubeColor(cube); 
+       
+}
+
 
 /*
-    positionBottomEdges(cube, orientationCube, indexCube);
-    correctBottomEdges(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "BottomEdges" << endl;
-    printCubeColor(cube);  
-*/    
-    
-	solveBottomLayer(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "Solved Cube" << endl;
-    printCubeColor(cube);  
-
-
     {
         int solvedfaces = 6; 
         for(int i = 0; i < 6; i ++){
             solvedfaces -= checkface(i);    
             
         }
-        if(solvedfaces == 6)  
+        if(solvedfaces == 6 && solvingState == 5)  
         {
+          //  solved = 1; 
             cout << "\033[92m___________________________" << endl << endl; 
             cout <<         "         solved!" << endl;
             cout <<         "___________________________\033[39m" << endl << endl; 
         }
     }
+*/
 
 	//// THE END ////
 	

@@ -17,7 +17,7 @@
 #include <iterator>
 #include "cubeoperations.hpp"
 
-#define useUIsolvability 0
+#define useUIsolvability 1
 
 using namespace std;
 

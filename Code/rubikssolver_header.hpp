@@ -2677,7 +2677,9 @@ void mapforsolver(int cube[6][3][3]){
                 }
             }       
       }
-     // printCubeColor(cube);            
+     // printCubeColor(cube);   
+
+     //printCubeColor(solvercube);           
 
 }
 
