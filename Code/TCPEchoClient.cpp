@@ -130,7 +130,7 @@ void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 				{
 					not_set--;
 				}
-				else
+                                else if (n != 2)
 				{
 					q.accessData(i,j,k,0);
 				}
