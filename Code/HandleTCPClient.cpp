@@ -116,7 +116,6 @@ bool HandleTCPClient(int clntSocket)
             cout <<         "         solved!" << endl;
             cout <<         "___________________________\033[39m" << endl << endl;
             close(clntSocket);
-            exit(0);
             return 1; 
         }
 

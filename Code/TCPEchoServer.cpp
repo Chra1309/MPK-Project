@@ -6,6 +6,7 @@
 #include <unistd.h>     /* for close() */
 #include <iostream>
 #include <cstring>
+#include <signal.h>
 #include "HandleTCPClient.cpp"
 #include "DieWithError.hpp"
 
@@ -68,10 +69,14 @@ int main(int argc, char* argv[])
 		//printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
 		//printf("Creating and sending random Cube: \n");
 		
-
-		if(HandleTCPClient(clntSock)==1)
+	
+		if(HandleTCPClient(clntSock)==1){
+			
+			close(servSock);
+			kill(getpid(),SIGINT);
             break;
-        
+		}
+		
     }
     /* NOT REACHED */
 }
