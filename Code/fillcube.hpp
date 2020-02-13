@@ -18,7 +18,7 @@ struct corner;
 struct edge;
 struct middle;
 */
-#define useUIfillcube 0 
+#define useUIfillcube 1 
 
 void fillMiddle(int cubeMiddle[6][3][3], int Middle[]);
 void clearEdgeList(list<edge> EdgeCodes[]);
@@ -29,6 +29,7 @@ void fillCorners(list <corner> CornerCodes[]);
 
 void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], int orientationCube[6][3][3], int indexCube[6][3][3])
 {
+    cout << "in fillEdges" << endl;
     int edge2fill[12][2]; 
 
     // set all adges to black
@@ -114,9 +115,12 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], 
             caunt++;
      //cout << "hier 6: "<< caunt << endl;           
         }  
-
+        cout << "out of while" << endl;
         // fill cube with random combinations from remaining possible ones
-        list <edge>::iterator it = EdgeCodes[edgeorder[i]].begin();        
+        //cout << "EdgeCodes[edgeorder[i]].begin " << EdgeCodes[edgeorder[i]].begin() << endl;
+        cout << "edgeorder[i] " << edgeorder[i] << endl;
+        list <edge>::iterator it = EdgeCodes[edgeorder[i]].begin();
+        cout << "durch Null? " << EdgeCodes[edgeorder[i]].size();        
         int random = rand()%(EdgeCodes[edgeorder[i]].size());
 
 
@@ -137,7 +141,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], 
     }
 
     setEdges(edge2fill, cube, orientationCube, indexCube);
-
+    cout << "out fillEdges" << endl;
 }
 
 
@@ -223,6 +227,7 @@ void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
 
 void fillCorners(list<corner> CornerCodes[], int corner_cube[6][3][3], int cornerorder[], int orientationCube[6][3][3], int indexCube[6][3][3])
 {
+
     int corner2fill[8][3]; 
 
     // set all adges to black
