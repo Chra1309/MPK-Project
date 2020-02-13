@@ -32,6 +32,7 @@ void numberToGerman(int col);
 
 void numberToGerman(int col)
 {
+
 	switch (col)
 	{
 		case 0:
@@ -129,13 +130,13 @@ int findMiddle(int foundColour[])
 		foundColour[i]=midComb.begin()->field2;	
 	}
 
-	cout << "Mittelfelder:\n";
-	
-	for(int i=0; i<6; i++)
-	{
-		 numberToGerman(foundColour[i]);
-		cout << endl;
-	}
+        //cout << "Mittelfelder:\n";
+        //
+        //for(int i=0; i<6; i++)
+        //{
+        //	 numberToGerman(foundColour[i]);
+        //	cout << endl;
+        //}
 
 	return 0;
 }
@@ -215,12 +216,12 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 		sortOutImpossibleEdges(currentGuess, EdgeCodes[i],currentAnswer,MiddleCode);
 	}
 
-	cout << endl << "Edge Number: " << i << " is" << endl;
-
-	numberToGerman(EdgeCodes[i].begin()->field[0]);
-	cout << endl;
-	numberToGerman(EdgeCodes[i].begin()->field[1]);
-	cout << endl;
+        //cout << endl << "Edge Number: " << i << " is" << endl;
+        //
+        //numberToGerman(EdgeCodes[i].begin()->field[0]);
+        //cout << endl;
+        //numberToGerman(EdgeCodes[i].begin()->field[1]);
+        //cout << endl;
 
 }
 
@@ -259,14 +260,14 @@ void findCorners(list <corner> CornerCodes[], int middleColor[])
 		sortOutImpossibleCorners(currentGuess, CornerCodes[i], currentAnswer, MiddleCode); // anlegen
 	}
 	
-	cout << endl << "Corner Number: " << i << " is" << endl;
-
-	numberToGerman(CornerCodes[i].begin()->field[0]);
-	cout << endl;
-	numberToGerman(CornerCodes[i].begin()->field[1]);
-	cout << endl;
-	numberToGerman(CornerCodes[i].begin()->field[2]);
-	cout << endl;
+        //cout << endl << "Corner Number: " << i << " is" << endl;
+        //
+        //numberToGerman(CornerCodes[i].begin()->field[0]);
+        //cout << endl;
+        //numberToGerman(CornerCodes[i].begin()->field[1]);
+        //cout << endl;
+        //numberToGerman(CornerCodes[i].begin()->field[2]);
+        //cout << endl;
 }
 
 void sortAnswer(int answer[])
