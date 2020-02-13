@@ -207,6 +207,17 @@ void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 	return;
 }
 
+void sendmoves(){ 
+
+    translateMove();
+    doTheClient(movesTranslated);
+
+	//cout << "moves: " << moves << endl;
+    //cout << "translate for server:\t" << movesTranslated << endl;
+
+	clearMoves();
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -247,43 +258,30 @@ int main(int argc, char *argv[])
 		findCorners(CornerCodes,middleColor);
     
 
-/*
+
     fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);	
     printCubeColor(cube);  
     mapforsolver(cube);
 
     SOLVETOP:
 	solveTopCross(cube, orientationCube, indexCube);
-    translateMove();
-    doTheClient(movesTranslated);
-	cout << "TopCross: " << moves << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
+    sendmoves();
   
 	solveTopCorners(cube, orientationCube, indexCube);
-    translateMove();
-    doTheClient(movesTranslated);
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
+    sendmoves();
+
     error = checktop();
     if(error)
         goto SOLVETOP;
 
 	solveMiddleLayer(cube, orientationCube, indexCube);
-    translateMove();
-    doTheClient(movesTranslated);
-	cout << "MiddleLayer: " << moves << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
+    sendmoves();
 
 	solveBottomLayer(cube, orientationCube, indexCube);
-    translateMove();
-    doTheClient(movesTranslated);
-	cout << "Bottom: " << moves << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
+    sendmoves();
+
     printCubeColor(cube);  
-*/
+
 
 
 
