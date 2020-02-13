@@ -330,7 +330,7 @@ do
 {  
    	solvingState = planAction(solvingState,EdgeCodes,CornerCodes,middleColor);
     cout << "done planAction " << solvingState << endl;
-
+/*
 for (int j=0; j<12; j++)
 	{
 		cout << endl  << "List number " << j << " ";
@@ -364,7 +364,7 @@ for (int j=0; j<12; j++)
 
 	}
    print(indexCube);
-
+*/
 
 
 

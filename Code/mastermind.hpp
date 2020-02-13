@@ -93,12 +93,16 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
 
 		case 2://MiddleLayerEdges
                 {
-                        int Coordinates[4][3]={     {2,1,0},
+                        int Coordinates[8][3]={     {2,1,0},
                                                     {3,1,0},
                                                     {4,1,0},
-                                                    {1,1,0}};
+                                                    {1,1,0},
+                                                    {0,1,0},
+						                            {0,0,1},
+						                            {0,1,2},
+						                            {0,2,1}};
 
-                        for(int i=0;i<4;i++)
+                        for(int i=0;i<8;i++)
                         {
                                 index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
                                 if(edgeCodes[index].size()>1)
@@ -107,7 +111,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                         findEdges(edgeCodes,middleColor,index);
                                         break;
                                 }
-                                if(i==3)
+                                if(i==7)
                                 {
                                         solvingstate++;
                                 }
@@ -118,12 +122,20 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
 
 		case 3://BottomLayerEdges
                 {
-                        int Coordinates[4][3]={     {5,1,0},
+                        int Coordinates[12][3]={     {5,1,0},
                                                     {5,2,1},
                                                     {5,1,2},
-                                                    {5,0,1}};
+                                                    {5,0,1},
+                                                    {2,1,0},
+                                                    {3,1,0},
+                                                    {4,1,0},
+                                                    {1,1,0},
+                                                    {0,1,0},
+						                            {0,0,1},
+						                            {0,1,2},
+						                            {0,2,1}};
 
-                        for(int i=0;i<4;i++)
+                        for(int i=0;i<12;i++)
                         {
                                 index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
                                 if(edgeCodes[index].size()>1)
@@ -132,7 +144,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                         findEdges(edgeCodes,middleColor,index);
                                         break;
                                 }
-                                if(i==3)
+                                if(i==11)
                                 {
                                         solvingstate++;
                                 }
@@ -143,12 +155,16 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
 
 		case 4://BottomLayerCorners
                 {
-                        int Coordinates[4][3]={     {5,0,0},
+                        int Coordinates[8][3]={     {5,0,0},
                                                     {5,2,0},
                                                     {5,2,2},
-                                                    {5,0,2}};
+                                                    {5,0,2},
+                                                    {0,2,0},
+                            	                    {0,0,0},
+                                      	            {0,0,2},
+                                            	    {0,2,2}};
 
-                        for(int i=0;i<4;i++)
+                        for(int i=0;i<8;i++)
                         {
                                index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
                                 if(cornerCodes[index].size()>1)
@@ -157,7 +173,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                         findCorners(cornerCodes,middleColor,index);
                                         break;
                                 }
-                                if(i==3)
+                                if(i==7)
                                 {
                                         solvingstate++;
                                 }

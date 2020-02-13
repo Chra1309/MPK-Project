@@ -17,7 +17,7 @@
 #include <iterator>
 #include "cubeoperations.hpp"
 
-#define useUIsolvability 1
+#define useUIsolvability 0
 
 using namespace std;
 
@@ -137,6 +137,7 @@ void permutationparitytestCorners(int permutationCube[6][3][3]){
 			break;
 
 	}
+ //   cout << "sum c-test" << cnt << endl;
 // von hier
 
    // int cnt = 0; 
@@ -205,7 +206,7 @@ void permutationparitytestCorners(int permutationCube[6][3][3]){
 
 
 
-
+  //  cout << "sum gesamt-test" << cnt << endl;
 
 
 // bis hier
