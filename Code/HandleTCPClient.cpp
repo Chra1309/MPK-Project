@@ -47,6 +47,8 @@ void getActions(ServerCube& myCube){
 		toSend[0]=1+'0';
 	else
 		toSend[0]=0+'0';
+	
+	toSend[1]='\0';
 }	
 void makeAnswer(ServerCube myCube)
 {	
@@ -73,6 +75,7 @@ void makeAnswer(ServerCube myCube)
 	toSend[4]=answer[1]%10+'0';
 	toSend[5]=answer[2]/10+'0';
 	toSend[6]=answer[2]%10+'0';
+	toSend[7]='\0';
 }
 
 void printReceivedBuffer(){
@@ -94,8 +97,9 @@ void HandleTCPClient(int clntSocket)
     //print recevied message
 	
 	
-
-    y.print();
+	cout << "Received from Client: ";
+	printReceivedBuffer();
+	//getActions(y);
 	//convert to String
 
 
@@ -119,11 +123,6 @@ void HandleTCPClient(int clntSocket)
             DieWithError("recv() failed");
     }
 	
-	cout << "Received from Client: ";
-	printReceivedBuffer();
-	//getActions(y);
-	
-	
-	
+
     close(clntSocket);    /* Close client socket */
 }
