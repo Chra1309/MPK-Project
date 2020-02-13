@@ -16,8 +16,6 @@
 #include "rubikssolver_header.hpp"
 #include "fillcube.hpp"
 
-
-
 using namespace std;
 
 #define RCVBUFSIZE 256   /* Size of receive buffer */
@@ -237,13 +235,10 @@ int main(int argc, char *argv[])
 	list <edge> EdgeCodes[12];
 	list <corner> CornerCodes[8];
 	
-
 	findMiddle(MiddleCode);
 
 	buildCombOfEdge(EdgeCodes, MiddleCode);
 	buildCombOfCorner(CornerCodes, MiddleCode);
-
-
 
 	//Convertiert die Farben in einen Array bei dem die Farben dem Jeweiligen Index zugeordnet sind
 	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
@@ -281,13 +276,6 @@ int main(int argc, char *argv[])
     sendmoves();
 
     printCubeColor(cube);  
-
-
-
-
-
-
-	//doTheClient("r011321");
 
 	/////END//////
 	
