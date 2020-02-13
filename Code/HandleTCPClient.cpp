@@ -62,7 +62,7 @@ void makeAnswer(ServerCube myCube)
 	cout<<temp2<<endl;
 	
 	int answer[3];
-	question->print();
+	//question->print();
 	
 	myCube.compareToQuestion(*question,answer);
 	delete question;

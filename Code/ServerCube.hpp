@@ -74,6 +74,7 @@ ServerCube::ServerCube(int n=0)
 				}
 		randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
 	}
+	print();
 }
 
 bool ServerCube::checkDone()
