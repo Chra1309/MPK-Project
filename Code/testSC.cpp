@@ -8,9 +8,9 @@ using namespace std;
 
 int main()
 {
-	srand(time(NULL));
-	ServerCube x(1),y,z,w;
-	
+	ServerCube x(1);
+	//ServerCube y,z,w;
+	/*
 	z.stringToCube("000000000111111111222222222333333333444444444555555555");
 	
 	z.print();
@@ -53,7 +53,7 @@ int main()
 		cout<<"w: false"<<endl;
 	else 
 		cout<<"w: true"<<endl;
-	
+	*/
 	return 0;
 }
 

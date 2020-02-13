@@ -52,7 +52,7 @@ class ServerCube{
 };
 ServerCube::ServerCube(int n=0)
 {
-	srand(time(NULL));
+	srand(clock());
 	this->n=n;
 	int num[6] = {0, 1, 2, 3, 4, 5};
 	
