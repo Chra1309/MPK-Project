@@ -12,7 +12,6 @@
 #include "ClientCube.hpp"
 #include "QuestionCube.hpp"
 #include "mastermind.hpp"
-
 #include "masterheader.hpp"
 #include "rubikssolver_header.hpp"
 #include "fillcube.hpp"
@@ -21,7 +20,7 @@
 
 using namespace std;
 
-#define RCVBUFSIZE 64   /* Size of receive buffer */
+#define RCVBUFSIZE 256   /* Size of receive buffer */
 
 int n = 20;
 
@@ -83,7 +82,7 @@ string doTheClient(string toSend)
 
 	// Receive the answer back from the server
 	totalBytesRcvd = 0;
-	recv(sock, echoBuffer, 64, 0);
+	recv(sock, echoBuffer, RCVBUFSIZE, 0);
 
 	//debug msg:
 	//cout <<echoBuffer << endl;
@@ -212,6 +211,35 @@ void askTwo(int putAnswer [2], int question [2], int field1 [3], int field2 [3])
 	return;
 }
 
+void sendmoves(){ 
+
+    translateMove();
+    doTheClient(movesTranslated);
+	cout << "moves: " << moves << endl;
+    //cout << "length: " << movesTranslated.size() << endl;
+    cout << "translate for server:\t" << movesTranslated << endl;
+    /*int sendcounter = movesTranslated.size()/30;
+    cout << "sendcounter: " << sendcounter << endl;
+    string seperatedMovesTranslated[5];
+
+	for(int i = 0; i < sendcounter; i++)
+    {
+        seperatedMovesTranslated[i] = "";
+        for(int j = 0; j < 30; j++)
+        {
+            seperatedMovesTranslated[i] += movesTranslated[i*30 + j];                                  
+        }
+        cout << "trans: " << seperatedMovesTranslated[sendcounter] << endl;
+        sendcounter ++;
+    }   
+    */
+
+
+
+
+	clearMoves();
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -248,43 +276,55 @@ int main(int argc, char *argv[])
 		findCorners(CornerCodes,middleColor);
     
 
-/*
+
     fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);	
     printCubeColor(cube);  
     mapforsolver(cube);
 
     SOLVETOP:
 	solveTopCross(cube, orientationCube, indexCube);
+    /*
     translateMove();
     doTheClient(movesTranslated);
 	cout << "TopCross: " << moves << endl;
     cout << "translate for server:\t" << movesTranslated << endl;
 	clearMoves();
+    */
+    sendmoves();
   
 	solveTopCorners(cube, orientationCube, indexCube);
+    /*
     translateMove();
     doTheClient(movesTranslated);
     cout << "translate for server:\t" << movesTranslated << endl;
 	clearMoves();
+    */
+    sendmoves();
     error = checktop();
     if(error)
         goto SOLVETOP;
 
 	solveMiddleLayer(cube, orientationCube, indexCube);
+    /*
     translateMove();
     doTheClient(movesTranslated);
 	cout << "MiddleLayer: " << moves << endl;
     cout << "translate for server:\t" << movesTranslated << endl;
 	clearMoves();
+    */
+    sendmoves();
 
 	solveBottomLayer(cube, orientationCube, indexCube);
+    /*
     translateMove();
     doTheClient(movesTranslated);
 	cout << "Bottom: " << moves << endl;
     cout << "translate for server:\t" << movesTranslated << endl;
 	clearMoves();
+    */
+    sendmoves();
     printCubeColor(cube);  
-*/
+
 
 
 
