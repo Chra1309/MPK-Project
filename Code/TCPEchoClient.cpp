@@ -417,7 +417,7 @@ for (int j=0; j<12; j++)
 }
 while(solvingState!=5);
 cout << "finalstate: " << solvingState << endl;  
-
+/*
 if(solvingState == 5)
 {
     cout << "GRANDE FINALE" << endl;
@@ -459,7 +459,7 @@ if(solvingState == 5)
        
 }
 
-
+*/
 /*
     {
         int solvedfaces = 6; 

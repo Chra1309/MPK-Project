@@ -141,6 +141,46 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], 
 }
 
 
+void SortCornerList(list<corner> CornerCodes[], int order[], int size){
+
+    bool done = 0;   
+    do{
+
+
+        done = 1;
+        int rightorder = 0;
+        for(int i = 0; i < size-1; i++){ 
+
+            if(CornerCodes[order[i]].size()>CornerCodes[order[i+1]].size())
+            {
+
+                int temporder; 
+                temporder = order[i];
+                order[i] = order[i+1];
+                order[i+1] = temporder;
+                done = 0;
+            }
+   
+        }    
+
+    }
+    while(!done);
+
+    // UI begin
+    if(useUIfillcube){
+        cout << "sorted lists:" << endl;
+        for(int k = 0; k < size; k++){
+            cout << "list " << order[k] << ": \t";
+            for(int j = 0; j < CornerCodes[order[k]].size(); j++)
+                cout << "|";
+            cout << endl;   
+        }
+    }
+    // UI end
+
+}
+
+
 void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
 
     bool done = 0;   
@@ -178,10 +218,133 @@ void SortEdgesList(list<edge> EdgeCodes[], int order[], int size){
     }
     // UI end
 
+}
+
+
+void fillCorners(list<corner> CornerCodes[], int corner_cube[6][3][3], int cornerorder[], int orientationCube[6][3][3], int indexCube[6][3][3])
+{
+    int corner2fill[8][3]; 
+
+    // set all adges to black
+    for(int i = 0; i < 8; i++)
+        for(int j = 0; j < 3; j++)
+            corner2fill[i][j]=6;
+    
+    list <corner> UsedCorners;
+    
+    for(int i = 0; i < 8; i++){  
+
+        corner tmp;
+        // UI begin
+        if(useUIfillcube){
+            cout << "________________________________________________" << endl;
+            cout << "fill corners: " << cornerorder[i] << endl;
+        }        
+        // UI end
+
+        list <corner>::iterator itPossible = CornerCodes[cornerorder[i]].begin();        
+        list <corner>::iterator itUsed = UsedCorners.begin(); 
+
+        // UI begin
+        if(useUIfillcube){
+            cout << "used: \t\t"; 
+            for(int j = 0; j < UsedCorners.size(); j++){
+                cout << itUsed->field[0] << itUsed->field[1] << itUsed->field[2] << " | "; itUsed++;}
+            cout << endl;
+            itUsed= UsedCorners.begin();
+        }       
+        // UI end
+
+
+    int caunt = 0; 
+        //going through already used combinations and deleting them from possible combinations
+        itUsed = UsedCorners.begin(); 
+        while(itUsed != UsedCorners.end())
+        //for(int k = 0; k < UsedEdges.size(); k++)
+        {
+         //   cout << "hier 1: " << UsedEdges.size()<< " i: " << i << endl;
+            list <int> deletelist;
+            int deleter = 0; 
+
+            // finding matching with already used
+            itPossible = CornerCodes[cornerorder[i]].begin();
+            while(itPossible != CornerCodes[cornerorder[i]].end()){
+                if(
+((itPossible->field[0] == itUsed->field[0]) && (itPossible->field[1] == itUsed->field[1]) && (itPossible->field[2] == itUsed->field[2])) || 
+((itPossible->field[0] == itUsed->field[1]) && (itPossible->field[1] == itUsed->field[2]) && (itPossible->field[2] == itUsed->field[0])) || 
+((itPossible->field[0] == itUsed->field[2]) && (itPossible->field[1] == itUsed->field[0]) && (itPossible->field[2] == itUsed->field[1])) 
+
+                    )
+                {
+                    deletelist.push_back(deleter);
+                }
+                
+                itPossible++;
+                deleter ++;
+            }
+
+            // deleting already used
+            while(deletelist.size()>0){
+                itPossible = CornerCodes[cornerorder[i]].begin();//deletelist.back(itdelete); 
+                advance(itPossible,deletelist.back());
+                deletelist.pop_back();   
+                CornerCodes[cornerorder[i]].erase(itPossible);
+            }
+
+            //UI begin
+            if(useUIfillcube){
+                {
+                cout << "possible: \t";
+
+                    list <corner>::iterator itrem = CornerCodes[cornerorder[i]].begin();		                    
+                    while(itrem != CornerCodes[cornerorder[i]].end())
+                    {
+	                    cout << itrem->field[0] << itrem->field[1] << " | ";			                    
+	                    itrem++;
+                    }		                    
+                    cout << endl;
+
+                }
+            //UI end 
+
+            }
+            itUsed++;
+            caunt++;
+     //cout << "hier 6: "<< caunt << endl;           
+        }  
+
+        // fill cube with random combinations from remaining possible ones
+        list <corner>::iterator it = CornerCodes[cornerorder[i]].begin();        
+        int random = rand()%(CornerCodes[cornerorder[i]].size());
+
+
+        for(int j = 0; j < random; j++)
+            it++;
+
+        corner2fill[cornerorder[i]][0] = it->field[0];
+        corner2fill[cornerorder[i]][1] = it->field[1];  
+        corner2fill[cornerorder[i]][2] = it->field[2];  
+
+        // adding currently used combinations to used-list
+        tmp.field[0] = it->field[0]; 
+        tmp.field[1] = it->field[1];
+        tmp.field[2] = it->field[2];
+        UsedCorners.push_back(tmp);
+
+        if(useUIfillcube){
+            cout << "set to: " << it->field[0] << "|" << it->field[1] << "|" << it->field[2] << endl;
+        }
+    }
+
+    setCorners(corner2fill, cube, orientationCube, indexCube);
 
 }
 
+
+
+/*
 void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int indexCube[6][3][3]){ //einträge mit wenigsten zu erst, permutationen raus, nicht immer gleichen index löschen der 8 listen sondern extra suchen
+cout << "here" << endl;
 	int arCorner[8][3];
 	int cnt1=0;
 	int cnt2=0;
@@ -227,15 +390,15 @@ void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int i
 			}
 		}
 	}
-	//*************Testzweck
-    /*cout << "___reihenfolge___" << endl;
-	for(int i=0;i<8;i++)
-	{
-		cout<<arSort[i].length<<"  "<<arSort[i].index<<endl;
+	//Testzweck
+    //cout << "___reihenfolge___" << endl;
+	//for(int i=0;i<8;i++)
+	//{
+	//	cout<<arSort[i].length<<"  "<<arSort[i].index<<endl;
 		
-	}
-	*/
-	//*******************************************getting corners to fill cube
+	//}
+	
+	//getting corners to fill cube
 	for(int i=0; i<8; i++)
 	{
 		while(1)
@@ -282,12 +445,18 @@ void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int i
 						arAdress[2]=itCo->field[2];
 				        sort(arAdress,arAdress+3);
 				        tmpCorner2=100*arAdress[0]+10*arAdress[1]+1*arAdress[2];//sortierte adresse ist automatisch alle permutationen
+                        cout << "" << tmpCorner2 << endl;
 				        if(tmpCorner1==tmpCorner2)
 				        {
  
 							itCo->field[0]=-1;
 						}
-                        cout << "poss: " << itCo->field[0] << " " << itCo->field[1] << " " << itCo->field[2] << endl;
+                        if(i==7){
+                            cout << "poss: " << 
+                            itCo->field[0] << " " << 
+                            itCo->field[1] << " " << 
+                            itCo->field[2] << endl;
+                        }
 				   
 						itCo++;
 					}
@@ -299,41 +468,9 @@ void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int i
 	}
 
     setCorners(arCorner, cube, orientationCube, indexCube);
-/*
-	cube[0][2][0] = arCorner[0][0] ;
-	cube[1][0][2] = arCorner[0][1] ;	
-    cube[2][0][0] = arCorner[0][2] ;
-    
-    cube[0][2][2] = arCorner[1][0] ;
-    cube[2][0][2] = arCorner[1][1] ;
-    cube[3][0][0] = arCorner[1][2] ;
-    
-    cube[0][0][2] = arCorner[2][0] ;
-    cube[3][0][2] = arCorner[2][1] ;
-    cube[4][0][0] = arCorner[2][2] ;
-    
-    cube[0][0][0] = arCorner[3][0] ;
-    cube[4][0][2] = arCorner[3][1] ;
-    cube[1][0][0] = arCorner[3][2] ;
-    
-    cube[1][2][2] = arCorner[4][0] ;
-    cube[2][2][0] = arCorner[4][1] ;
-    cube[5][0][0] = arCorner[4][2] ;
-    
-    cube[1][2][0] = arCorner[5][0] ;
-    cube[4][2][2] = arCorner[5][1] ;
-    cube[5][2][0] = arCorner[5][2] ;
-    
-    cube[2][2][2] = arCorner[6][0] ;
-    cube[5][0][2] = arCorner[6][1] ;
-    cube[3][2][0] = arCorner[6][2] ;
-    
-    cube[3][2][2] = arCorner[7][0] ;
-    cube[5][2][2] = arCorner[7][1] ;
-    cube[4][2][0] = arCorner[7][2] ;
-*/
-}
 
+}
+*/
 
 
 
@@ -447,6 +584,7 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
     int solved = 0; 
     int tries = 0; 
     int edgeorder[12] ={0,1,2,3,4,5,6,7,8,9,10,11};
+    int cornerorder[8] ={0,1,2,3,4,5,6,7};
 
     while(!solvable)
     {
@@ -464,8 +602,8 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
         SortEdgesList(EdgeCodesCopy, edgeorder, 12);
         fillEdges(EdgeCodesCopy, cube, edgeorder, oCube, iCube); 
 
-        
-        fillCorners(CornerCodesCopy, oCube, iCube);
+        SortCornerList(CornerCodesCopy, cornerorder, 8);
+        fillCorners(CornerCodesCopy, cube, cornerorder, oCube, iCube);
 
 
         solvable = checksolvability(cube);
