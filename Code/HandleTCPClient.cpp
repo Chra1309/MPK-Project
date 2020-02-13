@@ -62,7 +62,8 @@ void makeAnswer(ServerCube myCube)
 	//cout<<temp2<<endl;
 	
 	int answer[3];
-	//question->print();
+	question->print(); // print answer
+
 	
 	myCube.compareToQuestion(*question,answer);
 	delete question;
@@ -86,7 +87,7 @@ void printReceivedBuffer(){
 
 ServerCube y(1); //Create an random cube
 
-void HandleTCPClient(int clntSocket)
+bool HandleTCPClient(int clntSocket)
 {
 
     /* Receive message from client */
@@ -96,7 +97,7 @@ void HandleTCPClient(int clntSocket)
     //send test message
     //print recevied message
 	
-	
+    cout << "_____________________________________________________________________________" << endl;	
 	cout << "Received from Client: ";
 	printReceivedBuffer();
 	//getActions(y);
@@ -107,7 +108,18 @@ void HandleTCPClient(int clntSocket)
 		makeAnswer(y);
 	if(echoBuffer[0]=='r')
 		getActions(y);
-	cout << toSend<<endl;
+    cout << "Answer:\t";
+	cout << toSend <<endl;
+    if(toSend[0] == '1')
+        {
+            cout << "\033[92m___________________________" << endl << endl; 
+            cout <<         "         solved!" << endl;
+            cout <<         "___________________________\033[39m" << endl << endl;
+            close(clntSocket);
+            exit(0);
+            return 1; 
+        }
+
     
     int bufferLength = recvMsgSize;
     /* Send received string and receive again until end of transmission */
@@ -122,7 +134,8 @@ void HandleTCPClient(int clntSocket)
         if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
     }
-	
 
-    close(clntSocket);    /* Close client socket */
+    close(clntSocket);    /* Close client socket */	
+    return 0; 
+
 }

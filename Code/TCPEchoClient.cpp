@@ -277,6 +277,12 @@ int main(int argc, char *argv[])
 
     printCubeColor(cube);  
 
+    {
+        cout << "\033[92m___________________________" << endl << endl; 
+        cout <<         "         solved!" << endl;
+        cout <<         "___________________________\033[39m" << endl << endl; 
+    }
+
 	/////END//////
 	
     exit(0);

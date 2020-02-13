@@ -14,7 +14,7 @@ using namespace std;
 #define MAXPENDING 5    /* Maximum outstanding connection requests */
 
 void DieWithError(string errorMessage);  /* Error handling function */
-void HandleTCPClient(int clntSocket);   /* TCP client handling function */
+bool HandleTCPClient(int clntSocket);   /* TCP client handling function */
 
 int main(int argc, char* argv[])
 {
@@ -65,11 +65,13 @@ int main(int argc, char* argv[])
 
         /* clntSock is connected to a client! */
 
-		printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
+		//printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
 		//printf("Creating and sending random Cube: \n");
 		
 
-		HandleTCPClient(clntSock);
+		if(HandleTCPClient(clntSock)==1)
+            break;
+        
     }
     /* NOT REACHED */
 }
