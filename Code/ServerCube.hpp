@@ -73,8 +73,9 @@ ServerCube::ServerCube(int n=0)
 					data[i][j][k]=num[i]; //Erzeugung eines Cubes mit zufälligen Farben (Zahlen)
 				}
 		randomize(); //Methode zum zufälligen verdrehen des Cubes		rotate(UP,1);//	
+		print();
 	}
-	print();
+	
 }
 
 bool ServerCube::checkDone()

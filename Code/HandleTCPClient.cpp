@@ -59,7 +59,7 @@ void makeAnswer(ServerCube myCube)
 	ServerCube* question=new ServerCube(0);
 	question->stringToCube(temp2);
 
-	cout<<temp2<<endl;
+	//cout<<temp2<<endl;
 	
 	int answer[3];
 	//question->print();
