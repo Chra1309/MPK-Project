@@ -196,7 +196,7 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 	
 	//cout << endl << "Liste Nr.: " << i << " wird bearbeitet" << endl; 
 
-	getEdgeInfo(fields,i,orientation);
+	getEdgeInfo(fields,i);
 	int currentGuess[2];
 	int currentAnswer[2];
 	int MiddleCode[2]={middleColor[fields[0][0]],middleColor[fields[1][0]]};
