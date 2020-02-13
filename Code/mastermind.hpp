@@ -25,7 +25,7 @@ void getNextCornerQuestion(list<corner> &cornerComg, int currentQuestion[], int 
 void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[]);
 void sortOutImpossibleCorners(int currentguess[], list<corner> &cornerComb, int currentAnswer[], int MiddleCode[]);
 void findEdges(list <edge> EdgeCodes[], int middleColor[]);
-void getEdgeInfo(int fields[][3],int n, int orientation[]);
+void getEdgeInfo(int fields[][3],int n);
 void getCornerInfo(int fields[][3],int n);
 void findCorners(list <corner> CornerCodes[], int middleColor[]);
 void numberToGerman(int col);
@@ -140,7 +140,7 @@ int findMiddle(int foundColour[])
 	return 0;
 }
 
-void getEdgeInfo(int fields[][3],int n, int orientation[])
+void getEdgeInfo(int fields[][3],int n)
 {
 	int i=0;
 	int l=0;	
@@ -185,7 +185,6 @@ void getCornerInfo(int fields[][3],int n)
 void findEdges(list <edge> EdgeCodes[], int middleColor[])
 {
 	int fields[2][3]={{0,0,0},{0,0,0}};
-	int orientation[2];
 	int i = 0;
 	for(i = 0; i<12; i++)
 	{
