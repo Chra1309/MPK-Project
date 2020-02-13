@@ -24,11 +24,145 @@ void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int Middle
 void getNextCornerQuestion(list<corner> &cornerComg, int currentQuestion[], int MiddleCode[]);
 void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[]);
 void sortOutImpossibleCorners(int currentguess[], list<corner> &cornerComb, int currentAnswer[], int MiddleCode[]);
-void findEdges(list <edge> EdgeCodes[], int middleColor[]);
+void findEdges(list <edge> EdgeCodes[], int middleColor[], int index);
 void getEdgeInfo(int fields[][3],int n);
 void getCornerInfo(int fields[][3],int n);
-void findCorners(list <corner> CornerCodes[], int middleColor[]);
+void findCorners(list <corner> CornerCodes[], int middleColor[], int index);
 void numberToGerman(int col);
+int planAction(int solverstate, list<edge> edgeCodes[], list<corner> cornerCodes[], int middleColor[]);
+
+int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCodes[], int middleColor[])
+{
+	int index=0;
+	switch(solvingstate)
+	{
+		case 0://TopLayerEdges
+		{
+			int Coordinates[4][3]={	{0,1,0},
+						{0,0,1},
+						{0,1,2},
+						{0,2,1}};
+
+			for(int i=0;i<4;i++)
+			{
+				index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
+				if(edgeCodes[index].size()>1)
+				{
+					findEdges(edgeCodes,middleColor,index);
+					break;
+				}
+				if(i==3)
+				{
+					solvingstate++;
+				}
+				
+			}
+			break;
+		}
+
+
+	
+
+		case 1://TopLayerCorners
+                {
+                        int Coordinates[4][3]={     {0,2,0},
+                            	                    {0,0,0},
+                                	            {0,0,2},
+                                        	    {0,2,2}};
+
+                        for(int i=0;i<4;i++)
+                        {
+                                index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
+                                if(edgeCodes[index].size()>1)
+                                {
+                                        findCorners(cornerCodes,middleColor,index);
+                                        break;
+                                }
+                                if(i==3)
+                                {
+                                        solvingstate++;
+                                }
+
+                        }
+                        break;
+                }
+
+		case 2://MiddleLayerEdges
+                {
+                        int Coordinates[4][3]={     {2,1,0},
+                                                    {3,1,0},
+                                                    {4,1,0},
+                                                    {1,1,0}};
+
+                        for(int i=0;i<4;i++)
+                        {
+                                index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
+                                if(edgeCodes[index].size()>1)
+                                {
+                                        findEdges(edgeCodes,middleColor,index);
+                                        break;
+                                }
+                                if(i==3)
+                                {
+                                        solvingstate++;
+                                }
+
+                        }
+                        break;
+                }
+
+		case 3://BottomLayerEdges
+                {
+                        int Coordinates[4][3]={     {5,1,0},
+                                                    {5,2,1},
+                                                    {5,1,2},
+                                                    {5,0,1}};
+
+                        for(int i=0;i<4;i++)
+                        {
+                                index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
+                                if(edgeCodes[index].size()>1)
+                                {
+                                        findEdges(edgeCodes,middleColor,index);
+                                        break;
+                                }
+                                if(i==3)
+                                {
+                                        solvingstate++;
+                                }
+
+                        }
+                        break;
+                }
+
+		case 4://BottomLayerCorners
+                {
+                        int Coordinates[4][3]={     {5,0,0},
+                                                    {5,2,0},
+                                                    {5,2,2},
+                                                    {5,0,2}};
+
+                        for(int i=0;i<4;i++)
+                        {
+                               index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
+                                if(edgeCodes[index].size()>1)
+                                {
+                                        findCorners(cornerCodes,middleColor,index);
+                                        break;
+                                }
+                                if(i==3)
+                                {
+                                        solvingstate++;
+                                }
+
+                        }
+                        break;
+                }
+
+
+	}
+	return solvingstate;
+}
 
 void numberToGerman(int col)
 {
@@ -183,17 +317,10 @@ void getCornerInfo(int fields[][3],int n)
 	}
 }
 
-void findEdges(list <edge> EdgeCodes[], int middleColor[])
+void findEdges(list <edge> EdgeCodes[], int middleColor[], int index)
 {
 	int fields[2][3]={{0,0,0},{0,0,0}};
-	int i = 0;
-	for(i = 0; i<12; i++)
-	{
-		if(EdgeCodes[i].size()>1)
-		break;
-	}
-	
-	if(i>11) return;
+	int i = index;
 	
 	//cout << endl << "Liste Nr.: " << i << " wird bearbeitet" << endl; 
 
@@ -225,17 +352,11 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 
 }
 
-void findCorners(list <corner> CornerCodes[], int middleColor[])
+void findCorners(list <corner> CornerCodes[], int middleColor[], int index)
 {
 	int fields[3][3]={{0,0,0},{0,0,0}};
-	int i = 0;
-	for(i = 0; i<8; i++)
-	{
-		if(CornerCodes[i].size()>1)
-		break;
-	}
+	int i = index;
 	
-	if(i>7) return;
 	
 	//cout << endl << "Liste Nr.: " << i << " wird bearbeitet" << endl; 
 
