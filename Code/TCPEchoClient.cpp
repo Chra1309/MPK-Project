@@ -52,6 +52,9 @@ string doTheClient(string toSend)
 	
 	//concatonate the question
 	echoString =toSend;
+	//fill empty buffer up to avoid memory leakages
+	for (int f= toSend.length(); f <= RCVBUFSIZE; f++)
+		echoString += '\0';
 
 	//cout << echoString <<endl;
 	// Create a reliable, stream socket using TCP
