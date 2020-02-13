@@ -16,8 +16,6 @@
 #include "rubikssolver_header.hpp"
 #include "fillcube.hpp"
 
-
-
 using namespace std;
 
 #define RCVBUFSIZE 256   /* Size of receive buffer */
@@ -44,14 +42,10 @@ int bytesRcvd, totalBytesRcvd;   		// Bytes read in single recv() and total byte
 		   argv[0]);
    exit(1);
 }
-
-servIP = argv[1];              //First arg: server IP address (dotted quad)
-
 if (argc == 4)
 	echoServPort = atoi(argv[3]);  //Use given port, if any
 else
 	echoServPort = 7;   //7 is the well-known port for the echo service */
-
 
 string doTheClient(string toSend)
 {
@@ -225,11 +219,15 @@ void sendmoves(){
 
 int main(int argc, char *argv[])
 {
-    int error = 0; // vom solver
+ 
+	int error = 0; // vom solver
 
-    if (argc != 1){
-	cout << "Fixed Server IP is 127.0.0.1 and Port 10000" << endl;	
-	exit(1);
+    if (argc != 2){
+		cout << "give me a number of queries as argument (n)" << endl;	
+		exit(1);
+	}else{
+		
+		n = atoi(argv[1]);              //number of ns given by user
 	}
 
 	int MiddleCode[6] = {6,6,6,6,6,6}; //Vorsicht dieser Array ist nur für das erstellen der Listen zu verwenden 
@@ -237,13 +235,10 @@ int main(int argc, char *argv[])
 	list <edge> EdgeCodes[12];
 	list <corner> CornerCodes[8];
 	
-
 	findMiddle(MiddleCode);
 
 	buildCombOfEdge(EdgeCodes, MiddleCode);
 	buildCombOfCorner(CornerCodes, MiddleCode);
-
-
 
 	//Convertiert die Farben in einen Array bei dem die Farben dem Jeweiligen Index zugeordnet sind
 	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
@@ -281,13 +276,6 @@ int main(int argc, char *argv[])
     sendmoves();
 
     printCubeColor(cube);  
-
-
-
-
-
-
-	//doTheClient("r011321");
 
 	/////END//////
 	
