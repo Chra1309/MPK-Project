@@ -20,9 +20,9 @@ bool containsMiddle(list<middle> &midComb, int a, int b);
 bool containsEdge(list<edge> &edgeComb, int a, int b);
 bool containsCorner(list<corner> &cornerComb, int a, int b);
 void changeAnswer(string& strAnswer, int* arrAnswer);
-void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[], int orienataion[]);
+void getNextEdgeQuestion(list<edge> &edgeComg, int currentQuestion[], int MiddleCode[]);
 void getNextCornerQuestion(list<corner> &cornerComg, int currentQuestion[], int MiddleCode[]);
-void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[], int orientation[]);
+void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[]);
 void sortOutImpossibleCorners(int currentguess[], list<corner> &cornerComb, int currentAnswer[], int MiddleCode[]);
 void findEdges(list <edge> EdgeCodes[], int middleColor[]);
 void getEdgeInfo(int fields[][3],int n, int orientation[]);
@@ -204,7 +204,7 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 
 	while(EdgeCodes[i].size()>1)
 	{
-		getNextEdgeQuestion(EdgeCodes[i], currentGuess, MiddleCode, orientation);
+		getNextEdgeQuestion(EdgeCodes[i], currentGuess, MiddleCode);
 		
 		//cout << endl << "Next Question is Field "<< fields[0][0] << fields[0][1] << fields[0][2]<< " = " << currentGuess[0] << " Field  " 
    		//					 << fields[1][0] << fields[1][1] << fields[1][2]<< " = "  << currentGuess[1] << endl;
@@ -213,7 +213,7 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[])
 
 		//cout << endl << "Anwser is " << currentAnswer[0] << currentAnswer[1] << endl;
 
-		sortOutImpossibleEdges(currentGuess, EdgeCodes[i],currentAnswer,MiddleCode, orientation);
+		sortOutImpossibleEdges(currentGuess, EdgeCodes[i],currentAnswer,MiddleCode);
 	}
 
 	cout << endl << "Edge Number: " << i << " is" << endl;
@@ -475,7 +475,7 @@ void getNextQuestion(list<middle> &midComb, int currentQuestion[])
 }
 
 
-void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int MiddleCode[], int orientation[])
+void getNextEdgeQuestion(list<edge> &edgeComb, int currentQuestion[], int MiddleCode[])
 {
 	int case0=0, case1=0, case2=0, case3=0, case4=0; // case0 = {2,2} case1 = {0,2} case2 = {1,1} case3 = {0,1} case4 = {0,0}
 	int nextQuestionMax = 39439;
@@ -689,7 +689,7 @@ void sortOutImpossibleCodes(int currentguess[], list<middle> &midComb, int curre
 	}
 }
 
-void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[], int orientation[])
+void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int currentAnswer[], int MiddleCode[])
 {
 	list<edge>::iterator it;
 	it = edgeComb.begin();

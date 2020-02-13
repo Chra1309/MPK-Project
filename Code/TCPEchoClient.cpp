@@ -215,27 +215,9 @@ void sendmoves(){
 
     translateMove();
     doTheClient(movesTranslated);
-	cout << "moves: " << moves << endl;
-    //cout << "length: " << movesTranslated.size() << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-    /*int sendcounter = movesTranslated.size()/30;
-    cout << "sendcounter: " << sendcounter << endl;
-    string seperatedMovesTranslated[5];
 
-	for(int i = 0; i < sendcounter; i++)
-    {
-        seperatedMovesTranslated[i] = "";
-        for(int j = 0; j < 30; j++)
-        {
-            seperatedMovesTranslated[i] += movesTranslated[i*30 + j];                                  
-        }
-        cout << "trans: " << seperatedMovesTranslated[sendcounter] << endl;
-        sendcounter ++;
-    }   
-    */
-
-
-
+	//cout << "moves: " << moves << endl;
+    //cout << "translate for server:\t" << movesTranslated << endl;
 
 	clearMoves();
 
@@ -283,46 +265,21 @@ int main(int argc, char *argv[])
 
     SOLVETOP:
 	solveTopCross(cube, orientationCube, indexCube);
-    /*
-    translateMove();
-    doTheClient(movesTranslated);
-	cout << "TopCross: " << moves << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
-    */
     sendmoves();
   
 	solveTopCorners(cube, orientationCube, indexCube);
-    /*
-    translateMove();
-    doTheClient(movesTranslated);
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
-    */
     sendmoves();
+
     error = checktop();
     if(error)
         goto SOLVETOP;
 
 	solveMiddleLayer(cube, orientationCube, indexCube);
-    /*
-    translateMove();
-    doTheClient(movesTranslated);
-	cout << "MiddleLayer: " << moves << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
-    */
     sendmoves();
 
 	solveBottomLayer(cube, orientationCube, indexCube);
-    /*
-    translateMove();
-    doTheClient(movesTranslated);
-	cout << "Bottom: " << moves << endl;
-    cout << "translate for server:\t" << movesTranslated << endl;
-	clearMoves();
-    */
     sendmoves();
+
     printCubeColor(cube);  
 
 
