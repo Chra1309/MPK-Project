@@ -1,2 +1,2 @@
 bin_PROGRAMS = MasterCubeSolver
-MasterCubeSolver_SOURCES = TCPEchoClient DieWithError.cpp
+MasterCubeSolver_SOURCES = TCPEchoClient.cpp
