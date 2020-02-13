@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstring>
 #include "HandleTCPClient.cpp"
+#include "DieWithError.hpp"
 
 using namespace std;
 

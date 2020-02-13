@@ -8,10 +8,10 @@
 #include <stdio.h> 
 #include <iostream>
 #include <cstring> 
+#include "DieWithError.hpp"
 #include "ClientCube.hpp"
 #include "QuestionCube.hpp"
 #include "mastermind.hpp"
-
 #include "masterheader.hpp"
 #include "rubikssolver_header.hpp"
 #include "fillcube.hpp"
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-#define RCVBUFSIZE 64   /* Size of receive buffer */
+#define RCVBUFSIZE 256   /* Size of receive buffer */
 
 int n = 20;
 
@@ -82,7 +82,7 @@ string doTheClient(string toSend)
 
 	// Receive the answer back from the server
 	totalBytesRcvd = 0;
-	recv(sock, echoBuffer, 64, 0);
+	recv(sock, echoBuffer, RCVBUFSIZE, 0);
 
 	//debug msg:
 	//cout <<echoBuffer << endl;
