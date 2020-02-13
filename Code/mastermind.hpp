@@ -46,8 +46,10 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
 			for(int i=0;i<4;i++)
 			{
 				index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
+              
 				if(edgeCodes[index].size()>1)
 				{
+                    //cout << "Top Layer E-index: " << index << endl;                    
 					findEdges(edgeCodes,middleColor,index);
 					break;
 				}
@@ -73,8 +75,10 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                         for(int i=0;i<4;i++)
                         {
                                 index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
-                                if(edgeCodes[index].size()>1)
+
+                                if(cornerCodes[index].size()>1)
                                 {
+                                        //cout << "Top Layer C-index: " << index << endl;
                                         findCorners(cornerCodes,middleColor,index);
                                         break;
                                 }
@@ -99,6 +103,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                 index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
                                 if(edgeCodes[index].size()>1)
                                 {
+                                        //cout << "Middle Layer index: " << index << endl;                    
                                         findEdges(edgeCodes,middleColor,index);
                                         break;
                                 }
@@ -123,6 +128,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                 index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
                                 if(edgeCodes[index].size()>1)
                                 {
+                                //cout << "Bottom Layer C-index: " << index << endl;                                
                                         findEdges(edgeCodes,middleColor,index);
                                         break;
                                 }
@@ -145,8 +151,9 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                         for(int i=0;i<4;i++)
                         {
                                index = indexCube[Coordinates[i][0]][Coordinates[i][1]][Coordinates[i][2]];
-                                if(edgeCodes[index].size()>1)
+                                if(cornerCodes[index].size()>1)
                                 {
+                                        //cout << "Bottom Layer C-index: " << index << endl;                    
                                         findCorners(cornerCodes,middleColor,index);
                                         break;
                                 }
@@ -308,13 +315,20 @@ void getCornerInfo(int fields[][3],int n)
 			{
 				if( indexCube[i][j][k]==n && j != 1 &&  k != 1)
 				{
-					fields[orientationCube[i][j][k]][0]=i;
-					fields[orientationCube[i][j][k]][1]=j;
-					fields[orientationCube[i][j][k]][2]=k;
+					fields [orientationCube[i][j][k]] [0]=i;
+					fields [orientationCube[i][j][k]] [1]=j;
+					fields [orientationCube[i][j][k]] [2]=k;
+
 				}
 			}
 		}
 	}
+   /* 
+for(int p=0;p<3;p++)
+        {
+           cout << "{" << fields[p][0] << ", " << fields[p][1] << ", " << fields[p][2] << "}" << endl;
+        }
+    */
 }
 
 void findEdges(list <edge> EdgeCodes[], int middleColor[], int index)
@@ -381,14 +395,16 @@ void findCorners(list <corner> CornerCodes[], int middleColor[], int index)
 		sortOutImpossibleCorners(currentGuess, CornerCodes[i], currentAnswer, MiddleCode); // anlegen
 	}
 	
-        //cout << endl << "Corner Number: " << i << " is" << endl;
-        //
-        //numberToGerman(CornerCodes[i].begin()->field[0]);
-        //cout << endl;
-        //numberToGerman(CornerCodes[i].begin()->field[1]);
-        //cout << endl;
-        //numberToGerman(CornerCodes[i].begin()->field[2]);
-        //cout << endl;
+/*
+        cout << endl << "Corner Number: " << i << " is" << endl;
+        
+        numberToGerman(CornerCodes[i].begin()->field[0]);
+        cout << endl;
+        numberToGerman(CornerCodes[i].begin()->field[1]);
+        cout << endl;
+        numberToGerman(CornerCodes[i].begin()->field[2]);
+        cout << endl;
+*/
 }
 
 void sortAnswer(int answer[])

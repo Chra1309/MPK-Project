@@ -228,11 +228,11 @@ void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int i
 		}
 	}
 	//*************Testzweck
-	/*for(int i=0;i<8;i++)
+	for(int i=0;i<8;i++)
 	{
 		cout<<arSort[i].length<<"  "<<arSort[i].index<<endl;
 		
-	}*/
+	}
 	
 	//*******************************************getting corners to fill cube
 	for(int i=0; i<8; i++)
@@ -248,7 +248,7 @@ void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int i
 				cnt1++;
 			}
 			cnt1=rand()%cnt1; // random value between 0 and sizeof list
-			//cout<<i<<"Corner Adress index"<<cnt1<<endl; //Testzweck
+		    cout<<i<<"Corner Adress index"<<cnt1<<endl; //Testzweck
 			
 			itCo=CornerCodes[arSort[i].index].begin();
 			while(cnt2!=cnt1) //get iterator to random value
@@ -263,7 +263,7 @@ void fillCorners(list<corner> CornerCodes[], int orientationCube[6][3][3], int i
 				arCorner[i][1]=itCo->field[1];
 				arCorner[i][2]=itCo->field[2];
 				
-				//cout<<i<<" Corners "<< itCo->field[0]<<itCo->field[1]<<itCo->field[2]<<endl;//Testzweck
+				cout<<i<<" Corners "<< itCo->field[0]<<itCo->field[1]<<itCo->field[2]<<endl;//Testzweck
 		//*******************************************setting visited coners and permutations to -1
 				arAdress[0]=itCo->field[0];
 				arAdress[1]=itCo->field[1];
