@@ -221,7 +221,7 @@ int main(int argc, char *argv[])
 {
  
 	int error = 0; // vom solver
-
+	int solvingState = 0;
     if (argc != 2){
 		cout << "give me a number of queries as argument (n)" << endl;	
 		exit(1);
@@ -243,15 +243,9 @@ int main(int argc, char *argv[])
 	//Convertiert die Farben in einen Array bei dem die Farben dem Jeweiligen Index zugeordnet sind
 	int middleColor[6] = {MiddleCode[0], MiddleCode[2], MiddleCode[4], MiddleCode[3], MiddleCode[5], MiddleCode[1]};
 
-    // edges gehn, corners nicht
+   	solvingState = planAction(solvingState,EdgeCodes,CornerCodes,middleColor);
 	
-	for(int cnt=0;cnt<12;cnt++)
-		findEdges(EdgeCodes,middleColor);
-    	
-    
-    for(int cnt=0;cnt<8;cnt++)
-		findCorners(CornerCodes,middleColor);
-    
+	
 
 
     fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube);	
