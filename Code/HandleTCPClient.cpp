@@ -42,6 +42,7 @@ void getActions(ServerCube& myCube){
 		myCube.rotate(echoBuffer[i]-'0',echoBuffer[i+1]-'0');
 		n++;
 	}
+	myCube.print();
 	if(myCube.checkDone())
 		toSend[0]=1+'0';
 	else
