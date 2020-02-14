@@ -75,7 +75,9 @@ int main(int argc, char* argv[])
         /* clntSock is connected to a client! */
 
 		if(HandleTCPClient(clntSock)==1){
-			
+           // send(clntSocket, "1", recvMsgSize, 0);
+
+			//usleep(1000000*5);   
 			close(servSock);
 			kill(getpid(),SIGINT);
             break;

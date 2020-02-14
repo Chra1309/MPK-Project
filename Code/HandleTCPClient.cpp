@@ -89,37 +89,41 @@ ServerCube y(1); //Create an random cube
 
 bool HandleTCPClient(int clntSocket)
 {
-
+    int lastMessage = 0; 
     /* Receive message from client */
     if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
         DieWithError("recv() failed");
 
     //send test message
     //print recevied message
-	
-    cout << "_____________________________________________________________________________" << endl;	
-	cout << "Received from Client: ";
-	printReceivedBuffer();
-	//getActions(y);
-	//convert to String
+	if(1)
+    {
+        cout << "_____________________________________________________________________________" << endl;	
+	    cout << "Received from Client: ";
+	    printReceivedBuffer();
+	    //getActions(y);
+	    //convert to String
 
 
-	if(echoBuffer[0]=='q')
-		makeAnswer(y);
-	if(echoBuffer[0]=='r')
-		getActions(y);
-    cout << "Answer:\t";
-	cout << toSend <<endl;
-    if(toSend[0] == '1')
-        {
+	    if(echoBuffer[0]=='q')
+		    makeAnswer(y);
+	    if(echoBuffer[0]=='r')
+		    getActions(y);
+        cout << "Answer:\t";
+	    cout << toSend <<endl;
+    }
+
+    
+    if(lastMessage == 1)
+        {    
+
             cout << "\033[92m___________________________" << endl << endl; 
             cout <<         "         solved!" << endl;
             cout <<         "___________________________\033[39m" << endl << endl;
             close(clntSocket);
-            return 1; 
+            return 1;            
         }
 
-    
     int bufferLength = recvMsgSize;
     /* Send received string and receive again until end of transmission */
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
@@ -132,7 +136,24 @@ bool HandleTCPClient(int clntSocket)
         /* See if there is more data to receive */
         if ((recvMsgSize = recv(clntSocket, echoBuffer, RCVBUFSIZE, 0)) < 0)
             DieWithError("recv() failed");
+
+        if(toSend[0] == '1')
+        {
+            lastMessage ++; 
+            //cout << "lastMessage: " << lastMessage << endl;
+            break;
+        }
     }
+
+    if(lastMessage == 1)
+        {    
+
+            cout << "\033[92m___________________________" << endl << endl; 
+            cout <<         "         solved!" << endl;
+            cout <<         "___________________________\033[39m" << endl;
+            close(clntSocket);
+            return 1;            
+        }
 
     close(clntSocket);    /* Close client socket */	
     return 0; 

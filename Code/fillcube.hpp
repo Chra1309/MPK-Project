@@ -630,9 +630,9 @@ int fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes[
 
 
         solvable = checksolvability(cube);
-        cout << ".";
+        //cout << ".";
         tries++;
-        if(tries > 12*3)
+        if(tries > 12*8)
             return 1;
         // ausgabe statistik ueber loesbare cubes
         /*
