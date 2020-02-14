@@ -228,7 +228,8 @@ int failsafe(int *jump, list<edge> EdgeCodes[], list<corner> CornerCodes[]){
     for (int j=0; j<12; j++)
 	{		
 		if(EdgeCodes[j].size()==0)
-            listAtZero++;            
+            return 1;
+//            listAtZero++;            
 	//	itE++;
 	}
 
@@ -236,15 +237,16 @@ int failsafe(int *jump, list<edge> EdgeCodes[], list<corner> CornerCodes[]){
 	for(int j=0;j<8;j++)
 	{
         if(CornerCodes[j].size()==0)
-            listAtZero++;
+            return 1;
+           // listAtZero++;
     //    itC++;
 	}
-
+/*
     if(listAtZero != 0)
     {
         jump ++;
-        return 1;
-    }
+        
+    }*/
     return 0;
 }
 
@@ -278,6 +280,43 @@ void solve(bool *error){
     printCubeColor(cube); 
 }
 
+void printlist(list<edge> EdgeCodes[], list<corner> CornerCodes[]){
+for (int j=0; j<12; j++)
+	{
+		cout << endl  << "List number " << j << " ";
+		
+		list <edge>::iterator it = EdgeCodes[j].begin();
+		
+		while(it != EdgeCodes[j].end())
+		{
+			cout << it->field[0] << it->field[1] << " | ";
+			
+			it++;
+		}
+		
+		cout << endl;
+	}
+
+	for(int j=0;j<8;j++)
+	{
+		cout << endl  << "List number " << j << " ";
+
+		list<corner>::iterator it = CornerCodes[j].begin();
+
+		while(it != CornerCodes[j].end())
+		{
+			cout << it->field[0] << it->field[1] << it->field[2] << " | ";
+			
+			it++;
+		}
+
+		cout << endl;
+
+	}
+
+
+}
+
 void cubesback(){
 
     for(int i = 0; i < 6; i++)
@@ -294,9 +333,11 @@ void cubesback(){
 int main(int argc, char *argv[])
 {
     int jump = 0;
+    int jumped = 0;
     bool solved = 0;  
 	bool error = 0; // vom solver
 	int solvingState = 0;
+
     /*
     solvingState:
     0 ... solveTopCross
@@ -329,7 +370,11 @@ int main(int argc, char *argv[])
     for (int i = 0; i < 12; i++)
         EdgeCodes[i].clear();
     cubesback();
-	
+    for (int i = 0; i < 6; i++)
+        MiddleCode[i] = 6;	
+    solvingState = 0;
+
+
 	findMiddle(MiddleCode);
 
 	buildCombOfEdge(EdgeCodes, MiddleCode);
@@ -380,46 +425,17 @@ do
    	solvingState = planAction(solvingState,EdgeCodes,CornerCodes,middleColor);
     cout << "done planAction " << solvingState << endl;
     if(failsafe(&jump, EdgeCodes, CornerCodes)){
-        cout << "LISTRESET (list at 0)" << endl;        
+        cout << "\033[31mLISTRESET (list at 0)\033[39m" << endl;   
+        jumped ++;            
         goto LISTRESET;    
     }
 
-for (int j=0; j<12; j++)
-	{
-		cout << endl  << "List number " << j << " ";
-		
-		list <edge>::iterator it = EdgeCodes[j].begin();
-		
-		while(it != EdgeCodes[j].end())
-		{
-			cout << it->field[0] << it->field[1] << " | ";
-			
-			it++;
-		}
-		
-		cout << endl;
-	}
-
-	for(int j=0;j<8;j++)
-	{
-		cout << endl  << "List number " << j << " ";
-
-		list<corner>::iterator it = CornerCodes[j].begin();
-
-		while(it != CornerCodes[j].end())
-		{
-			cout << it->field[0] << it->field[1] << it->field[2] << " | ";
-			
-			it++;
-		}
-
-		cout << endl;
-
-	}
-   print(indexCube);
+   //printlist(EdgeCodes, CornerCodes);
+   //print(indexCube);
 
     if(fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube)){
         cout << "\033[31mLISTRESET (tries > treshold)\033[39m" << endl;
+        jumped ++;            
         goto LISTRESET;
     }
     cout << "done fillrandomcube " << endl;	
@@ -466,11 +482,11 @@ for (int j=0; j<12; j++)
     }
     cout << "state: " << solvingState << endl; 
     if(jump > 0)
-        cout << "JUMP UP, JUMP UP AND GET DOWN" << endl; 
-    //usleep(1000000*0);   
+        cout << "JUMP UP, JUMP UP AND GET DOWN: " << jumped << endl; 
+    //usleep(1000000*0.25);   
      
 }
-while(solvingState!=5);
+while(solvingState!=4);
 cout << "finalstate: " << solvingState << endl;  
 /*
 if(solvingState == 5)
