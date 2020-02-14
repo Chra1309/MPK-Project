@@ -18,7 +18,7 @@ struct corner;
 struct edge;
 struct middle;
 */
-#define useUIfillcube 1 
+#define useUIfillcube 0
 
 void fillMiddle(int cubeMiddle[6][3][3], int Middle[]);
 void clearEdgeList(list<edge> EdgeCodes[]);
@@ -29,7 +29,7 @@ void fillCorners(list <corner> CornerCodes[]);
 
 void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], int orientationCube[6][3][3], int indexCube[6][3][3])
 {
-    cout << "in fillEdges" << endl;
+    //cout << "in fillEdges" << endl;
     int edge2fill[12][2]; 
 
     // set all adges to black
@@ -115,12 +115,12 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], 
             caunt++;
      //cout << "hier 6: "<< caunt << endl;           
         }  
-        cout << "out of while" << endl;
+        //cout << "out of while" << endl;
         // fill cube with random combinations from remaining possible ones
         //cout << "EdgeCodes[edgeorder[i]].begin " << EdgeCodes[edgeorder[i]].begin() << endl;
-        cout << "edgeorder[i] " << edgeorder[i] << endl;
+        //cout << "edgeorder[i] " << edgeorder[i] << endl;
         list <edge>::iterator it = EdgeCodes[edgeorder[i]].begin();
-        cout << "durch Null? " << EdgeCodes[edgeorder[i]].size();        
+        //cout << "durch Null? " << EdgeCodes[edgeorder[i]].size();        
         int random = rand()%(EdgeCodes[edgeorder[i]].size());
 
 
@@ -141,7 +141,7 @@ void fillEdges(list<edge> EdgeCodes[], int edge_cube[6][3][3], int edgeorder[], 
     }
 
     setEdges(edge2fill, cube, orientationCube, indexCube);
-    cout << "out fillEdges" << endl;
+   // cout << "out fillEdges" << endl;
 }
 
 
@@ -304,7 +304,7 @@ void fillCorners(list<corner> CornerCodes[], int corner_cube[6][3][3], int corne
                     list <corner>::iterator itrem = CornerCodes[cornerorder[i]].begin();		                    
                     while(itrem != CornerCodes[cornerorder[i]].end())
                     {
-	                    cout << itrem->field[0] << itrem->field[1] << " | ";			                    
+	                    cout << itrem->field[0] << itrem->field[1] << itrem->field[2] << " | ";			                    
 	                    itrem++;
                     }		                    
                     cout << endl;
@@ -317,6 +317,24 @@ void fillCorners(list<corner> CornerCodes[], int corner_cube[6][3][3], int corne
             caunt++;
      //cout << "hier 6: "<< caunt << endl;           
         }  
+
+            //UI begin
+            if(useUIfillcube && cornerorder[i] == 0){
+                {
+                cout << "possible: \t";
+
+                    list <corner>::iterator itrem = CornerCodes[cornerorder[i]].begin();		                    
+                    while(itrem != CornerCodes[cornerorder[i]].end())
+                    {
+	                    cout << itrem->field[0] << itrem->field[1] << itrem->field[2] << " | ";			                    
+	                    itrem++;
+                    }		                    
+                    cout << endl;
+
+                }
+            }
+            //UI end 
+
 
         // fill cube with random combinations from remaining possible ones
         list <corner>::iterator it = CornerCodes[cornerorder[i]].begin();        
@@ -582,7 +600,7 @@ void CopyListCorners(list<corner> original[], list<corner> copy[]){
 
 
 
-void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes[12], list <corner> CornerCodes[8], int oCube[6][3][3], int iCube[6][3][3]){
+int fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes[12], list <corner> CornerCodes[8], int oCube[6][3][3], int iCube[6][3][3]){
 
     srand(clock());
     bool solvable = 0; 
@@ -612,7 +630,10 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
 
 
         solvable = checksolvability(cube);
-
+        cout << ".";
+        tries++;
+        if(tries > 12*3)
+            return 1;
         // ausgabe statistik ueber loesbare cubes
         /*
         if(solvable)
@@ -628,6 +649,7 @@ void fillrandomcube(int MiddleCode[6], int MiddleColor[6], list <edge> EdgeCodes
         //cin.get();
         */
     }
+    return 0;
 
 }
 

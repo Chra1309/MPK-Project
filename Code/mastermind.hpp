@@ -477,6 +477,7 @@ void findCorners(list <corner> CornerCodes[], int middleColor[], int index)
 
 void sortAnswer(int answer[])
 {
+/*
 	if (answer[0] > answer[1])
 	{
 		int temp;
@@ -484,6 +485,9 @@ void sortAnswer(int answer[])
 		answer[0] = answer[1];
 		answer[1] = temp;
 	}
+*/
+
+
 }
 
 void buildCombOfTwo(list<middle> &midComb)
@@ -509,6 +513,7 @@ void buildCombOfTwo(list<middle> &midComb)
 
 void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 {
+
 	//cout << "In funktion build Comb of Corner" << endl;
 	corner cornerGeometrie[8]={	{MiddleCodes[0],MiddleCodes[2],MiddleCodes[4]},
 					{MiddleCodes[0],MiddleCodes[4],MiddleCodes[3]},
@@ -552,6 +557,7 @@ void buildCombOfCorner(list<corner> CornerCodes[], int MiddleCodes[])
 
 void buildCombOfEdge(list<edge> EdgeCodes[], int MiddleCodes[])
 {
+    
 	for (int k=0; k<12; k++)
 	{
 		list <edge>::iterator it = EdgeCodes[k].begin();
