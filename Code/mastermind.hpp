@@ -372,7 +372,33 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[], int index)
 
 		sortOutImpossibleEdges(currentGuess, EdgeCodes[i],currentAnswer,MiddleCode);
 	}
+	
+	list<edge>::iterator it = EdgeCodes[0].begin();
 
+	for(int fln=0;fln<12;fln++)
+	{
+
+		it = EdgeCodes[fln].begin();
+		
+		while(it != EdgeCodes[fln].end())
+		{
+			if(	(it->field[0] == EdgeCodes[i].begin()->field[0] && it->field[1] == EdgeCodes[i].begin()->field[1]) ||
+				(it->field[0] == EdgeCodes[i].begin()->field[1] && it->field[1] == EdgeCodes[i].begin()->field[0]))
+			{
+				if(i!=fln)
+					it = EdgeCodes[fln].erase(it);
+				else
+					it++;
+			}
+			else
+			{
+				it++;
+			}	
+		}
+	}
+
+
+	
         //cout << endl << "Edge Number: " << i << " is" << endl;
         //
         //numberToGerman(EdgeCodes[i].begin()->field[0]);
@@ -410,6 +436,32 @@ void findCorners(list <corner> CornerCodes[], int middleColor[], int index)
 
 		sortOutImpossibleCorners(currentGuess, CornerCodes[i], currentAnswer, MiddleCode); // anlegen
 	}
+
+	list<corner>::iterator it = CornerCodes[0].begin();
+
+	for(int fln=0;fln<8;fln++)
+        {
+
+                it = CornerCodes[fln].begin();
+
+                while(it != CornerCodes[fln].end())
+                {
+                        if(     (it->field[0] == CornerCodes[i].begin()->field[0] && it->field[1] == CornerCodes[i].begin()->field[1] && it->field[2] == CornerCodes[i].begin()->field[2]) ||
+                                (it->field[0] == CornerCodes[i].begin()->field[2] && it->field[1] == CornerCodes[i].begin()->field[0] && it->field[2] == CornerCodes[i].begin()->field[1]) ||
+				(it->field[0] == CornerCodes[i].begin()->field[1] && it->field[1] == CornerCodes[i].begin()->field[2] && it->field[2] == CornerCodes[i].begin()->field[0]))
+                        {
+                                if(i!=fln)
+                                        it = CornerCodes[fln].erase(it);
+                                else
+                                        it++;
+                        }
+                        else
+                        {
+                                it++;
+                        }
+                }
+        }
+
 	
 /*
         cout << endl << "Corner Number: " << i << " is" << endl;
