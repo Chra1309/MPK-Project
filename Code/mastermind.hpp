@@ -51,7 +51,9 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
 				{
                     //cout << "Top Layer E-index: " << index << endl;                    
 					findEdges(edgeCodes,middleColor,index);
+					cout << "planAction " << solvingstate << " done" << endl;
 					break;
+					
 				}
 				if(i==3)
 				{
@@ -80,6 +82,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                 {
                                         //cout << "Top Layer C-index: " << index << endl;
                                         findCorners(cornerCodes,middleColor,index);
+                                        cout << "planAction " << solvingstate << " done" << endl;
                                         break;
                                 }
                                 if(i==3)
@@ -109,6 +112,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                 {
                                         //cout << "Middle Layer index: " << index << endl;                    
                                         findEdges(edgeCodes,middleColor,index);
+                                        cout << "planAction " << solvingstate << " done" << endl;
                                         break;
                                 }
                                 if(i==7)
@@ -142,6 +146,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                 {
                                 //cout << "Bottom Layer C-index: " << index << endl;                                
                                         findEdges(edgeCodes,middleColor,index);
+                                        cout << "planAction " << solvingstate << " done" << endl;
                                         break;
                                 }
                                 if(i==11)
@@ -171,6 +176,7 @@ int planAction(int solvingstate, list<edge> edgeCodes[], list<corner> cornerCode
                                 {
                                         //cout << "Bottom Layer C-index: " << index << endl;                    
                                         findCorners(cornerCodes,middleColor,index);
+                                        cout << "planAction " << solvingstate << " done" << endl;
                                         break;
                                 }
                                 if(i==7)
@@ -359,8 +365,12 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[], int index)
 	int currentAnswer[2];
 	int MiddleCode[2]={middleColor[fields[0][0]],middleColor[fields[1][0]]};
 
-	while(EdgeCodes[i].size()>1)
+	//while(EdgeCodes[i].size()>1)
+	for(int cnt = 0; cnt <23; cnt++)
 	{
+		if(EdgeCodes[i].size()==1)
+			break;
+
 		getNextEdgeQuestion(EdgeCodes[i], currentGuess, MiddleCode);
 		
 		//cout << endl << "Next Question is Field "<< fields[0][0] << fields[0][1] << fields[0][2]<< " = " << currentGuess[0] << " Field  " 
@@ -380,8 +390,12 @@ void findEdges(list <edge> EdgeCodes[], int middleColor[], int index)
 
 		it = EdgeCodes[fln].begin();
 		
-		while(it != EdgeCodes[fln].end())
+		//while(it != EdgeCodes[fln].end())
+		for(int cnt = 0; cnt <23; cnt++)
 		{
+			if(it == EdgeCodes[fln].end() || EdgeCodes[fln].size() == 2)
+				break;
+
 			if(	(it->field[0] == EdgeCodes[i].begin()->field[0] && it->field[1] == EdgeCodes[i].begin()->field[1]) ||
 				(it->field[0] == EdgeCodes[i].begin()->field[1] && it->field[1] == EdgeCodes[i].begin()->field[0]))
 			{
@@ -421,8 +435,12 @@ void findCorners(list <corner> CornerCodes[], int middleColor[], int index)
 	int currentAnswer[2];
 	int MiddleCode[3]={middleColor[fields[0][0]],middleColor[fields[1][0]], middleColor[fields[2][0]]};
 
-	while(CornerCodes[i].size()>1)
+	//while(CornerCodes[i].size()>1)
+	for(int cnt = 0; cnt <23; cnt ++)
 	{
+		if(CornerCodes[i].size()==1)
+			break;
+
 		getNextCornerQuestion(CornerCodes[i], currentGuess, MiddleCode); // besser machen
 		
 		//cout << endl << "Next Question is Field "<< fields[0][0] << fields[0][1] << fields[0][2]<< " = " << currentGuess[0] << " Field  " 
@@ -444,8 +462,12 @@ void findCorners(list <corner> CornerCodes[], int middleColor[], int index)
 
                 it = CornerCodes[fln].begin();
 
-                while(it != CornerCodes[fln].end())
+                //while(it != CornerCodes[fln].end())
+		for(int cnt = 0; cnt <23 ; cnt++)
                 {
+			if(it == CornerCodes[fln].end() || CornerCodes[fln].size() == 3 )
+				break;
+
                         if(     (it->field[0] == CornerCodes[i].begin()->field[0] && it->field[1] == CornerCodes[i].begin()->field[1] && it->field[2] == CornerCodes[i].begin()->field[2]) ||
                                 (it->field[0] == CornerCodes[i].begin()->field[2] && it->field[1] == CornerCodes[i].begin()->field[0] && it->field[2] == CornerCodes[i].begin()->field[1]) ||
 				(it->field[0] == CornerCodes[i].begin()->field[1] && it->field[1] == CornerCodes[i].begin()->field[2] && it->field[2] == CornerCodes[i].begin()->field[0]))
@@ -907,8 +929,12 @@ void sortOutImpossibleEdges(int currentguess[], list<edge> &edgeComb, int curren
 
 	int tempAnswer[2] = {0,0};
 
-	while(it != edgeComb.end())
+	//while(it != edgeComb.end())
+	for(int cnt = 0; cnt < 24; cnt++)
 	{
+		if(it == edgeComb.end() || edgeComb.size()==1)
+			break;
+
 		if(currentguess[0] == it->field[0] && it->field[0] == MiddleCode[0] && it->field[1] == MiddleCode[1])
 			tempAnswer[0]=2;
 
@@ -954,8 +980,12 @@ void sortOutImpossibleCorners(int currentguess[], list<corner> &cornerComb, int 
 
 	int tempAnswer[2] = {0,0};
 
-	while(it != cornerComb.end())
+	//while(it != cornerComb.end())
+	for(int cnt = 0;cnt < 23; cnt++)
 	{
+		if(it == cornerComb.end() || cornerComb.size() == 1)
+			break;
+
 		if(currentguess[0] == it->field[0] && it->field[0] == MiddleCode[0] && it->field[1] == MiddleCode[1])
 			tempAnswer[0]=2;
 
