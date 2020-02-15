@@ -351,8 +351,8 @@ int main(int argc, char *argv[])
 
 	clearMoves();
 
-    if (argc != 2){
-		cout << "give me a number of queries as argument (n)" << endl;	
+    if (argc != 2 || atoi(argv[1])<2 || atoi(argv[1])>53){
+		cout << "give me a number of queries as argument (1 << n << 54)" << endl;	
 		exit(1);
 	}else{
 		
