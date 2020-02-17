@@ -1,0 +1,286 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00     4374     0.00     0.00  printColor[abi:cxx11](int)
+  0.00      0.00     0.00     4374     0.00     0.00  std::remove_reference<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>::type&& std::move<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  0.00      0.00     0.00     4374     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  0.00      0.00     0.00     4374     0.00     0.00  std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*)
+  0.00      0.00     0.00     3384     0.00     0.00  ServerCube::rotate(int, int)
+  0.00      0.00     0.00     3369     0.00     0.00  ServerCube::shift8by2n(int&, int&, int&, int&, int&, int&, int&, int&, int&)
+  0.00      0.00     0.00     3369     0.00     0.00  ServerCube::shift12by3n(int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&)
+  0.00      0.00     0.00     1806     0.00     0.00  std::remove_reference<int&>::type&& std::move<int&>(int&)
+  0.00      0.00     0.00      602     0.00     0.00  std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&)
+  0.00      0.00     0.00      602     0.00     0.00  void std::iter_swap<int*, int*>(int*, int*)
+  0.00      0.00     0.00      344     0.00     0.00  ServerCube::getEdge(int&, int&, int&, int&, int&)
+  0.00      0.00     0.00      254     0.00     0.00  HandleTCPClient(int)
+  0.00      0.00     0.00      254     0.00     0.00  printReceivedBuffer()
+  0.00      0.00     0.00      187     0.00     0.00  ServerCube::getCorner(int&, int&, int&, int&, int&, int&, int&)
+  0.00      0.00     0.00      175     0.00     0.00  ServerCube::ServerCube(int)
+  0.00      0.00     0.00      175     0.00     0.00  void std::random_shuffle<int*>(int*, int*)
+  0.00      0.00     0.00      174     0.00     0.00  makeAnswer(ServerCube)
+  0.00      0.00     0.00      174     0.00     0.00  ServerCube::stringToCube(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+  0.00      0.00     0.00      174     0.00     0.00  ServerCube::compareToQuestion(ServerCube&, int*)
+  0.00      0.00     0.00       87     0.00     0.00  ServerCube::checkSide(int)
+  0.00      0.00     0.00       81     0.00     0.00  printCubeColor(int (*) [3][3])
+  0.00      0.00     0.00       81     0.00     0.00  ServerCube::print()
+  0.00      0.00     0.00       80     0.00     0.00  getActions(ServerCube&)
+  0.00      0.00     0.00       80     0.00     0.00  ServerCube::checkDone()
+  0.00      0.00     0.00        1     0.00     0.00  _GLOBAL__sub_I__Z10printColorB5cxx11i
+  0.00      0.00     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00      0.00     0.00        1     0.00     0.00  ServerCube::randomize()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) no time propagated
+
+index % time    self  children    called     name
+                0.00    0.00    4374/4374        printCubeColor(int (*) [3][3]) [28]
+[8]      0.0    0.00    0.00    4374         printColor[abi:cxx11](int) [8]
+                0.00    0.00    4374/4374        std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*) [11]
+                0.00    0.00    4374/4374        std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [10]
+-----------------------------------------------
+                0.00    0.00    4374/4374        std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [10]
+[9]      0.0    0.00    0.00    4374         std::remove_reference<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>::type&& std::move<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [9]
+-----------------------------------------------
+                0.00    0.00    4374/4374        printColor[abi:cxx11](int) [8]
+[10]     0.0    0.00    0.00    4374         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) [10]
+                0.00    0.00    4374/4374        std::remove_reference<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>::type&& std::move<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&) [9]
+-----------------------------------------------
+                0.00    0.00    4374/4374        printColor[abi:cxx11](int) [8]
+[11]     0.0    0.00    0.00    4374         std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*) [11]
+-----------------------------------------------
+                0.00    0.00     100/3384        ServerCube::randomize() [34]
+                0.00    0.00    3284/3384        getActions(ServerCube&) [30]
+[12]     0.0    0.00    0.00    3384         ServerCube::rotate(int, int) [12]
+                0.00    0.00    3369/3369        ServerCube::shift8by2n(int&, int&, int&, int&, int&, int&, int&, int&, int&) [13]
+                0.00    0.00    3369/3369        ServerCube::shift12by3n(int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&) [14]
+-----------------------------------------------
+                0.00    0.00    3369/3369        ServerCube::rotate(int, int) [12]
+[13]     0.0    0.00    0.00    3369         ServerCube::shift8by2n(int&, int&, int&, int&, int&, int&, int&, int&, int&) [13]
+-----------------------------------------------
+                0.00    0.00    3369/3369        ServerCube::rotate(int, int) [12]
+[14]     0.0    0.00    0.00    3369         ServerCube::shift12by3n(int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&) [14]
+-----------------------------------------------
+                0.00    0.00    1806/1806        std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&) [16]
+[15]     0.0    0.00    0.00    1806         std::remove_reference<int&>::type&& std::move<int&>(int&) [15]
+-----------------------------------------------
+                0.00    0.00     602/602         void std::iter_swap<int*, int*>(int*, int*) [17]
+[16]     0.0    0.00    0.00     602         std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&) [16]
+                0.00    0.00    1806/1806        std::remove_reference<int&>::type&& std::move<int&>(int&) [15]
+-----------------------------------------------
+                0.00    0.00     602/602         void std::random_shuffle<int*>(int*, int*) [23]
+[17]     0.0    0.00    0.00     602         void std::iter_swap<int*, int*>(int*, int*) [17]
+                0.00    0.00     602/602         std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&) [16]
+-----------------------------------------------
+                0.00    0.00     344/344         ServerCube::compareToQuestion(ServerCube&, int*) [26]
+[18]     0.0    0.00    0.00     344         ServerCube::getEdge(int&, int&, int&, int&, int&) [18]
+-----------------------------------------------
+                0.00    0.00     254/254         main [6]
+[19]     0.0    0.00    0.00     254         HandleTCPClient(int) [19]
+                0.00    0.00     254/254         printReceivedBuffer() [20]
+                0.00    0.00     174/174         makeAnswer(ServerCube) [24]
+                0.00    0.00      80/80          getActions(ServerCube&) [30]
+-----------------------------------------------
+                0.00    0.00     254/254         HandleTCPClient(int) [19]
+[20]     0.0    0.00    0.00     254         printReceivedBuffer() [20]
+-----------------------------------------------
+                0.00    0.00     187/187         ServerCube::compareToQuestion(ServerCube&, int*) [26]
+[21]     0.0    0.00    0.00     187         ServerCube::getCorner(int&, int&, int&, int&, int&, int&, int&) [21]
+-----------------------------------------------
+                0.00    0.00       1/175         __static_initialization_and_destruction_0(int, int) [33]
+                0.00    0.00     174/175         makeAnswer(ServerCube) [24]
+[22]     0.0    0.00    0.00     175         ServerCube::ServerCube(int) [22]
+                0.00    0.00     175/175         void std::random_shuffle<int*>(int*, int*) [23]
+                0.00    0.00       1/81          ServerCube::print() [29]
+                0.00    0.00       1/1           ServerCube::randomize() [34]
+-----------------------------------------------
+                0.00    0.00     175/175         ServerCube::ServerCube(int) [22]
+[23]     0.0    0.00    0.00     175         void std::random_shuffle<int*>(int*, int*) [23]
+                0.00    0.00     602/602         void std::iter_swap<int*, int*>(int*, int*) [17]
+-----------------------------------------------
+                0.00    0.00     174/174         HandleTCPClient(int) [19]
+[24]     0.0    0.00    0.00     174         makeAnswer(ServerCube) [24]
+                0.00    0.00     174/175         ServerCube::ServerCube(int) [22]
+                0.00    0.00     174/174         ServerCube::stringToCube(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [25]
+                0.00    0.00     174/174         ServerCube::compareToQuestion(ServerCube&, int*) [26]
+-----------------------------------------------
+                0.00    0.00     174/174         makeAnswer(ServerCube) [24]
+[25]     0.0    0.00    0.00     174         ServerCube::stringToCube(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [25]
+-----------------------------------------------
+                0.00    0.00     174/174         makeAnswer(ServerCube) [24]
+[26]     0.0    0.00    0.00     174         ServerCube::compareToQuestion(ServerCube&, int*) [26]
+                0.00    0.00     344/344         ServerCube::getEdge(int&, int&, int&, int&, int&) [18]
+                0.00    0.00     187/187         ServerCube::getCorner(int&, int&, int&, int&, int&, int&, int&) [21]
+-----------------------------------------------
+                0.00    0.00      87/87          ServerCube::checkDone() [31]
+[27]     0.0    0.00    0.00      87         ServerCube::checkSide(int) [27]
+-----------------------------------------------
+                0.00    0.00      81/81          ServerCube::print() [29]
+[28]     0.0    0.00    0.00      81         printCubeColor(int (*) [3][3]) [28]
+                0.00    0.00    4374/4374        printColor[abi:cxx11](int) [8]
+-----------------------------------------------
+                0.00    0.00       1/81          ServerCube::ServerCube(int) [22]
+                0.00    0.00      80/81          getActions(ServerCube&) [30]
+[29]     0.0    0.00    0.00      81         ServerCube::print() [29]
+                0.00    0.00      81/81          printCubeColor(int (*) [3][3]) [28]
+-----------------------------------------------
+                0.00    0.00      80/80          HandleTCPClient(int) [19]
+[30]     0.0    0.00    0.00      80         getActions(ServerCube&) [30]
+                0.00    0.00    3284/3384        ServerCube::rotate(int, int) [12]
+                0.00    0.00      80/80          ServerCube::checkDone() [31]
+                0.00    0.00      80/81          ServerCube::print() [29]
+-----------------------------------------------
+                0.00    0.00      80/80          getActions(ServerCube&) [30]
+[31]     0.0    0.00    0.00      80         ServerCube::checkDone() [31]
+                0.00    0.00      87/87          ServerCube::checkSide(int) [27]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [48]
+[32]     0.0    0.00    0.00       1         _GLOBAL__sub_I__Z10printColorB5cxx11i [32]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [33]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I__Z10printColorB5cxx11i [32]
+[33]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [33]
+                0.00    0.00       1/175         ServerCube::ServerCube(int) [22]
+-----------------------------------------------
+                0.00    0.00       1/1           ServerCube::ServerCube(int) [22]
+[34]     0.0    0.00    0.00       1         ServerCube::randomize() [34]
+                0.00    0.00     100/3384        ServerCube::rotate(int, int) [12]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [32] _GLOBAL__sub_I__Z10printColorB5cxx11i [14] ServerCube::shift12by3n(int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&, int&) [34] ServerCube::randomize()
+  [30] getActions(ServerCube&) [25] ServerCube::stringToCube(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) [22] ServerCube::ServerCube(int)
+  [24] makeAnswer(ServerCube) [26] ServerCube::compareToQuestion(ServerCube&, int*) [23] void std::random_shuffle<int*>(int*, int*)
+   [8] printColor[abi:cxx11](int) [29] ServerCube::print() [9] std::remove_reference<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>::type&& std::move<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  [28] printCubeColor(int (*) [3][3]) [12] ServerCube::rotate(int, int) [15] std::remove_reference<int&>::type&& std::move<int&>(int&)
+  [19] HandleTCPClient(int)   [18] ServerCube::getEdge(int&, int&, int&, int&, int&) [16] std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<int> >, std::is_move_constructible<int>, std::is_move_assignable<int> >::value, void>::type std::swap<int>(int&, int&)
+  [20] printReceivedBuffer()  [31] ServerCube::checkDone() [17] void std::iter_swap<int*, int*>(int*, int*)
+  [33] __static_initialization_and_destruction_0(int, int) [27] ServerCube::checkSide(int) [10] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  [13] ServerCube::shift8by2n(int&, int&, int&, int&, int&, int&, int&, int&, int&) [21] ServerCube::getCorner(int&, int&, int&, int&, int&, int&, int&) [11] std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > std::operator+<char, std::char_traits<char>, std::allocator<char> >(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, char const*)
