@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 
 			//usleep(1000000*5);   
 			close(servSock);
-			kill(getpid(),SIGINT);
+			//kill(getpid(),SIGINT);
             break;
 		}
     }

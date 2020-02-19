@@ -9,7 +9,6 @@
 #include <iostream>
 #include <cstring> 
 #include "DieWithError.hpp"
-#include "ClientCube.hpp"
 #include "QuestionCube.hpp"
 #include "mastermind.hpp"
 #include "masterheader.hpp"
@@ -311,8 +310,13 @@ int main(int argc, char *argv[])
 
 	clearMoves();
 
+<<<<<<< HEAD
     if (argc != 3){
 		cout << "arguments needed: number of queries (n), delay in miliseconds " << endl;	
+=======
+    if (argc != 2 || atoi(argv[1])<2 || atoi(argv[1])>53){
+		cout << "give me a number of queries as argument (1 << n << 54)" << endl;	
+>>>>>>> 04c50f73eb95cfdf877b176f5a1f88a61db60c66
 		exit(1);
 	}else{
 		
@@ -423,10 +427,20 @@ while(1)
      
 }
 
-if(jumpedZero > 0 || jumpedTresh > 0)
-    cout << "JUMP UP, JUMP UP AND GET DOWN: " << "Zero: " << jumpedZero << " Tresh: " << jumpedTresh << endl;
+//if(jumpedZero > 0 || jumpedTresh > 0)
+//    cout << "JUMP UP, JUMP UP AND GET DOWN: " << "Zero: " << jumpedZero << " Tresh: " << jumpedTresh << endl;
 
 	//// THE END ////
+	
+	for (int i=0; i<12; i++)
+	{
+		EdgeCodes[i].clear();
+		
+		if (i<8)
+		{
+			CornerCodes[i].clear();
+		}
+	}
 	
     exit(0);
 }
