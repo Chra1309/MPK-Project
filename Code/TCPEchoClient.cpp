@@ -422,9 +422,19 @@ while(1)
      
 }
 
-if(jumpedZero > 0 || jumpedTresh > 0)
-    cout << "JUMP UP, JUMP UP AND GET DOWN: " << "Zero: " << jumpedZero << " Tresh: " << jumpedTresh << endl;
+//if(jumpedZero > 0 || jumpedTresh > 0)
+//    cout << "JUMP UP, JUMP UP AND GET DOWN: " << "Zero: " << jumpedZero << " Tresh: " << jumpedTresh << endl;
+	for (int i=0; i<12; i++)
+	{
+		EdgeCodes[i].clear();
+		//free (EdgeCodes[i]);
 
+		if (i<8)
+		{
+			CornerCodes[i].clear();
+			//free (CornerCodes[i]);
+		}
+	}
 	//// THE END ////
 	
     exit(0);
