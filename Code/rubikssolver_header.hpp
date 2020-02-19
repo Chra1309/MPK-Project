@@ -2408,18 +2408,18 @@ void print(int printcube[6][3][3])
 
 	for(int i=0;i<3;i++)
 	{
-		cout<<"       "<<printcube[0][i][0]<<" "<<printcube[0][i][1]<<" "<<printcube[0][i][2]<<endl;
+		cout<<"          "<<printcube[0][i][0]<<"  "<<printcube[0][i][1]<<"  "<<printcube[0][i][2]<<endl<<endl;
 	}
 	for(int i=0;i<3;i++)
 	{
-		cout<<printcube[1][i][0]<<" "<<printcube[1][i][1]<<" "<<printcube[1][i][2]<<"  ";
-		cout<<printcube[2][i][0]<<" "<<printcube[2][i][1]<<" "<<printcube[2][i][2]<<"  ";
-		cout<<printcube[3][i][0]<<" "<<printcube[3][i][1]<<" "<<printcube[3][i][2]<<"  ";
-		cout<<printcube[4][i][0]<<" "<<printcube[4][i][1]<<" "<<printcube[4][i][2]<<"  "<<endl;
+		cout<<printcube[1][i][0]<<"  "<<printcube[1][i][1]<<"  "<<printcube[1][i][2]<<"   ";
+		cout<<printcube[2][i][0]<<"  "<<printcube[2][i][1]<<"  "<<printcube[2][i][2]<<"   ";
+		cout<<printcube[3][i][0]<<"  "<<printcube[3][i][1]<<"  "<<printcube[3][i][2]<<"   ";
+		cout<<printcube[4][i][0]<<"  "<<printcube[4][i][1]<<"  "<<printcube[4][i][2]<<"   "<<endl<<endl;
 	}
 	for(int i=0;i<3;i++)
 	{
-		cout<<"       "<<printcube[5][i][0]<<" "<<printcube[5][i][1]<<" "<<printcube[5][i][2]<<endl;
+		cout<<endl<<"          "<<printcube[5][i][0]<<"  "<<printcube[5][i][1]<<"  "<<printcube[5][i][2]<<endl;
 	}	
 	cout<<endl<<endl;
 

@@ -21,7 +21,7 @@ using namespace std;
 #define RCVBUFSIZE 256   /* Size of receive buffer */
 
 int n = 20;
-
+float delay = 0; 
 int changeColor(int col);
 void answerConverter(int answer[3], string str_answer);
 
@@ -36,16 +36,6 @@ string echoString;                		// String to send to echo server
 unsigned int echoStringLen;      		// Length of string to echo
 int bytesRcvd, totalBytesRcvd;   		// Bytes read in single recv() and total bytes read
 
-/*if ((argc < 3) || (argc > 4))    // Test for correct number of arguments
-{
-   fprintf(stderr, "Usage: %s <Server IP> <Echo Word> [<Echo Port>]\n",
-		   argv[0]);
-   exit(1);
-}
-if (argc == 4)
-	echoServPort = atoi(argv[3]);  //Use given port, if any
-else
-	echoServPort = 7;   //7 is the well-known port for the echo service */
 
 string doTheClient(string toSend)
 {
@@ -252,36 +242,6 @@ int failsafe(list<edge> EdgeCodes[], list<corner> CornerCodes[]){
     return 0;
 }
 
-void solve(bool *error){
-    SOLVETOPFUNCTION:
-    solveTopCross(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "TopCross" << endl;
-    printCubeColor(cube);  
-  
-    solveTopCorners(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "TopCorners" << endl;
-    printCubeColor(cube);  
-    *error = checkface(0);
-    if(*error)
-        goto SOLVETOPFUNCTION;
-
-	solveMiddleLayer(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "MiddleLayer" << endl;
-    printCubeColor(cube); 
-
-	solveBottomLayer(cube, orientationCube, indexCube);
-    sendmoves();
-    cout << "___________________________" << endl;
-    cout << "Solved Cube" << endl;
-    printCubeColor(cube); 
-}
-
 void printlist(list<edge> EdgeCodes[], list<corner> CornerCodes[]){
 for (int j=0; j<12; j++)
 	{
@@ -337,7 +297,7 @@ int main(int argc, char *argv[])
     int jumpedZero = 0;
     int jumpedTresh = 0;
     bool solved = 0;  
-	bool error = 0; // vom solver
+    bool error = 0; 
 	int solvingState = 0;
     int stateFiveCounter = 0; 
     /*
@@ -351,12 +311,13 @@ int main(int argc, char *argv[])
 
 	clearMoves();
 
-    if (argc != 2){
-		cout << "give me a number of queries as argument (n)" << endl;	
+    if (argc != 3){
+		cout << "arguments needed: number of queries (n), delay in miliseconds " << endl;	
 		exit(1);
 	}else{
 		
 		n = atoi(argv[1]);              //number of ns given by user
+		delay = atoi(argv[2]);              
 	}
 
 	int MiddleCode[6] = {6,6,6,6,6,6}; //Vorsicht dieser Array ist nur für das erstellen der Listen zu verwenden 
@@ -388,60 +349,69 @@ while(1)
 {  
 
    	solvingState = planAction(solvingState,EdgeCodes,CornerCodes,middleColor);
-    cout << "done planAction " << solvingState << endl;
     if(failsafe(EdgeCodes, CornerCodes)){
         cout << "\033[31mLISTRESET (list at 0)\033[39m" << endl;   
         jumpedZero ++;            
         goto LISTRESET;    
     }
 
-   printlist(EdgeCodes, CornerCodes);
-   print(indexCube);
+    cout << "LIST:" << endl;   
+    printlist(EdgeCodes, CornerCodes);
+    cout << "INDEXCUBE:" << endl;   
+    print(indexCube);
+    cout << "ORIENTATIONCUBE:" << endl;   
     print(orientationCube);
 
     if(fillrandomcube(MiddleCode, middleColor, EdgeCodes, CornerCodes, orientationCube, indexCube)){
         cout << "\033[31mLISTRESET (tries > treshold)\033[39m" << endl;
-        jumpedTresh ++;            
+        jumpedTresh ++;           
         goto LISTRESET;
     }
     //cout << "done fillrandomcube " << endl;	
     printCubeColor(cube);  
     mapforsolver(cube);
 
+   // solve(solvingState);
 
-            SOLVETOPFOUR:
-            solveTopCross(cube, orientationCube, indexCube);
-            if(sendmoves())
-                break;
-            cout << "___________________________" << endl;
-            cout << "TopCross" << endl;
-            printCubeColor(cube);  
-          
-            solveTopCorners(cube, orientationCube, indexCube);
-            if(sendmoves())
-                break;
-            cout << "___________________________" << endl;
-            cout << "TopCorners" << endl;
-            printCubeColor(cube);  
-            error = checkface(0);
-            if(error)
-                goto SOLVETOPFOUR;
+        SOLVETOPFOUR:
+        solveTopCross(cube, orientationCube, indexCube);
+        if(sendmoves())
+            break;
+        cout << "___________________________" << endl;
+        cout << "TopCross" << endl;
+        printCubeColor(cube); 
+        if(solvingState == 0)
+            goto STATEFINISH; 
+      
+        solveTopCorners(cube, orientationCube, indexCube);
+        if(sendmoves())
+            break;
+        cout << "___________________________" << endl;
+        cout << "TopCorners" << endl;
+        printCubeColor(cube);  
+        error = checkface(0);
+        if(error)
+            goto SOLVETOPFOUR;
+        if(solvingState == 1)
+            goto STATEFINISH; 
 
-	        solveMiddleLayer(cube, orientationCube, indexCube);
-            if(sendmoves())
-                break;
-            cout << "___________________________" << endl;
-            cout << "MiddleLayer" << endl;
-            printCubeColor(cube); 
+        solveMiddleLayer(cube, orientationCube, indexCube);
+        if(sendmoves())
+            break;
+        cout << "___________________________" << endl;
+        cout << "MiddleLayer" << endl;
+        printCubeColor(cube); 
+        if(solvingState == 2)
+            goto STATEFINISH;
 
-	        solveBottomLayer(cube, orientationCube, indexCube);
-            if(sendmoves())
-                break;
-            cout << "___________________________" << endl;
-            cout << "Solved Cube" << endl;
-            printCubeColor(cube); 
-          
-
+        solveBottomLayer(cube, orientationCube, indexCube);
+        if(sendmoves())
+            break;
+        cout << "___________________________" << endl;
+        cout << "Solved Cube" << endl;
+        printCubeColor(cube); 
+      
+    STATEFINISH:
     cout << "state: " << solvingState << endl; 
 
     if(solvingState == 5)
@@ -449,7 +419,7 @@ while(1)
     if(stateFiveCounter >= 10)
         goto LISTRESET;
     
-    //usleep(1000000*0.25);   
+    usleep(1000*delay);   
      
 }
 
