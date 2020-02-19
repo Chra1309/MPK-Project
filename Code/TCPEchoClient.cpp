@@ -460,12 +460,10 @@ while(1)
 	for (int i=0; i<12; i++)
 	{
 		EdgeCodes[i].clear();
-		free (EdgeCodes[i]);
 		
 		if (i<8)
 		{
 			CornerCodes[i].clear();
-			free (CornerCodes[i]);
 		}
 	}
 	
