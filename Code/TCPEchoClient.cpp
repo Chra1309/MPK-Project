@@ -9,7 +9,6 @@
 #include <iostream>
 #include <cstring> 
 #include "DieWithError.hpp"
-#include "ClientCube.hpp"
 #include "QuestionCube.hpp"
 #include "mastermind.hpp"
 #include "masterheader.hpp"
@@ -453,10 +452,18 @@ while(1)
      
 }
 
-if(jumpedZero > 0 || jumpedTresh > 0)
-    cout << "JUMP UP, JUMP UP AND GET DOWN: " << "Zero: " << jumpedZero << " Tresh: " << jumpedTresh << endl;
+//if(jumpedZero > 0 || jumpedTresh > 0)
+//    cout << "JUMP UP, JUMP UP AND GET DOWN: " << "Zero: " << jumpedZero << " Tresh: " << jumpedTresh << endl;
 
 	//// THE END ////
+	
+	for (int i=0; i<12; i++)
+	{
+		EdgeCodes[i].clear();
+		
+		if (i<8)
+			CornerCodes[i].clear();
+	}
 	
     exit(0);
 }
