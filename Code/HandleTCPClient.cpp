@@ -55,10 +55,12 @@ void makeAnswer(ServerCube myCube)
 	char temp[54];
 	for(int i=0;i<54;i++)
 		temp[i]=echoBuffer[i+1];
+	temp[54]='\0';
 	string temp2(temp);
 	ServerCube* question=new ServerCube(0);
 	question->stringToCube(temp2);
 
+	
 	//cout<<temp2<<endl;
 	
 	int answer[3];
