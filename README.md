@@ -21,12 +21,19 @@ eg.
 
 ## TEAM 
 Auer Christoph		mr19m025
+
 Clauss Katrin		mr19m022
+
 Hörbst Jakob		mr19m012
+
 Litschauer Christoph 	mr19m027
+
 Schweiger Manuel 	mr19m005
+
 Spulak Florian 		mr19m041
+
 Tomasch Julia		mr19m009
+
 
 ## TASK
 The project is a combination of the Rubik's cube puzzle and the Mastermind puzzle.
