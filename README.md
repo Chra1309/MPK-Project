@@ -11,12 +11,12 @@ make
 navigate to folder Code and open two terminal windows. One will be client, the other one the server.
 first run the server by following command:
 ```
-./autoserver
+./autoServer
 ```
 for starting the client you ned to give two arguments: n (number of positions per cubequestion) ms (delay in ms) 
 eg.
 ```
-./autoclient 10 0
+./autoClient 10 0
 ```
 
 ## TEAM 
