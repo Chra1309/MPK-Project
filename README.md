@@ -2,16 +2,22 @@
 
 ## COMPILE 
 run following commands to compile the project:
+```
 sh FirstCompile.sh
 make 
+```
 
 ## RUN SERVER AND CLIENT 
 navigate to folder Code and open two terminal windows. One will be client, the other one the server.
 first run the server by following command:
+```
 ./autoserver
+```
 for starting the client you ned to give two arguments: n (number of positions per cubequestion) ms (delay in ms) 
 eg.
+```
 ./autoclient 10 0
+```
 
 ## TEAM 
 Auer Christoph		mr19m025
